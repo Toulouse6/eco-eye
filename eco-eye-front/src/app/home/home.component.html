@@ -1,0 +1,78 @@
+<div class="wrapper">
+    <div class="flex-wrapper">
+        <div class="container home-title">
+
+            <div class="home-title-row">
+                <h1 class="home-title">EcoEye</h1>
+                <img src="assets/images/eco-logo.png" alt="Logo" class="eco-logo-title" />
+            </div>
+
+            <p class="intro">Ride the Green Side.</p>
+
+            <!-- Loading -->
+            <div *ngIf="isLoading" class="loading-spinner">
+                <img src="assets/images/eco-loading.png" alt="Loading..." />
+            </div>
+
+            <!-- Error -->
+            <div *ngIf="errorMessage" class="error-message">
+                {{ errorMessage }}
+            </div>
+
+            <!-- Dropdowns -->
+            <div *ngIf="!isLoading">
+                <div class="actions">
+
+                    <div class="select-row">
+                        <!-- Model Select -->
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select" (click)="toggleDropdown()">
+                                <span *ngIf="selectedModel; else placeholder">{{ selectedModel }}</span>
+                                <ng-template #placeholder>Select a model</ng-template>
+                                <span class="arrow-down">&#9662;</span>
+                            </div>
+
+                            <div class="custom-dropdown" *ngIf="dropdownOpen">
+                                <input type="text" [(ngModel)]="modelSearch" (input)="onModelSearchChange()"
+                                    placeholder="Search models..." class="dropdown-search-input" />
+                                <ul class="dropdown-list">
+                                    <li *ngFor="let model of filteredModels" (click)="selectModel(model)"
+                                        class="dropdown-item">
+                                        {{ model }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Year Select -->
+                        <div class="custom-select-wrapper" *ngIf="selectedModel">
+                            <div class="custom-select" (click)="toggleYearDropdown()">
+                                <span *ngIf="selectedYear; else yearPlaceholder">{{ selectedYear }}</span>
+                                <ng-template #yearPlaceholder>Select a year</ng-template>
+                                <span class="arrow-down">&#9662;</span>
+                            </div>
+
+                            <div class="custom-dropdown" *ngIf="yearDropdownOpen">
+                                <ul class="dropdown-list">
+                                    <li *ngFor="let year of availableYears" (click)="selectYear(year)"
+                                        class="dropdown-item">
+                                        {{ year }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div *ngIf="selectedModel && selectedYear">
+                        <button class="custom-upload-btn" (click)="generateReport()" [disabled]="isLoading">
+                            Show me
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

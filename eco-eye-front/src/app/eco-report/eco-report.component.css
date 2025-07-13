@@ -1,0 +1,160 @@
+.eco-report-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem 1.5rem;
+    font-family: 'Lato', sans-serif;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(2px);
+}
+
+.eco-title-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
+}
+
+.eco-title-logo {
+    width: 70px;
+    height: auto;
+}
+
+.eco-title {
+    font-size: 2.5rem;
+    color: #005a2b;
+    margin: 0;
+    text-align: center;
+}
+
+.eco-grade {
+    color: #007f3a;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 0.2rem;
+    margin-top: -0.5rem;
+}
+
+/* Section headers */
+.eco-section h2 {
+    color: #313131;
+}
+
+.eco-table {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem 1.2rem;
+    background: #f8fdf9;
+    padding: 1.2rem 1rem;
+    border-radius: 12px;
+    border: 1px solid #d6eadd;
+    margin-bottom: 1.5rem;
+}
+
+.eco-table .row {
+    display: contents;
+}
+
+.eco-table .title {
+    white-space: nowrap;
+    font-weight: 600;
+    color: #007f3a;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.eco-table .value {
+    color: #313131;
+    font-weight: 500;
+    text-align: right;
+}
+
+.info-icon {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #007f3a;
+    margin-left: 0.5rem;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    bottom: 125%;
+    left: 80%;
+    transform: translateX(-50%);
+    background: white;
+    color: #007f3a;
+    padding: 0.5em 0.8em;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    width: 300px;
+    z-index: 100;
+    border: 1px solid #cfe7d9;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    white-space: normal;
+}
+
+.info-icon:hover .tooltip-text,
+.info-icon:focus-within .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Tooltip */
+.tooltip-text {
+    background: white;
+    color: #007f3a;
+    border: 1px solid #cfe7d9;
+}
+
+/* Fun Fact Box */
+.eco-section p {
+    background: #f8fdf9;
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    color: #007f3a;
+    border: 2px solid #d6eadd;
+    font-weight: 500;
+    text-align: center;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 780px) {
+
+    .eco-report-container {
+        max-width: 600px;
+    }
+
+    .eco-title {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 610px) {
+
+    .eco-report-container {
+        max-width: 480px;
+    }
+
+    .eco-title-logo {
+        width: 80px;
+        margin-bottom: -0.2rem;
+    }
+
+    .eco-grade,
+    .eco-section h2 {
+        font-size: 1.2rem;
+    }
+
+}
