@@ -1,0 +1,24 @@
+{
+  "features": {
+    "fuelEfficiency": "17.5 km/l",
+    "emissions": "Euro 6",
+    "powerType": "Hybrid",
+    "range": "610 km",
+    "batteryCapacity": "38 kWh",
+    "energyConsumption": "15.2 kWh/100km",
+    "ecoModeAvailable": true,
+    "chargeTime": "22:00–06:00 (Off-peak)",
+    "renewableSource": true,
+    "co2": "92 g/km",
+    "recyclability": "84%",
+    "greenRating": "A+"
+  },
+  "tips": {
+    "speed": 85,
+    "tirePressure": 33,
+    "passengers": "2–3 for optimal balance",
+    "idling": 2,
+    "regenBraking": true,
+    "funFact": "Smooth acceleration saves up to 20% more fuel than aggressive driving."
+  }
+}
