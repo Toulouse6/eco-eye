@@ -74,9 +74,7 @@ Structure the response in JSON format with these keys:
   "range": "e.g. 450 km",
   "batteryCapacity": "if hybrid/electric, kWh value",
   "energyConsumption": "e.g. 14.5 kWh/100km",
-  "ecoModeAvailable": true/false,
   "chargeTime": "e.g. Overnight (22:00–06:00)",
-  "renewableSource": true/false,
   "co2": "grams/km",
   "recyclability": "percentage",
   "greenRating": "A+ to D",
@@ -84,7 +82,6 @@ Structure the response in JSON format with these keys:
   "tips": {
     "speed": "recommended cruising speed",
     "tirePressure": "in PSI",
-    "passengers": "optimal range for fuel efficiency",
     "idling": "max idle time in minutes",
     "funFact": "short interesting eco tip"
   }

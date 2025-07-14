@@ -11,9 +11,7 @@ export interface EcoReportResponse {
     range: string;
     batteryCapacity?: string;
     energyConsumption?: string;
-    ecoModeAvailable?: boolean;
     chargeTime?: string;
-    renewableSource?: boolean;
     co2: string;
     recyclability: string;
     greenRating: string;
@@ -21,7 +19,6 @@ export interface EcoReportResponse {
     tips: {
         speed: number;
         tirePressure: number;
-        passengers: string;
         idling: number;
         funFact: string;
     };

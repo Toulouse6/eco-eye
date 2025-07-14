@@ -29,9 +29,7 @@ export class EcoReportComponenet implements OnInit {
         range: '',
         batteryCapacity: '',
         energyConsumption: '',
-        ecoModeAvailable: false,
         chargeTime: '',
-        renewableSource: false,
         co2: '',
         recyclability: '',
         greenRating: ''
@@ -40,7 +38,6 @@ export class EcoReportComponenet implements OnInit {
     tips = {
         speed: 0,
         tirePressure: 0,
-        passengers: '',
         idling: 0,
         funFact: ''
     };
@@ -169,7 +166,6 @@ Top Features:
 Eco-Friendly Tips:
 • Recommended Speed: ${this.tips.speed} km/h
 • Tire Pressure: ${this.tips.tirePressure} PSI
-• Optimal Passengers: ${this.tips.passengers}
 • Avoid Idling Over: ${this.tips.idling} minutes
 
 Fun Fact:
