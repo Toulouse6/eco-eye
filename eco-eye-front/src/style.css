@@ -1,4 +1,22 @@
-/* Global Reset */
+/* Animations */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.7s ease-out both;
+}
+
+/* Global */
 *,
 *::before,
 *::after {
@@ -102,7 +120,7 @@ button {
     color: #fffaf5;
     border: 1px solid #ffffff;
     text-align: center;
-    padding: 0.6rem 4.5rem;
+    padding: 0.6rem 5.2rem;
     border-radius: 60px !important;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -110,7 +128,7 @@ button {
 
 button:hover,
 .custom-upload-btn:hover {
-     background: #f1fff7;
+    background: #f1fff7;
     color: #005a2b;
     border-color: #005a2b;
 }
@@ -136,6 +154,7 @@ button:hover,
     .custom-upload-btn,
     button {
         font-size: 1rem;
+        padding: 0.6rem 4.3em;
     }
 
 }

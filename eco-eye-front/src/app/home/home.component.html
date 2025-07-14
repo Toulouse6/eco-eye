@@ -2,12 +2,12 @@
     <div class="flex-wrapper">
         <div class="container home-title">
 
-            <div class="home-title-row">
+            <div class="home-title-row fade-in">
                 <h1 class="home-title">EcoEye</h1>
                 <img src="assets/images/eco-logo.png" alt="Logo" class="eco-logo-title" />
             </div>
 
-            <p class="intro">Ride the Green Side.</p>
+            <p class="intro fade-in">Ride the Green Side.</p>
 
             <!-- Loading -->
             <div *ngIf="isLoading" class="loading-spinner">
@@ -21,7 +21,7 @@
 
             <!-- Dropdowns -->
             <div *ngIf="!isLoading">
-                <div class="actions">
+                <div class="actions fade-in">
 
                     <div class="select-row">
                         <!-- Model Select -->
@@ -64,7 +64,7 @@
                     </div>
 
                     <!-- Submit Button -->
-                    <div *ngIf="selectedModel && selectedYear">
+                    <div *ngIf="selectedModel && selectedYear" class="fade-in">
                         <button class="custom-upload-btn" (click)="generateReport()" [disabled]="isLoading">
                             Show me
                         </button>

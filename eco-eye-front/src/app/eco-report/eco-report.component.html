@@ -1,12 +1,12 @@
 <div class="eco-report-container" id="eco-report-containe">
 
-    <div class="eco-title-row">
+    <div class="eco-title-row fade-in">
         <img src="assets/images/eco-logo.png" alt="EcoEye Logo" class="eco-title-logo" />
         <h1 class="eco-title">{{ model }} {{ year }}</h1>
         <p class="eco-grade">Green Level: {{ overallGrade }}</p>
     </div>
 
-    <section class="eco-section">
+    <section class="eco-section fade-in">
         <h2>Top Features</h2>
         <div class="eco-table">
             <div class="row">
@@ -50,7 +50,7 @@
         </div>
     </section>
 
-    <section class="eco-section" *ngIf="features.powerType === 'Electric' || features.powerType === 'Hybrid'">
+    <section class="eco-section fade-in" *ngIf="features.powerType === 'Electric' || features.powerType === 'Hybrid'">
         <h2>Battery Info</h2>
         <div class="eco-table">
             <div class="row">
@@ -103,7 +103,7 @@
         </div>
     </section>
 
-    <section class="eco-section">
+    <section class="eco-section fade-in">
         <h2>Eco-Friendly Advice</h2>
         <div class="eco-table">
             <div class="row">
@@ -158,7 +158,7 @@
         </div>
     </section>
 
-    <section class="eco-section">
+    <section class="eco-section fade-in">
         <h2>Environmental Impact</h2>
         <div class="eco-table">
             <div class="row">
@@ -182,7 +182,7 @@
         </div>
     </section>
 
-    <section class="eco-section">
+    <section class="eco-section fade-in">
         <h2>Fun Fact</h2>
         <p>{{ tips.funFact }}</p>
     </section>
