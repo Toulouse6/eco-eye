@@ -1,7 +1,11 @@
 <div class="eco-report-container" id="eco-report-containe">
 
     <div class="eco-title-row fade-in">
-        <img src="assets/images/eco-logo.png" alt="EcoEye Logo" class="eco-title-logo" />
+        <!-- Logo -->
+        <a routerLink="/">
+            <img src="assets/images/eco-logo.png" alt="EcoEye Logo" class="eco-title-logo" />
+        </a>
+        <!-- Title -->
         <h1 class="eco-title">{{ model }} {{ year }}</h1>
         <p class="eco-grade">Green Level: {{ overallGrade }}</p>
     </div>
@@ -155,7 +159,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Eco-Friendly Insight -->
     <section class="eco-section fade-in-up delay-5">
         <h2>Eco-Friendly Insight</h2>

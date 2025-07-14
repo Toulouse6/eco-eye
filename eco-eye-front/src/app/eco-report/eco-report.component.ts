@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import html2canvas from 'html2canvas';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -7,7 +7,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 @Component({
     selector: 'app-eco-report',
     standalone: true,
-    imports: [CommonModule, HttpClientModule],
+    imports: [CommonModule, HttpClientModule, RouterModule],
     templateUrl: './eco-report.component.html',
     styleUrls: ['./eco-report.component.css']
 })
