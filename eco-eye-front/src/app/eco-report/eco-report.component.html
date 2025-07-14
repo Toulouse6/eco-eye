@@ -6,7 +6,7 @@
         <p class="eco-grade">Green Level: {{ overallGrade }}</p>
     </div>
 
-    <section class="eco-section fade-in">
+    <section class="eco-section fade-in delay-1">
         <h2>Top Features</h2>
         <div class="eco-table">
             <div class="row">
@@ -50,7 +50,7 @@
         </div>
     </section>
 
-    <section class="eco-section fade-in" *ngIf="features.powerType === 'Electric' || features.powerType === 'Hybrid'">
+    <section class="eco-section fade-in delay-2" *ngIf="features.powerType === 'Electric' || features.powerType === 'Hybrid'">
         <h2>Battery Info</h2>
         <div class="eco-table">
             <div class="row">
@@ -103,7 +103,7 @@
         </div>
     </section>
 
-    <section class="eco-section fade-in">
+    <section class="eco-section fade-in delay-3">
         <h2>Eco-Friendly Advice</h2>
         <div class="eco-table">
             <div class="row">
@@ -149,7 +149,7 @@
         </div>
     </section>
 
-    <section class="eco-section fade-in">
+    <section class="eco-section fade-in delay-4">
         <h2>Environmental Impact</h2>
         <div class="eco-table">
             <div class="row">
@@ -173,7 +173,7 @@
         </div>
     </section>
 
-    <section class="eco-section fade-in">
+    <section class="eco-section fade-in delay-5">
         <h2>Fun Fact</h2>
         <p>🌱 {{ tips.funFact }}</p>
     </section>

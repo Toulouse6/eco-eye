@@ -7,10 +7,10 @@
                 <img src="assets/images/eco-logo.png" alt="Logo" class="eco-logo-title" />
             </div>
 
-            <p class="intro fade-in">Ride the Green Side.</p>
+            <p class="intro fade-in delay-1">Ride the Green Side.</p>
 
             <!-- Loading -->
-            <div *ngIf="isLoading" class="loading-spinner">
+            <div *ngIf="isLoading" class="loading-spinner fade-in">
                 <img src="assets/images/eco-loading.png" alt="Loading..." />
             </div>
 
@@ -21,7 +21,7 @@
 
             <!-- Dropdowns -->
             <div *ngIf="!isLoading">
-                <div class="actions fade-in">
+                <div class="actions fade-in delay-1">
 
                     <div class="select-row">
                         <!-- Model Select -->
@@ -64,7 +64,7 @@
                     </div>
 
                     <!-- Submit Button -->
-                    <div *ngIf="selectedModel && selectedYear" class="fade-in">
+                    <div *ngIf="selectedModel && selectedYear" class="fade-in delay-1">
                         <button class="custom-upload-btn" (click)="generateReport()" [disabled]="isLoading">
                             Show me
                         </button>
