@@ -91,6 +91,7 @@
         <h2>Eco-Friendly Advice</h2>
         <div class="eco-table">
             <div class="row">
+                <!-- Speed -->
                 <span class="title">
                     Recommended Speed
                     <span class="info-icon">ℹ
@@ -98,7 +99,11 @@
                             efficiency.</span>
                     </span>
                 </span>
-                <span class="value">{{ tips.speed }} km/h</span>
+                <span class="value">
+                    {{ tips.speed }} km/h
+                    <span class="user-speed-display"> | {{ userSpeed }}</span>
+                </span>
+
             </div>
             <div class="row">
                 <span class="title">

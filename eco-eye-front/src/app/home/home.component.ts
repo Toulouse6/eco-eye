@@ -27,8 +27,8 @@ export class HomeComponent implements OnInit {
         'Hyundai Ioniq',
         'Chevy Bolt'
     ];
-    filteredModels: string[] = [...this.models];
 
+    filteredModels: string[] = [...this.models];
     isLoading = false;
     errorMessage: string | null = null;
 
@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
     constructor(private router: Router) { }
 
     ngOnInit() {
+
         this.backgroundAudio.currentTime = 0;
         this.backgroundAudio.loop = true;
         this.backgroundAudio.volume = 0.3;

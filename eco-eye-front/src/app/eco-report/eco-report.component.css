@@ -90,7 +90,6 @@
 }
 
 /* Tooltip */
-
 .tooltip-text {
     visibility: hidden;
     opacity: 0;
@@ -117,6 +116,11 @@
 .info-icon:focus-within .tooltip-text {
     visibility: visible;
     opacity: 1;
+}
+
+.user-speed-display {
+    color: #007f3a;
+    font-weight: 600;
 }
 
 /* Fun Fact Box */

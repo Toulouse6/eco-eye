@@ -18,6 +18,7 @@ export class EcoReportComponenet implements OnInit {
     model: string = '';
     overallGrade: string = '';
     year: number = 0;
+    userSpeed: string = 'Calculating...';
 
     isLoading = true;
     isSharing = false;
@@ -50,6 +51,30 @@ export class EcoReportComponenet implements OnInit {
     }
 
     ngOnInit(): void {
+
+        // User Speed
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                (position) => {
+                    const speedMps = position.coords.speed;
+                    if (speedMps !== null && speedMps >= 0) {
+                        const speedKph = (speedMps * 3.6).toFixed(1);
+                        this.userSpeed = `${speedKph} km/h`;
+                    } else {
+                        this.userSpeed = 'Unavailable';
+                    }
+                },
+                (err) => {
+                    console.warn('Geolocation error:', err.message);
+                    this.userSpeed = '0 km/h';
+                },
+                { enableHighAccuracy: true }
+            );
+        } else {
+            this.userSpeed = 'Not supported';
+        }
+
+        // Fallback
         this.http.get<any>('assets/fallback.json').subscribe({
             next: (data) => {
                 this.features = data.features || this.features;
@@ -64,7 +89,7 @@ export class EcoReportComponenet implements OnInit {
         });
     }
 
-    // Screenshot functionality (same as before)
+    // Screenshot functionality
     shareReportScreenshot() {
         if (this.isSharing) return;
         this.isSharing = true;
