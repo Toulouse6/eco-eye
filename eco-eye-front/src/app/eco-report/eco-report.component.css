@@ -7,6 +7,22 @@
     border-radius: 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     backdrop-filter: blur(2px);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Video */
+.eco-bg-video {
+    position: absolute;
+    top: -530px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: -1;
+    opacity: 0.2;
+    pointer-events: none;
 }
 
 .eco-title-row {
@@ -14,7 +30,7 @@
     flex-direction: column;
     align-items: center;
     gap: 0.6rem;
-    margin-bottom: -1rem;
+    margin-bottom: 2rem;
 }
 
 .eco-title-logo {
@@ -34,8 +50,8 @@
     font-weight: 500;
     font-size: 1.5rem;
     text-align: center;
-    margin-top: 0.2rem;
     margin-top: -0.5rem;
+    margin-bottom: 2rem;
 }
 
 /* Section headers */
@@ -145,6 +161,10 @@
 /* Responsive */
 @media (max-width: 780px) {
 
+    .eco-bg-video {
+        top: -500px;
+    }
+
     .eco-report-container {
         max-width: 610px;
     }
@@ -154,12 +174,16 @@
     }
 
     .eco-title-row {
-        margin-bottom: -1.5rem;
+        margin-bottom: -0.5rem;
     }
 
 }
 
 @media (max-width: 610px) {
+
+    .eco-bg-video {
+        top: -510px;
+    }
 
     .eco-report-container {
         width: 100%;
@@ -167,22 +191,14 @@
         border-radius: 0;
     }
 
-    .eco-title-row {
-        margin-bottom: -0.5rem;
-    }
-
     .eco-title-logo {
-        width: 80px;
+        width: 70px;
         margin-bottom: -0.2rem;
     }
 
     .eco-grade {
         font-size: 1.5rem;
-        margin-top: -0.5rem;
-    }
-
-    .eco-section h2 {
-        margin-top: -0.6rem;
+        margin-top: -0.8rem;
     }
 
     .eco-table .value {
@@ -195,7 +211,18 @@
 
 }
 
+@media (max-width: 535px) {
+
+    .eco-bg-video {
+        top: -485px;
+    }
+}
+
 @media (max-width: 430px) {
+
+       .eco-bg-video {
+        top: -418px;
+    }
 
     .eco-title {
         font-size: 1.6rem;

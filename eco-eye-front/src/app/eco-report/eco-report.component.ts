@@ -13,8 +13,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 })
 export class EcoReportComponenet implements OnInit {
 
-    @ViewChild('smokeVideo') smokeVideo!: ElementRef<HTMLVideoElement>;
-
     model: string = '';
     overallGrade: string = '';
     year: number = 0;
