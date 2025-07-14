@@ -97,13 +97,13 @@ button {
     white-space: nowrap;
     font-size: 1.1rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
     background-color: #005a2b;
-    ;
     color: #fffaf5;
     border: 1px solid #ffffff;
     text-align: center;
-    padding: 0.5rem 1.5rem;
-    border-radius: 0.3rem !important;
+    padding: 0.6rem 4.5rem;
+    border-radius: 60px !important;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -113,7 +113,6 @@ button:hover,
     background-color: #e6f7ea;
     color: #005a2b;
     box-shadow: 0 2px 8px #e6f7ea;
-    ;
     border-color: #005a2b;
 }
 

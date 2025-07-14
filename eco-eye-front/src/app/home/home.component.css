@@ -41,11 +41,7 @@
     margin: -2.2rem 0 2.5rem 0;
 }
 
-/* File & input */
-
-.file-uploaded {
-    display: none;
-}
+/* Input */
 
 input[type="file"].input-box {
     position: absolute;
@@ -59,14 +55,14 @@ input[type="file"].input-box {
 .custom-select-wrapper {
     position: relative;
     width: 100%;
-    max-width: 300px;
-    min-width: 300px;
+    max-width: 260px;
+    min-width: 260px;
     margin-bottom: 1rem;
 }
 
 .custom-select {
     border: 1px solid #cfe7d9;
-    padding: 0.75rem 3rem;
+    padding: 0.75rem 2rem;
     border-radius: 10px;
     background: #f8fdf9;
     transition: all 0.3s ease;
@@ -155,34 +151,12 @@ input[type="file"].input-box {
 
 /* Responsive */
 
-@media (max-width: 800px) {
-
-    .home-title h1 {
-        font-size: 3rem;
-        margin: 6rem 0 1rem 0;
-    }
-
-    .intro {
-        font-size: 1.6rem;
-        margin: -1rem 0 2.5rem 0;
-    }
-}
-
 @media (max-width: 600px) {
 
-    .home-title h1 {
-        font-size: 2.8rem;
-        margin: 5.5rem 0 1.5rem;
-    }
 
     .loading-spinner img {
         margin-top: 6rem;
         width: 10rem;
-    }
-
-    .intro {
-        font-size: 1.5rem;
-        margin: -1.5rem 0 2rem 0;
     }
 }
 
@@ -201,15 +175,16 @@ input[type="file"].input-box {
         margin: -0.5rem 0 1rem 0;
     }
 
-    .input-group {
-        margin-top: 1.5rem;
-        font-size: 1rem;
+    .custom-select-wrapper {
+        max-width: 220px;
+        min-width: 220px;
     }
 
-    .preview img {
-        margin-top: 1rem;
-        width: 150px;
+    .custom-select {
+        font-size: 0.9rem;
+        padding: 0.75rem 1rem;
     }
+
 }
 
 @media (max-width: 390px) {
