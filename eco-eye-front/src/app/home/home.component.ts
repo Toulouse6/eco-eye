@@ -27,23 +27,19 @@ export class HomeComponent implements OnInit {
         'Hyundai Ioniq',
         'Chevy Bolt'
     ];
-    filteredModels: string[] = [...this.models]; 
+    filteredModels: string[] = [...this.models];
 
     isLoading = false;
     errorMessage: string | null = null;
 
-    private backgroundAudio = new Audio('assets/audio/realm-of-fairy.mp3');
-    private spinnerAudio = new Audio('assets/audio/invisibility-spell.mp3');
+    private backgroundAudio = new Audio('assets/audio/nova-notes.mp3');
 
     constructor(private router: Router) { }
 
     ngOnInit() {
         this.backgroundAudio.currentTime = 0;
         this.backgroundAudio.loop = true;
-        this.backgroundAudio.volume = 0.4;
-
-        this.spinnerAudio.loop = true;
-        this.spinnerAudio.volume = 0.8;
+        this.backgroundAudio.volume = 0.3;
 
         this.backgroundAudio.play().catch(() => {
             document.body.addEventListener('click', () => {
@@ -88,13 +84,12 @@ export class HomeComponent implements OnInit {
         this.populateYears(model);
     }
 
-    // In case you have another (fallback) <select> for models
     onModelSelect(event: Event): void {
         this.selectedModel = (event.target as HTMLSelectElement).value;
         this.populateYears(this.selectedModel);
     }
 
-    // Populate available years based on model
+    // Populate available years
     populateYears(model: string): void {
         const currentYear = new Date().getFullYear();
         switch (model) {
@@ -128,17 +123,11 @@ export class HomeComponent implements OnInit {
     }
 
     generateReport(): void {
-        if (!this.selectedModel || !this.selectedYear) return;
 
-        this.playBackgroundAudio();
+        if (!this.selectedModel || !this.selectedYear) return;
         this.isLoading = true;
-        this.fadeBackgroundDuringLoading();
-        this.spinnerAudio.currentTime = 0;
-        this.spinnerAudio.play();
 
         setTimeout(() => {
-            this.restoreBackgroundAfterLoading();
-            this.spinnerAudio.pause();
             this.isLoading = false;
 
             this.router.navigate(['/eco-report'], {
@@ -150,22 +139,4 @@ export class HomeComponent implements OnInit {
         }, 1500);
     }
 
-    private fadeBackgroundDuringLoading() {
-        this.backgroundAudio.volume = 0.2;
-    }
-
-    private restoreBackgroundAfterLoading() {
-        this.backgroundAudio.volume = 0.2;
-        this.backgroundAudio.currentTime = 17.5;
-
-        const targetVolume = 0.8;
-        const step = 0.05;
-        const interval = setInterval(() => {
-            if (this.backgroundAudio.volume < targetVolume) {
-                this.backgroundAudio.volume = Math.min(this.backgroundAudio.volume + step, targetVolume);
-            } else {
-                clearInterval(interval);
-            }
-        }, 60);
-    }
 }
