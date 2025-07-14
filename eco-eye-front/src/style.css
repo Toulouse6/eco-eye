@@ -110,9 +110,8 @@ button {
 
 button:hover,
 .custom-upload-btn:hover {
-    background-color: #e6f7ea;
+     background: #f1fff7;
     color: #005a2b;
-    box-shadow: 0 2px 8px #e6f7ea;
     border-color: #005a2b;
 }
 

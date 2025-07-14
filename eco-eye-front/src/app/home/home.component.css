@@ -71,7 +71,7 @@ input[type="file"].input-box {
 }
 
 .custom-select:hover {
-    background-color: #eef8f1;
+    background: #f1fff7;
     border-color: #a5d6b5;
 }
 
