@@ -86,7 +86,6 @@ Structure the response in JSON format with these keys:
     "tirePressure": "in PSI",
     "passengers": "optimal range for fuel efficiency",
     "idling": "max idle time in minutes",
-    "regenBraking": true/false,
     "funFact": "short interesting eco tip"
   }
 }
