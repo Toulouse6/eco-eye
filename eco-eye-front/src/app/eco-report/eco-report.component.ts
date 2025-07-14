@@ -18,7 +18,7 @@ export class EcoReportComponenet implements OnInit {
     model: string = '';
     overallGrade: string = '';
     year: number = 0;
-    userSpeed: string = 'Calculating...';
+    userSpeed: string = '0 km/h';
 
     isLoading = true;
     isSharing = false;
@@ -61,7 +61,7 @@ export class EcoReportComponenet implements OnInit {
                         const speedKph = (speedMps * 3.6).toFixed(1);
                         this.userSpeed = `${speedKph} km/h`;
                     } else {
-                        this.userSpeed = 'Unavailable';
+                        this.userSpeed = '0 km/h';
                     }
                 },
                 (err) => {
