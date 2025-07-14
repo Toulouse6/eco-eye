@@ -79,7 +79,7 @@
     display: inline-block;
     cursor: pointer;
     font-size: 1rem;
-    color: #313131;
+    color: #8bbc5a;
     margin-left: 0.5rem;
 }
 
@@ -164,7 +164,7 @@
 
     .eco-grade {
         font-size: 1.5rem;
-        margin-top: -0.2rem;
+        margin-top: -0.5rem;
     }
 
     .eco-section h2 {
@@ -181,7 +181,7 @@
     }
 
     .eco-grade {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 
     .eco-section h2 {
