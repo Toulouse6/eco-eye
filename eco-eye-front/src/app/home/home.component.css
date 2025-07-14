@@ -72,7 +72,7 @@ input[type="file"].input-box {
 }
 
 .custom-select:hover {
-    background: #f1fff7;
+  background: #effef5;
     border-color: #a5d6b5;
 }
 
@@ -106,8 +106,7 @@ input[type="file"].input-box {
 }
 
 .dropdown-item:hover {
-    background-color: #e6f7ea;
-    color: #007f3a;
+    background-color: #effef5;
 }
 
 .dropdown-search-input {

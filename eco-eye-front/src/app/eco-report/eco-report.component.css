@@ -121,20 +121,19 @@
 
 /* Fun Fact Box */
 .eco-section p {
-    background: #f8fdf9;
+    background: #effef5;
     padding: 1rem 1.2rem;
     border-radius: 12px;
     color: #007f3a;
-    border: 3px solid #d6eadd;
+    border: 2px solid #a8d9be;
     font-weight: 500;
     text-align: center;
     margin: 0;
     transition: background 0.3s ease, border-color 0.3s ease;
 }
 
-.eco-table:hover,
-.eco-section p:hover {
-    background: #f1fff7;
+.eco-table:hover {
+    background: #effef5;
     border-color: #a8d9be;
 }
 
@@ -212,6 +211,9 @@
 
     .tooltip-text {
         width: 270px;
+        bottom: 0;
+        left: 0;
+        transform: translateX(-28%);
     }
 
     .eco-title-logo {
