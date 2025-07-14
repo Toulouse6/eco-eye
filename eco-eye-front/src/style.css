@@ -122,41 +122,9 @@ button:hover,
     cursor: not-allowed;
 }
 
-/* Responsive Layout Tweaks */
-@media (max-width: 1100px) {
-    .container {
-        width: 100%;
-    }
-}
+/* Responsive */
 
-@media (max-width: 900px) {
-    .wrapper:before {
-        transform: translate(-50%, -65%) !important;
-    }
-}
-
-@media (max-width: 800px) {
-    .wrapper:before {
-        width: 28rem;
-        transform: translate(-50%, -66%) !important;
-    }
-
-    .flex-wrapper {
-        width: 100%;
-    }
-}
-
-@media (max-width: 600px) {
-    .wrapper:before {
-        width: 24rem;
-        transform: translate(-50%, -70%) !important;
-    }
-}
-
-@media (max-width: 440px) {
-    .wrapper:before {
-        transform: translate(-50%, -72%) !important;
-    }
+@media (max-width: 430px) {
 
     .container {
         padding: 1rem 0rem 5rem;
@@ -165,57 +133,10 @@ button:hover,
     .actions {
         margin-top: 1rem;
     }
-}
 
-@media (max-width: 430px) {
-    .wrapper:before {
-        transform: translate(-50%, -74%) !important;
-    }
-
-    button {
-        font-size: 1.2rem;
-    }
-}
-
-@media (max-width: 414px) {
-    button {
-        font-size: 1.1rem;
-    }
-}
-
-@media (max-width: 375px) {
-    .wrapper:before {
-        transform: translate(-50%, -69%) !important;
-    }
-
+    .custom-upload-btn,
     button {
         font-size: 1rem;
     }
-}
 
-@media (max-width: 360px) {
-
-    html,
-    body {
-        overflow-y: auto !important;
-    }
-
-    .wrapper:before {
-        transform: translate(-50%, -72%) !important;
-    }
-
-    button {
-        font-size: 1rem;
-        padding: 0.5rem 1.3rem;
-    }
-}
-
-@media (max-width: 320px) {
-    .wrapper:before {
-        transform: translate(-50%, -68%) !important;
-    }
-
-    button {
-        font-size: 0.8rem;
-    }
 }
