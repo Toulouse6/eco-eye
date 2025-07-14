@@ -42,7 +42,6 @@ export class EcoReportComponenet implements OnInit {
         tirePressure: 0,
         passengers: '',
         idling: 0,
-        regenBraking: false,
         funFact: ''
     };
 
@@ -172,7 +171,6 @@ Eco-Friendly Tips:
 • Tire Pressure: ${this.tips.tirePressure} PSI
 • Optimal Passengers: ${this.tips.passengers}
 • Avoid Idling Over: ${this.tips.idling} minutes
-• Regenerative Braking: ${this.tips.regenBraking ? 'Yes' : 'No'}
 
 Fun Fact:
 ${this.tips.funFact}

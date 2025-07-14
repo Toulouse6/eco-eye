@@ -23,7 +23,6 @@ export interface EcoReportResponse {
         tirePressure: number;
         passengers: string;
         idling: number;
-        regenBraking: boolean;
         funFact: string;
     };
 

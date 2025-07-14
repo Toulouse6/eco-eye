@@ -18,7 +18,6 @@
     "tirePressure": 33,
     "passengers": "2–3 for optimal balance",
     "idling": 2,
-    "regenBraking": true,
     "funFact": "Smooth acceleration saves up to 20% more fuel than aggressive driving."
   }
 }
