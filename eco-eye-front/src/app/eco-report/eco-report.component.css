@@ -1,6 +1,6 @@
 .eco-report-container {
     max-width: 700px;
-    margin: 2rem auto;
+    margin: 1rem auto;
     padding: 2rem 1.5rem;
     font-family: 'Lato', sans-serif;
     background-color: rgba(255, 255, 255, 0.95);
@@ -79,7 +79,7 @@
     display: inline-block;
     cursor: pointer;
     font-size: 1rem;
-    color: #007f3a;
+    color: #313131;
     margin-left: 0.5rem;
 }
 
@@ -90,7 +90,7 @@
     position: absolute;
     bottom: 125%;
     left: 80%;
-    transform: translateX(-50%);
+    transform: translateX(-30%);
     background: white;
     color: #007f3a;
     padding: 0.5em 0.8em;
@@ -114,7 +114,7 @@
 /* Tooltip */
 .tooltip-text {
     background: white;
-    color: #007f3a;
+    color: #313131;
     border: 1px solid #cfe7d9;
 }
 
