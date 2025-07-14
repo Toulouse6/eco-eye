@@ -14,7 +14,7 @@
     flex-direction: column;
     align-items: center;
     gap: 0.6rem;
-    margin-bottom: 0.6rem;
+    margin-bottom: -1rem;
 }
 
 .eco-title-logo {
@@ -41,6 +41,7 @@
 /* Section headers */
 .eco-section h2 {
     color: #313131;
+    font-size: 1.1rem;
 }
 
 .eco-table {
@@ -147,6 +148,11 @@
     .eco-title {
         font-size: 2.2rem;
     }
+
+    .eco-title-row {
+        margin-bottom: -1.5rem;
+    }
+
 }
 
 @media (max-width: 610px) {
@@ -155,6 +161,10 @@
         width: 100%;
         margin: 0;
         border-radius: 0;
+    }
+
+    .eco-title-row {
+        margin-bottom: -0.5rem;
     }
 
     .eco-title-logo {
@@ -168,7 +178,6 @@
     }
 
     .eco-section h2 {
-        font-size: 1.1rem;
         margin-top: -0.5rem;
     }
 
@@ -178,6 +187,10 @@
 
     .eco-title {
         font-size: 1.6rem;
+    }
+
+    .eco-title-row {
+        margin-bottom: 0;
     }
 
     .eco-grade {
@@ -193,7 +206,7 @@
     }
 
     .eco-title-logo {
-        width: 60px;
+        width: 65px;
     }
 
     .eco-section p {
