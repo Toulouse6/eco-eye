@@ -1,4 +1,4 @@
 export const environment = {
-    production: true,
-    apiUrl: "https://readhand-moouaplqla-uc.a.run.app/readHand"
+  production: true,
+  apiUrl: "https://us-central1-eco-eye.cloudfunctions.net"
 };

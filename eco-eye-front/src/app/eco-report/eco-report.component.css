@@ -158,3 +158,37 @@
     }
 
 }
+
+@media (max-width: 430px) {
+
+    .eco-report-container {
+        margin: 1rem auto;
+        max-width: 375px;
+    }
+
+    .eco-title {
+        font-size: 1.8rem;
+    }
+
+    .eco-title-row {
+        margin-bottom: -1rem;
+    }
+
+    .eco-grade,
+    .eco-section h2 {
+        font-size: 1.1rem;
+    }
+
+    .eco-table span {
+        font-size: 0.8rem;
+    }
+
+    .eco-title-logo {
+        width: 60px;
+    }
+
+    .eco-section p {
+        font-size: 0.8rem;
+    }
+
+}
