@@ -70,9 +70,10 @@
 }
 
 .eco-table .value {
-    color: #313131;
+    color: #666666;
     font-weight: 500;
     text-align: right;
+    font-size: 1rem;
 }
 
 .info-icon {
@@ -82,6 +83,10 @@
     font-size: 1rem;
     color: #8bbc5a;
     margin-left: 0.5rem;
+}
+
+.info-icon:hover {
+    color: #d6eadd;
 }
 
 .tooltip-text {
@@ -125,7 +130,7 @@
     padding: 1rem 1.2rem;
     border-radius: 12px;
     color: #007f3a;
-    border: 2px solid #d6eadd;
+    border: 3px solid #d6eadd;
     font-weight: 500;
     text-align: center;
     margin: 0;
@@ -179,6 +184,10 @@
 
     .eco-section h2 {
         margin-top: -0.5rem;
+    }
+
+    .eco-table .value {
+    font-size: 0.8rem;
     }
 
 }
