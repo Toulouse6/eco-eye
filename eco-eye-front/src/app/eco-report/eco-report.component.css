@@ -121,6 +121,7 @@
 .user-speed-display {
     color: #007f3a;
     font-weight: 600;
+    font-size: 1.2rem;
 }
 
 /* Fun Fact Box */
@@ -188,6 +189,10 @@
         font-size: 0.8rem;
     }
 
+    .user-speed-display {
+        font-size: 1rem;
+    }
+
 }
 
 @media (max-width: 430px) {
@@ -211,6 +216,10 @@
 
     .eco-table span {
         font-size: 0.8rem;
+    }
+
+    .user-speed-display {
+        font-size: 1rem !important;
     }
 
     .tooltip-text {

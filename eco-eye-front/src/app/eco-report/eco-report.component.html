@@ -6,8 +6,51 @@
         <p class="eco-grade">Green Level: {{ overallGrade }}</p>
     </div>
 
+    <!-- Green Habits -->
+    <section class="eco-section fade-in-up delay-3">
+        <h2>Green Habits</h2>
+        <div class="eco-table">
+            <div class="row">
+                <!-- Speed -->
+                <span class="title">
+                    Recommended Speed
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Maintaining a steady speed around 80–90 km/h improves fuel
+                            efficiency.</span>
+                    </span>
+                </span>
+                <span class="value">
+                    {{ tips.speed }} km/h
+                    <span class="user-speed-display"> | {{ userSpeed }}</span>
+                </span>
+
+            </div>
+            <div class="row">
+                <span class="title">
+                    Tire Pressure
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Properly inflated tires reduce rolling resistance and increase
+                            mileage.</span>
+                    </span>
+                </span>
+                <span class="value">{{ tips.tirePressure }} PSI</span>
+            </div>
+            <div class="row">
+                <span class="title">
+                    Avoid Idling Over
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Idling wastes fuel and emits unnecessary pollutants.</span>
+                    </span>
+                </span>
+                <span class="value">{{ tips.idling }} minutes</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Vehicle Profile -->
     <section class="eco-section fade-in-up delay-1">
-        <h2>Top Features</h2>
+        <h2>Vehicle Profile</h2>
         <div class="eco-table">
             <div class="row">
                 <span class="title">
@@ -50,9 +93,10 @@
         </div>
     </section>
 
+    <!-- Energy Overview -->
     <section class="eco-section fade-in-up delay-2"
         *ngIf="features.powerType === 'Electric' || features.powerType === 'Hybrid'">
-        <h2>Battery Info</h2>
+        <h2>Energy Profile</h2>
         <div class="eco-table">
             <div class="row">
                 <span class="title">
@@ -87,47 +131,7 @@
         </div>
     </section>
 
-    <section class="eco-section fade-in-up delay-3">
-        <h2>Eco-Friendly Advice</h2>
-        <div class="eco-table">
-            <div class="row">
-                <!-- Speed -->
-                <span class="title">
-                    Recommended Speed
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Maintaining a steady speed around 80–90 km/h improves fuel
-                            efficiency.</span>
-                    </span>
-                </span>
-                <span class="value">
-                    {{ tips.speed }} km/h
-                    <span class="user-speed-display"> | {{ userSpeed }}</span>
-                </span>
-
-            </div>
-            <div class="row">
-                <span class="title">
-                    Tire Pressure
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Properly inflated tires reduce rolling resistance and increase
-                            mileage.</span>
-                    </span>
-                </span>
-                <span class="value">{{ tips.tirePressure }} PSI</span>
-            </div>
-            <div class="row">
-                <span class="title">
-                    Avoid Idling Over
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Idling wastes fuel and emits unnecessary pollutants.</span>
-                    </span>
-                </span>
-                <span class="value">{{ tips.idling }} minutes</span>
-            </div>
-
-        </div>
-    </section>
-
+    <!-- Environmental Impact -->
     <section class="eco-section fade-in-up delay-4">
         <h2>Environmental Impact</h2>
         <div class="eco-table">
@@ -151,9 +155,10 @@
             </div>
         </div>
     </section>
-
+    
+    <!-- Eco-Friendly Insight -->
     <section class="eco-section fade-in-up delay-5">
-        <h2>Fun Fact</h2>
+        <h2>Eco-Friendly Insight</h2>
         <p>🌱 {{ tips.funFact }}</p>
     </section>
 </div>
