@@ -15,109 +15,6 @@
         <p class="eco-grade">Green Level: {{ overallGrade }}</p>
     </div>
 
-    <!-- User Stats Overview -->
-    <section class="eco-section fade-in-up delay-0">
-        <h2>Live Environmental footprint</h2>
-        <div class="eco-table">
-
-            <!-- Fuel Saved -->
-            <div class="row">
-                <span class="title">
-                    Fuel Saved
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Liters of fuel saved based on your car's fuel efficiency and distance
-                            traveled.</span>
-                    </span>
-                </span>
-                <span class="value">
-                    <span class="user-display">{{ fuelSaved.toFixed(2) }} L</span>
-                </span>
-            </div>
-
-            <!-- Carbon Footprint -->
-            <div class="row">
-                <span class="title">
-                    Carbon Output
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Real-time carbon output based on your driving distance and your car's
-                            CO₂ emissions rate.</span>
-                    </span>
-                </span>
-                <span class="value">
-                    <span class="user-display">{{ carbonFootprint.toFixed(1) }} g</span>
-                </span>
-            </div>
-            <!-- CO₂ Saved -->
-            <div class="row">
-                <span class="title">
-                    CO₂ Saved
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">CO₂ you saved compared to the average car's emissions on the same
-                            route.</span>
-                    </span>
-                </span>
-                <span class="value">
-                    <span class="user-display">{{ co2Saved.toFixed(1) }} g</span>
-                </span>
-            </div>
-
-            <!-- CO₂ Emissions -->
-            <div class="row">
-                <span class="title">
-                    CO₂ Emissions
-                    <span class="info-icon" aria-label="Info" title="Info">ℹ
-                        <span class="tooltip-text">Represents the average carbon dioxide emitted per kilometer.</span>
-                    </span>
-                </span>
-                <span class="value">{{ features.co2 }} g/km</span>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- Smart Driving-->
-    <section class="eco-section fade-in-up delay-3">
-        <h2>Smart Driving</h2>
-        <div class="eco-table">
-            <!-- Speed -->
-            <div class="row">
-                <span class="title">
-                    Recommended Speed
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Maintaining a steady speed around 80–90 km/h improves fuel
-                            efficiency.</span>
-                    </span>
-                </span>
-                <span class="value">
-                    {{ tips.speed }} km/h
-                    <span class="user-display"> | {{ userSpeed }} km/h</span>
-                </span>
-            </div>
-            <!-- Tire Pressure -->
-            <div class="row">
-                <span class="title">
-                    Tire Pressure
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Properly inflated tires reduce rolling resistance and increase
-                            mileage.</span>
-                    </span>
-                </span>
-                <span class="value">{{ tips.tirePressure }} PSI</span>
-            </div>
-            <!-- Avoid Idling Over -->
-            <div class="row">
-                <span class="title">
-                    Avoid Idling Over
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Idling wastes fuel and emits unnecessary pollutants.</span>
-                    </span>
-                </span>
-                <span class="value">{{ tips.idling }} minutes</span>
-            </div>
-
-        </div>
-    </section>
-
     <!-- Vehicle Overview -->
     <section class="eco-section fade-in-up delay-1">
         <h2>Vehicle Overview</h2>
@@ -133,6 +30,18 @@
                 </span>
                 <span class="value">{{ features.fuelEfficiency }}</span>
             </div>
+
+            <!-- CO₂ Emissions -->
+            <div class="row">
+                <span class="title">
+                    CO₂ Emissions
+                    <span class="info-icon" aria-label="Info" title="Info">ℹ
+                        <span class="tooltip-text">Represents the average carbon dioxide emitted per kilometer.</span>
+                    </span>
+                </span>
+                <span class="value">{{ features.co2 }} g/km</span>
+            </div>
+
             <!-- Emission Rating -->
             <div class="row">
                 <span class="title">
@@ -178,8 +87,99 @@
         </div>
     </section>
 
+    <!-- Smart Driving-->
+    <section class="eco-section fade-in-up delay-2">
+        <h2>Smart Driving</h2>
+        <div class="eco-table">
+            <!-- Speed -->
+            <div class="row">
+                <span class="title">
+                    Recommended Speed
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Maintaining a steady speed around 80–90 km/h improves fuel
+                            efficiency.</span>
+                    </span>
+                </span>
+                <span class="value">
+                    {{ tips.speed }} km/h
+                    <span class="user-display"> | {{ userSpeed }} km/h</span>
+                </span>
+            </div>
+            <!-- Tire Pressure -->
+            <div class="row">
+                <span class="title">
+                    Tire Pressure
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Properly inflated tires reduce rolling resistance and increase
+                            mileage.</span>
+                    </span>
+                </span>
+                <span class="value">{{ tips.tirePressure }} PSI</span>
+            </div>
+            <!-- Avoid Idling Over -->
+            <div class="row">
+                <span class="title">
+                    Avoid Idling Over
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Idling wastes fuel and emits unnecessary pollutants.</span>
+                    </span>
+                </span>
+                <span class="value">{{ tips.idling }} minutes</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Live Eco Footprint -->
+    <section class="eco-section fade-in-up delay-3">
+        <h2>Live Eco Footprint</h2>
+        <div class="eco-table">
+
+            <!-- Fuel Saved -->
+            <div class="row">
+                <span class="title">
+                    Fuel Saved
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Liters of fuel saved based on your car's fuel efficiency and distance
+                            traveled.</span>
+                    </span>
+                </span>
+                <span class="value">
+                    <span class="user-display">{{ fuelSaved.toFixed(2) }} L</span>
+                </span>
+            </div>
+
+            <!-- Carbon Footprint -->
+            <div class="row">
+                <span class="title">
+                    Carbon Output
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Real-time carbon output based on your driving distance and your car's
+                            CO₂ emissions rate.</span>
+                    </span>
+                </span>
+                <span class="value">
+                    <span class="user-display">{{ carbonFootprint.toFixed(1) }} g</span>
+                </span>
+            </div>
+            <!-- CO₂ Saved -->
+            <div class="row">
+                <span class="title">
+                    CO₂ Saved
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">CO₂ you saved compared to the average car's emissions on the same
+                            route.</span>
+                    </span>
+                </span>
+                <span class="value">
+                    <span class="user-display">{{ co2Saved.toFixed(1) }} g</span>
+                </span>
+            </div>
+        </div>
+    </section>
+
     <!-- Energy Breakdown -->
-    <section class="eco-section fade-in-up delay-2"
+    <section class="eco-section fade-in-up delay-4"
         *ngIf="features.powerType === 'Electric' || features.powerType === 'Hybrid'">
         <h2>Energy Breakdown</h2>
         <div class="eco-table">
@@ -219,9 +219,9 @@
         </div>
     </section>
 
-    <!-- Eco-Friendly Insight -->
+    <!-- Green Insight -->
     <section class="eco-section fade-in-up delay-5">
-        <h2>Eco-Friendly Insight</h2>
+        <h2>Green Insight</h2>
         <p>🌱 {{ tips.funFact }}</p>
     </section>
 </div>
