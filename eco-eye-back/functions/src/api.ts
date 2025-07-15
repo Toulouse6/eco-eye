@@ -33,7 +33,7 @@ app.get("/", (_: Request, res: Response) => {
 
 // Main endpoint
 app.post("/generateReport", limiter, async (req: Request, res: Response) => {
-  console.log("Received palm report request.");
+  console.log("Received report request.");
 
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
