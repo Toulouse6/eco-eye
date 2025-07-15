@@ -74,8 +74,7 @@ export class EcoReportService {
                                 energyConsumption: report.energyConsumption ?? '',
                                 chargeTime: report.chargeTime ?? '',
                                 co2: report.co2 ?? '',
-                                recyclability: report.recyclability ?? '',
-                                greenRating: report.greenRating ?? ''
+                                recyclability: report.recyclability ?? ''
                             }),
                             (err) => {
                                 console.warn("Geolocation error:", err.message);
@@ -93,8 +92,7 @@ export class EcoReportService {
                             energyConsumption: report.energyConsumption ?? '',
                             chargeTime: report.chargeTime ?? '',
                             co2: report.co2 ?? '',
-                            recyclability: report.recyclability ?? '',
-                            greenRating: report.greenRating ?? ''
+                            recyclability: report.recyclability ?? ''
                         },
                         tips: report.tips,
                         fallback: report.fallback ?? false

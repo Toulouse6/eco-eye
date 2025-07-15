@@ -13,7 +13,6 @@ export interface EcoReportResponse {
     chargeTime?: string;
     co2: string;
     recyclability: string;
-    greenRating: string;
 
     tips: {
         speed: number;

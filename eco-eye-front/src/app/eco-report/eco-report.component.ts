@@ -14,7 +14,6 @@ export interface CarFeatures {
     chargeTime: string;
     co2: string;
     recyclability: string;
-    greenRating: string;
 }
 
 export interface EcoTips {
@@ -54,8 +53,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         energyConsumption: '',
         chargeTime: '',
         co2: '',
-        recyclability: '',
-        greenRating: ''
+        recyclability: ''
     };
 
     tips: EcoTips = {
