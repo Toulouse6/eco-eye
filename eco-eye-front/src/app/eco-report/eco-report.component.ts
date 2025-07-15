@@ -34,7 +34,6 @@ export interface EcoTips {
 export class EcoReportComponent implements OnInit, OnDestroy {
     model = '';
     year = 0;
-    overallGrade = '';
     userSpeed = '0 km/h';
 
     watchId: number | null = null;
@@ -77,7 +76,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             next: (data) => {
                 this.features = data.features;
                 this.tips = data.tips;
-                this.overallGrade = data.features.greenRating;
                 this.isLoading = false;
 
                 if (data.fallback) {

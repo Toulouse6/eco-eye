@@ -12,7 +12,7 @@
         </a>
         <!-- Title -->
         <h1 class="eco-title">{{ model }} {{ year }}</h1>
-        <p class="eco-grade">Green Level: {{ overallGrade }}</p>
+        <p class="eco-grade">Green Level: {{ features.greenRating }}</p>
     </div>
 
     <!-- Smart Driving-->
@@ -30,7 +30,7 @@
                 </span>
                 <span class="value">
                     {{ tips.speed }} km/h
-                    <span class="user-display"> | {{ userSpeed }} km/h</span>
+                    <span class="user-display"> | {{ userSpeed }}</span>
                 </span>
             </div>
             <!-- Tire Pressure -->
@@ -132,7 +132,7 @@
                         <span class="tooltip-text">Represents the average carbon dioxide emitted per kilometer.</span>
                     </span>
                 </span>
-                <span class="value">{{ features.co2 }} g/km</span>
+                <span class="value">{{ features.co2 }}</span>
             </div>
 
             <!-- Emission Rating -->
@@ -194,7 +194,7 @@
                         <span class="tooltip-text">Lower energy consumption indicates better efficiency.</span>
                     </span>
                 </span>
-                <span class="value">{{ features.energyConsumption }} kWh/100km</span>
+                <span class="value">{{ features.energyConsumption }}</span>
             </div>
             <!-- Best Time to Charge -->
             <div class="row">
