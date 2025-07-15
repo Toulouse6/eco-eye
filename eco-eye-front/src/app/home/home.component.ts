@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
     ];
 
     filteredModels: string[] = [...this.models];
-    isLoading = true;
+    isLoading = false;
     errorMessage: string | null = null;
 
     private backgroundAudio = new Audio('assets/audio/nova-notes.mp3');
