@@ -19,7 +19,7 @@
     width: 60px;
     height: auto;
     margin: 4.7rem 0 0 -0.4rem;
-    
+
 }
 
 /* Typography */
@@ -72,7 +72,7 @@ input[type="file"].input-box {
 }
 
 .custom-select:hover {
- background: #f0fbf4;
+    background: #f5fff9;
     border-color: #a5d6b5;
 }
 
@@ -106,7 +106,7 @@ input[type="file"].input-box {
 }
 
 .dropdown-item:hover {
- background: #f0fbf4;
+    background: #f5fff9;
 }
 
 .dropdown-search-input {
