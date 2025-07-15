@@ -1,22 +1,24 @@
-<div class="eco-report-container fade-in delay-1" id="eco-report-container">
+<div class="eco-report-container fade-in" id="eco-report-container">
 
-    <!-- Video -->
-    <video autoplay muted loop playsinline class="eco-bg-video">
-        <source src="assets/videos/road.mp4" type="video/mp4" />
-    </video>
+    <header>
+        <!-- Video -->
+        <video autoplay muted loop playsinline class="eco-bg-video">
+            <source src="assets/videos/road.mp4" type="video/mp4" />
+        </video>
 
-    <div class="eco-title-row fade-in">
-        <!-- Logo -->
-        <a routerLink="/">
-            <img src="assets/images/eco-logo.png" alt="EcoEye Logo" class="eco-title-logo" />
-        </a>
-        <!-- Title -->
-        <h1 class="eco-title">{{ model }} {{ year }}</h1>
-        <p class="eco-grade">Green Level: {{ calculateLiveGreenGrade() }}</p>
-    </div>
+        <div class="eco-title-row fade-in">
+            <!-- Logo -->
+            <a routerLink="/">
+                <img src="assets/images/eco-logo.png" alt="EcoEye Logo" class="eco-title-logo" />
+            </a>
+            <!-- Title -->
+            <h1 class="eco-title">{{ model }} {{ year }}</h1>
+            <p class="eco-grade">Green Level: {{ calculateLiveGreenGrade() }}</p>
+        </div>
+    </header>
 
     <!-- Smart Driving-->
-    <section class="eco-section fade-in-up delay-2">
+    <section class="eco-section fade-in-up delay-1">
         <h2>Smart Driving</h2>
         <div class="eco-table">
             <!-- Speed -->
@@ -30,7 +32,7 @@
                 </span>
                 <span class="value">
                     {{ tips.speed }} km/h
-                    <span class="user-display"> | {{ userSpeed }}</span>
+                    <span class="user-value"> | {{ userSpeed }}</span>
                 </span>
             </div>
             <!-- Tire Pressure -->
@@ -73,13 +75,13 @@
     </section>
 
     <!-- Live Eco Footprint -->
-    <section class="eco-section fade-in-up delay-1">
+    <section class="eco-section fade-in-up delay-2">
         <h2>Live Eco Footprint</h2>
         <div class="eco-grid">
 
             <!-- Fuel Saved -->
             <div class="eco-cell">
-                <span class="title">
+                <span class="title user-display">
                     Fuel Saved
                     <span class="info-icon">ℹ
                         <span class="tooltip-text">Liters of fuel saved based on your car's fuel efficiency and distance
@@ -87,13 +89,13 @@
                     </span>
                 </span>
                 <span class="value">
-                    <span class="user-display">{{ fuelSaved.toFixed(2) }} L</span>
+                    <span class="user-value">{{ fuelSaved.toFixed(2) }} L</span>
                 </span>
             </div>
 
             <!-- CO₂ Saved -->
             <div class="eco-cell">
-                <span class="title">
+                <span class="title user-display">
                     CO₂ Saved
                     <span class="info-icon">ℹ
                         <span class="tooltip-text">CO₂ you saved compared to the average car's emissions on the same
@@ -101,13 +103,13 @@
                     </span>
                 </span>
                 <span class="value">
-                    <span class="user-display">{{ co2Saved.toFixed(1) }} g</span>
+                    <span class="user-value">{{ co2Saved.toFixed(1) }} g</span>
                 </span>
             </div>
 
             <!-- Carbon Output -->
             <div class="eco-cell">
-                <span class="title">
+                <span class="title user-display">
                     Carbon Output
                     <span class="info-icon">ℹ
                         <span class="tooltip-text">Real-time carbon output based on your driving distance and your car's
@@ -115,7 +117,7 @@
                     </span>
                 </span>
                 <span class="value">
-                    <span class="user-display">{{ carbonFootprint.toFixed(1) }} g</span>
+                    <span class="user-value carbon">{{ carbonFootprint.toFixed(1) }} g</span>
                 </span>
             </div>
 
@@ -210,7 +212,7 @@
                 </span>
                 <span class="value">{{ features.energyConsumption }}</span>
             </div>
-    
+
         </div>
     </section>
 
