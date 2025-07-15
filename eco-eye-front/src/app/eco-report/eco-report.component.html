@@ -167,13 +167,18 @@
 
             <div class="row">
                 <span class="title">Live Carbon Footprint</span>
-                <span class="value">{{ carbonFootprint.toFixed(1) }} g</span>
+                <span class="value">
+                    <span class="user-display">{{ carbonFootprint.toFixed(1) }} g</span>
+                </span>
             </div>
 
             <div class="row">
                 <span class="title">CO₂ Saved This Trip</span>
-                <span class="value">{{ co2Saved.toFixed(1) }} g</span>
+                <span class="value">
+                    <span class="user-display">{{ co2Saved.toFixed(1) }} g</span>
+                </span>
             </div>
+
         </div>
     </section>
 
