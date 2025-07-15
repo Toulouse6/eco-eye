@@ -15,7 +15,7 @@
 /* Video */
 .eco-bg-video {
     position: absolute;
-    top: -570px;
+    top: -550px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -76,6 +76,7 @@
     display: contents;
 }
 
+.eco-cell .title,
 .eco-table .title {
     white-space: nowrap;
     font-weight: 600;
@@ -91,6 +92,44 @@
     text-align: right;
     font-size: 1rem;
 }
+
+/* Live Stats*/
+.eco-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 0.5rem;
+    padding: 0;
+}
+
+.eco-cell {
+    background-color: #f8fff8;
+    border: 1px solid #e0f2e0;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.eco-cell:hover {
+    background: #effef5;
+    border-color: #a8d9be;
+}
+
+.eco-cell .title {
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.eco-cell .value {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 1.2rem;
+}
+
+
+/* Icons */
 
 .info-icon {
     position: relative;
@@ -113,14 +152,14 @@
     position: absolute;
     bottom: 125%;
     left: 80%;
-    transform: translateX(-30%);
+    transform: translateX(-65%);
     background: white;
     color: #313131;
     padding: 0.5em 0.8em;
     border-radius: 6px;
     font-size: 0.85rem;
     font-weight: 500;
-    width: 300px;
+    width: 220px;
     z-index: 100;
     border: 1px solid #cfe7d9;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
@@ -135,8 +174,8 @@
 }
 
 .user-display {
-    color: #007f3a;
     font-weight: 600;
+    color: #666666;
 }
 
 /* Fun Fact Box */
@@ -161,7 +200,7 @@
 @media (max-width: 780px) {
 
     .eco-bg-video {
-        top: -545px;
+        top: -515px;
     }
 
     .eco-report-container {
@@ -200,19 +239,28 @@
         font-size: 0.8rem;
     }
 
+    .eco-cell .value {
+        font-size: 1rem;
+    }
+
+    .tooltip-text {
+        width: 180px;
+        transform: translateX(-75%);
+    }
+
 }
 
 @media (max-width: 535px) {
 
     .eco-bg-video {
-        top: -530px;
+        top: -500px;
     }
 }
 
 @media (max-width: 430px) {
 
     .eco-bg-video {
-        top: -450px;
+        top: -420px;
     }
 
     .eco-report-container {
@@ -232,6 +280,11 @@
         margin-top: -0.5rem;
     }
 
+    .eco-cell {
+        padding: 1rem 0.5rem;
+        text-align: center;
+    }
+
     .eco-section h2 {
         font-size: 0.8rem;
     }
@@ -240,11 +293,12 @@
         font-size: 0.8rem;
     }
 
+    .eco-cell .title {
+        font-size: 0.8rem;
+    }
+
     .tooltip-text {
-        width: 270px;
-        bottom: 0;
-        left: 0;
-        transform: translateX(-28%);
+        width: 140px;
     }
 
     .eco-title-logo {

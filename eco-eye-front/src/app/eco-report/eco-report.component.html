@@ -62,17 +62,7 @@
                 </span>
                 <span class="value">{{ features.powerType }}</span>
             </div>
-            <!-- Range -->
-            <div class="row">
-                <span class="title">
-                    Range
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Longer range reduces the need for frequent refueling, saving
-                            resources.</span>
-                    </span>
-                </span>
-                <span class="value">{{ features.range }}</span>
-            </div>
+          
             <!-- Recyclability -->
             <div class="row">
                 <span class="title">
@@ -131,52 +121,51 @@
     </section>
 
     <!-- Live Eco Footprint -->
-    <section class="eco-section fade-in-up delay-3">
-        <h2>Live Eco Footprint</h2>
-        <div class="eco-table">
+<section class="eco-section fade-in-up delay-3">
+  <h2>Live Eco Footprint</h2>
+  <div class="eco-grid">
 
-            <!-- Fuel Saved -->
-            <div class="row">
-                <span class="title">
-                    Fuel Saved
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Liters of fuel saved based on your car's fuel efficiency and distance
-                            traveled.</span>
-                    </span>
-                </span>
-                <span class="value">
-                    <span class="user-display">{{ fuelSaved.toFixed(2) }} L</span>
-                </span>
-            </div>
+    <!-- Fuel Saved -->
+    <div class="eco-cell">
+      <span class="title">
+        Fuel Saved
+        <span class="info-icon">ℹ
+          <span class="tooltip-text">Liters of fuel saved based on your car's fuel efficiency and distance traveled.</span>
+        </span>
+      </span>
+      <span class="value">
+        <span class="user-display">{{ fuelSaved.toFixed(2) }} L</span>
+      </span>
+    </div>
 
-            <!-- Carbon Footprint -->
-            <div class="row">
-                <span class="title">
-                    Carbon Output
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Real-time carbon output based on your driving distance and your car's
-                            CO₂ emissions rate.</span>
-                    </span>
-                </span>
-                <span class="value">
-                    <span class="user-display">{{ carbonFootprint.toFixed(1) }} g</span>
-                </span>
-            </div>
-            <!-- CO₂ Saved -->
-            <div class="row">
-                <span class="title">
-                    CO₂ Saved
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">CO₂ you saved compared to the average car's emissions on the same
-                            route.</span>
-                    </span>
-                </span>
-                <span class="value">
-                    <span class="user-display">{{ co2Saved.toFixed(1) }} g</span>
-                </span>
-            </div>
-        </div>
-    </section>
+    <!-- Carbon Output -->
+    <div class="eco-cell">
+      <span class="title">
+        Carbon Output
+        <span class="info-icon">ℹ
+          <span class="tooltip-text">Real-time carbon output based on your driving distance and your car's CO₂ emissions rate.</span>
+        </span>
+      </span>
+      <span class="value">
+        <span class="user-display">{{ carbonFootprint.toFixed(1) }} g</span>
+      </span>
+    </div>
+
+    <!-- CO₂ Saved -->
+    <div class="eco-cell">
+      <span class="title">
+        CO₂ Saved
+        <span class="info-icon">ℹ
+          <span class="tooltip-text">CO₂ you saved compared to the average car's emissions on the same route.</span>
+        </span>
+      </span>
+      <span class="value">
+        <span class="user-display">{{ co2Saved.toFixed(1) }} g</span>
+      </span>
+    </div>
+
+  </div>
+</section>
 
     <!-- Energy Breakdown -->
     <section class="eco-section fade-in-up delay-4"

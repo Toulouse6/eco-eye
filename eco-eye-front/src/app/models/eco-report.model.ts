@@ -8,7 +8,6 @@ export interface EcoReportResponse {
     fuelEfficiency: string;
     emissions: string;
     powerType: string;
-    range: string;
     batteryCapacity?: string;
     energyConsumption?: string;
     chargeTime?: string;

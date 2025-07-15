@@ -11,7 +11,6 @@ interface CarFeatures {
     fuelEfficiency: string;
     emissions: string;
     powerType: string;
-    range: string;
     batteryCapacity: string;
     energyConsumption: string;
     chargeTime: string;
@@ -55,7 +54,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         fuelEfficiency: '',
         emissions: '',
         powerType: '',
-        range: '',
         batteryCapacity: '',
         energyConsumption: '',
         chargeTime: '',
@@ -252,7 +250,6 @@ Top Features:
 • Fuel Efficiency: ${this.features.fuelEfficiency}
 • Emissions: ${this.features.emissions}
 • Power Type: ${this.features.powerType}
-• Range: ${this.features.range}
 
 Eco-Friendly Tips:
 • Recommended Speed: ${this.tips.speed} km/h
