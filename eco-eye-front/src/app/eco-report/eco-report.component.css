@@ -298,7 +298,8 @@
     }
 
     .tooltip-text {
-        width: 140px;
+        width: 130px;
+        transform: translateX(-80%);
     }
 
     .eco-title-logo {
