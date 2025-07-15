@@ -11,7 +11,6 @@ export interface CarFeatures {
     powerType: string;
     batteryCapacity: string;
     energyConsumption: string;
-    chargeTime: string;
     co2: string;
     recyclability: string;
 }
@@ -52,7 +51,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         powerType: '',
         batteryCapacity: '',
         energyConsumption: '',
-        chargeTime: '',
         co2: '',
         recyclability: ''
     };

@@ -74,7 +74,6 @@ Structure the response in JSON format with these keys:
   "emissions": "e.g. Euro 6 or Tier 3 standard",
   "powerType": "Gasoline / Diesel / Hybrid / Electric",
   "batteryCapacity": "kWh value (only for hybrid/electric)",
-  "chargeTime": "e.g. Overnight (22:00–06:00)",
   "co2": "grams per km (g/km)",
   "recyclability": "percentage, e.g. 82%",
   

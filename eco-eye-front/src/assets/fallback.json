@@ -29,11 +29,10 @@
         "year": 2023
     },
     "fuelEfficiency": "5.2 L/100km",
-    "emissions": "Zero Emission",
+    "emissions": "Euro 6 Standard",
     "powerType": "Electric",
     "batteryCapacity": "98.8",
     "energyConsumption": "18.7 kWh/100km",
-    "chargeTime": "22:00–06:00 (Off-peak)",
     "co2": "92 g/km",
     "recyclability": "82%",
     "tips": {

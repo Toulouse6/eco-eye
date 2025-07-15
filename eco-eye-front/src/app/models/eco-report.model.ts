@@ -10,7 +10,6 @@ export interface EcoReportResponse {
     powerType: string;
     batteryCapacity?: string;
     energyConsumption?: string;
-    chargeTime?: string;
     co2: string;
     recyclability: string;
 
