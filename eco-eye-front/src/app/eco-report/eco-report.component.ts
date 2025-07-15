@@ -2,12 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import html2canvas from 'html2canvas';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { EcoReportService } from '../services/report.service';
+import { HttpClientModule } from '@angular/common/http';
 
-
-
-// Interfaces
-interface CarFeatures {
+export interface CarFeatures {
     fuelEfficiency: string;
     emissions: string;
     powerType: string;
@@ -19,7 +17,7 @@ interface CarFeatures {
     greenRating: string;
 }
 
-interface EcoTips {
+export interface EcoTips {
     speed: number;
     tirePressure: number;
     idling: number;
@@ -34,15 +32,14 @@ interface EcoTips {
     styleUrls: ['./eco-report.component.css']
 })
 export class EcoReportComponent implements OnInit, OnDestroy {
-
-    model: string = '';
-    overallGrade: string = '';
-    year: number = 0;
-    userSpeed: string = '0 km/h';
+    model = '';
+    year = 0;
+    overallGrade = '';
+    userSpeed = '0 km/h';
 
     watchId: number | null = null;
     lastPosition: GeolocationPosition | null = null;
-    totalDistance: number = 0;
+    totalDistance = 0;
     carbonFootprint = 0;
     co2Saved = 0;
     fuelSaved = 0;
@@ -69,66 +66,40 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         funFact: ''
     };
 
-    constructor(private router: Router, private http: HttpClient) {
+    constructor(private router: Router, private ecoService: EcoReportService) {
         const state = this.router.getCurrentNavigation()?.extras?.state;
         this.model = state?.['model'] ?? 'Unknown';
         this.year = state?.['year'] || new Date().getFullYear();
     }
 
     ngOnInit(): void {
-        this.http.get<any>('assets/fallback.json').subscribe({
+        this.ecoService.fetchAndTrackReport(this.model, this.year, this.updateStats.bind(this)).subscribe({
             next: (data) => {
-                this.features = data.features || this.features;
-                this.tips = data.tips || this.tips;
-                this.overallGrade = this.features.greenRating || '';
+                this.features = data.features;
+                this.tips = data.tips;
+                this.overallGrade = data.features.greenRating;
                 this.isLoading = false;
+
+                if (data.fallback) {
+                    console.warn('Fallback report shown.');
+                } else {
+                    console.log('Showing GPT report.');
+                }
             },
             error: (err) => {
-                console.error('Failed to load fallback.json:', err);
+                console.error('Report loading failed completely.', err);
                 this.isLoading = false;
             }
         });
-
-        if (!navigator.geolocation) {
-            this.userSpeed = 'Not supported';
-            return;
-        }
-
-        this.watchId = navigator.geolocation.watchPosition(
-            (position) => this.updateStats(position),
-            (err) => {
-                console.warn('Geolocation error:', err.message);
-                this.userSpeed = 'Error';
-            },
-            { enableHighAccuracy: true }
-        );
     }
 
-    // On Destroy
     ngOnDestroy(): void {
         if (this.watchId !== null) {
             navigator.geolocation.clearWatch(this.watchId);
         }
     }
 
-    // Distance calculation
-    getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
-        const R = 6371;
-        const dLat = this.deg2rad(lat2 - lat1);
-        const dLon = this.deg2rad(lon2 - lon1);
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
-    }
-
-    deg2rad(deg: number): number {
-        return deg * (Math.PI / 180);
-    }
-
-    private updateStats(position: GeolocationPosition): void {
+    private updateStats(position: GeolocationPosition, features: CarFeatures): void {
         const speedMps = position.coords.speed ?? 0;
         this.userSpeed = `${(speedMps * 3.6).toFixed(1)} km/h`;
 
@@ -141,9 +112,9 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             );
             this.totalDistance += dist * 1000;
 
-            const userEmission = parseFloat(this.features.co2) || 120;
+            const userEmission = parseFloat(features.co2) || 120;
+            const fuelEfficiency = parseFloat(features.fuelEfficiency.split(' ')[0]) || 15;
             const avgEmission = 180;
-            const fuelEfficiency = parseFloat(this.features.fuelEfficiency.split(' ')[0]) || 15;
 
             this.carbonFootprint = (this.totalDistance / 1000) * userEmission;
             this.co2Saved = (this.totalDistance / 1000) * (avgEmission - userEmission);
@@ -153,8 +124,22 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         this.lastPosition = position;
     }
 
+    private getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+        const R = 6371;
+        const dLat = this.deg2rad(lat2 - lat1);
+        const dLon = this.deg2rad(lon2 - lon1);
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
 
-    // Screenshot functionality
+    private deg2rad(deg: number): number {
+        return deg * (Math.PI / 180);
+    }
+
     shareReportScreenshot() {
         if (this.isSharing) return;
         this.isSharing = true;
@@ -192,8 +177,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                     background: 'linear-gradient(135deg, #2f2b4d 0%, #393466 20%, #403971 35%, #453676 50%, #342b5b 65%, #2c254e 80%, #221d3a 100%)'
                 });
 
-                const all = container.querySelectorAll('*');
-                all.forEach((el) => {
+                container.querySelectorAll('*').forEach(el => {
                     const htmlEl = el as HTMLElement;
                     if (htmlEl.style) {
                         htmlEl.style.animation = 'none';
@@ -244,7 +228,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     }
 
     private getEcoReportText(): string {
-        return `🚗 EcoEye Report for ${this.model} (${this.year}):
+        return `EcoEye Report for ${this.model} (${this.year}):
 
 Top Features:
 • Fuel Efficiency: ${this.features.fuelEfficiency}

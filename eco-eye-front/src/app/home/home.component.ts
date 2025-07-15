@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { EcoReportService } from '../services/report.service';
 
 @Component({
     selector: 'app-home',
@@ -19,24 +20,20 @@ export class HomeComponent implements OnInit {
 
     modelSearch = '';
     dropdownOpen = false;
-    models: string[] = [
-        'Tesla Model Y',
-        'Toyota Prius',
-        'Ford Mustang Mach-E',
-        'Honda Civic',
-        'Hyundai Ioniq',
-        'Chevy Bolt'
-    ];
+    filteredModels: string[] = [];
 
-    filteredModels: string[] = [...this.models];
     isLoading = false;
     errorMessage: string | null = null;
 
     private backgroundAudio = new Audio('assets/audio/nova-notes.mp3');
 
-    constructor(private router: Router) { }
+    constructor(
+        private router: Router,
+        private reportService: EcoReportService
+    ) { }
 
     ngOnInit() {
+        this.loadModels();
 
         this.backgroundAudio.currentTime = 0;
         this.backgroundAudio.loop = true;
@@ -57,57 +54,47 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    // Toggle the dropdown open/closed
+    private loadModels(): void {
+        this.reportService.getModelsFromJson().subscribe(models => {
+            this.filteredModels = models;
+        });
+    }
+
     toggleDropdown(): void {
         this.dropdownOpen = !this.dropdownOpen;
-        // Reset the search filter when opening the dropdown
         if (this.dropdownOpen) {
             this.modelSearch = '';
-            this.filteredModels = [...this.models];
+            this.loadModels();
         }
     }
 
-    // Filter models based on search input
     onModelSearchChange(): void {
         const query = this.modelSearch.toLowerCase();
-        this.filteredModels = this.models.filter(model =>
-            model.toLowerCase().includes(query)
-        );
+        this.reportService.getModelsFromJson().subscribe(models => {
+            this.filteredModels = models.filter(model =>
+                model.toLowerCase().includes(query)
+            );
+        });
     }
 
-    // Handle model selection from the dropdown
     selectModel(model: string): void {
         this.selectedModel = model;
         this.modelSearch = model;
         this.dropdownOpen = false;
         this.filteredModels = [];
 
-        this.populateYears(model);
+        this.reportService.getAvailableYearsFromJson(model).subscribe(years => {
+            this.availableYears = years;
+            this.selectedYear = null;
+        });
     }
 
     onModelSelect(event: Event): void {
         this.selectedModel = (event.target as HTMLSelectElement).value;
-        this.populateYears(this.selectedModel);
-    }
-
-    // Populate available years
-    populateYears(model: string): void {
-        const currentYear = new Date().getFullYear();
-        switch (model) {
-            case 'Tesla Model Y':
-                this.availableYears = [2025, 2024, 2023];
-                break;
-            case 'Toyota Prius':
-                this.availableYears = [2025, 2024, 2023, 2022];
-                break;
-            case 'Ford Mustang Mach-E':
-                this.availableYears = [2025, 2023];
-                break;
-            default:
-                this.availableYears = Array.from({ length: 5 }, (_, i) => currentYear - i);
-        }
-
-        this.selectedYear = null;
+        this.reportService.getAvailableYearsFromJson(this.selectedModel).subscribe(years => {
+            this.availableYears = years;
+            this.selectedYear = null;
+        });
     }
 
     toggleYearDropdown() {
@@ -124,13 +111,11 @@ export class HomeComponent implements OnInit {
     }
 
     generateReport(): void {
-
         if (!this.selectedModel || !this.selectedYear) return;
-        this.isLoading = true;
 
+        this.isLoading = true;
         setTimeout(() => {
             this.isLoading = false;
-
             this.router.navigate(['/eco-report'], {
                 state: {
                     model: this.selectedModel,
@@ -139,5 +124,4 @@ export class HomeComponent implements OnInit {
             });
         }, 1500);
     }
-
 }

@@ -1,19 +1,49 @@
 {
-  "features": {
-    "fuelEfficiency": "17.5 km/l",
-    "emissions": "Euro 6",
-    "powerType": "Hybrid",
-    "batteryCapacity": "38",
-
+    "models": [
+        "Tesla Model Y",
+        "Toyota Prius",
+        "Ford Mustang Mach-E",
+        "Honda Civic",
+        "Hyundai Ioniq",
+        "Chevy Bolt"
+    ],
+    "modelYearMap": {
+        "Tesla Model Y": [
+            2025,
+            2024,
+            2023
+        ],
+        "Toyota Prius": [
+            2025,
+            2024,
+            2023,
+            2022
+        ],
+        "Ford Mustang Mach-E": [
+            2025,
+            2023
+        ]
+    },
+    "vehicleOverview": {
+        "model": "Ford Mustang Mach-E",
+        "year": 2023,
+        "description": "A stylish electric crossover that combines performance with sustainability."
+    },
+    "fuelEfficiency": "0.0 L/100km",
+    "emissions": "Zero Emission",
+    "powerType": "Electric",
+    "batteryCapacity": "98.8",
+    "energyConsumption": "18.7",
     "chargeTime": "22:00–06:00 (Off-peak)",
-    "co2": "92",
-    "recyclability": "84%",
-    "greenRating": "A+"
-  },
-  "tips": {
-    "speed": 85,
-    "tirePressure": 33,
-    "idling": 2,
-    "funFact": "Smooth acceleration saves up to 20% more fuel than aggressive driving."
-  }
+    "co2": "0",
+    "recyclability": "90%",
+    "greenRating": "A+",
+    "overallGrade": "A+",
+    "tips": {
+        "speed": 85,
+        "tirePressure": 33,
+        "idling": 2,
+        "funFact": "Smooth acceleration saves up to 20% more fuel than aggressive driving."
+    },
+    "fallback": true
 }

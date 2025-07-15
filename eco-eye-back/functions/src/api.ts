@@ -7,10 +7,12 @@ import rateLimit from "express-rate-limit";
 // Express setup
 const app = express();
 
-app.use(cors({
-    origin: ["https://eco-eye.web.app", "http://localhost:4200"],
-    credentials: true,
-}));
+app.use(
+    cors({
+        origin: ["https://eco-eye.web.app", "http://localhost:4200"],
+        credentials: true,
+    })
+);
 
 app.use(express.json({ limit: "6mb" }));
 
@@ -29,7 +31,6 @@ const limiter = rateLimit({
 app.get("/", (_: Request, res: Response) => {
     res.send("Eco Eye API is alive!");
 });
-
 
 // Main endpoint
 app.post("/generateReport", limiter, async (req: Request, res: Response) => {
@@ -138,7 +139,10 @@ Only output pure JSON.`;
 });
 
 // Export Firebase Function
-export const generateReport = onRequest({
-    region: "us-central1",
-    secrets: ["OPENAI_API_KEY"],
-}, app);
+export const generateReport = onRequest(
+    {
+        region: "us-central1",
+        secrets: ["OPENAI_API_KEY"],
+    },
+    app
+);
