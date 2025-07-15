@@ -46,6 +46,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     totalDistance: number = 0;
     carbonFootprint = 0;
     co2Saved = 0;
+    fuelSaved = 0;
 
     isLoading = true;
     isSharing = false;
@@ -144,9 +145,11 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
             const userEmission = parseFloat(this.features.co2) || 120;
             const avgEmission = 180;
+            const fuelEfficiency = parseFloat(this.features.fuelEfficiency.split(' ')[0]) || 15;
 
             this.carbonFootprint = (this.totalDistance / 1000) * userEmission;
             this.co2Saved = (this.totalDistance / 1000) * (avgEmission - userEmission);
+            this.fuelSaved = (this.totalDistance / 1000) / fuelEfficiency;
         }
 
         this.lastPosition = position;

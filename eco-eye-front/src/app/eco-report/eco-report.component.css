@@ -15,7 +15,7 @@
 /* Video */
 .eco-bg-video {
     position: absolute;
-    top: -530px;
+    top: -570px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -137,7 +137,6 @@
 .user-display {
     color: #007f3a;
     font-weight: 600;
-    font-size: 1.2rem;
 }
 
 /* Fun Fact Box */
@@ -162,7 +161,7 @@
 @media (max-width: 780px) {
 
     .eco-bg-video {
-        top: -500px;
+        top: -545px;
     }
 
     .eco-report-container {
@@ -180,10 +179,6 @@
 }
 
 @media (max-width: 610px) {
-
-    .eco-bg-video {
-        top: -510px;
-    }
 
     .eco-report-container {
         width: 100%;
@@ -205,23 +200,23 @@
         font-size: 0.8rem;
     }
 
-    .user-speed-display {
-        font-size: 1rem;
-    }
-
 }
 
 @media (max-width: 535px) {
 
     .eco-bg-video {
-        top: -485px;
+        top: -530px;
     }
 }
 
 @media (max-width: 430px) {
 
-       .eco-bg-video {
-        top: -418px;
+    .eco-bg-video {
+        top: -450px;
+    }
+
+    .eco-report-container {
+        padding-bottom: 2rem;
     }
 
     .eco-title {
@@ -243,10 +238,6 @@
 
     .eco-table span {
         font-size: 0.8rem;
-    }
-
-    .user-speed-display {
-        font-size: 1rem !important;
     }
 
     .tooltip-text {
