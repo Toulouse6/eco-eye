@@ -30,7 +30,7 @@
                 </span>
                 <span class="value">
                     {{ tips.speed }} km/h
-                    <span class="user-speed-display"> | {{ userSpeed }}</span>
+                    <span class="user-display"> | {{ userSpeed }} km/h</span>
                 </span>
 
             </div>
@@ -99,6 +99,17 @@
                 </span>
                 <span class="value">{{ features.range }}</span>
             </div>
+
+            <div class="row">
+                <span class="title">
+                    Recyclability
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Percentage of materials that can be recycled at end-of-life.</span>
+                    </span>
+                </span>
+                <span class="value">{{ features.recyclability }}</span>
+            </div>
+
         </div>
     </section>
 
@@ -147,23 +158,25 @@
             <div class="row">
                 <span class="title">
                     CO₂ Emissions
-                    <span class="info-icon">ℹ
+                    <span class="info-icon" aria-label="Info" title="Info">ℹ
                         <span class="tooltip-text">Represents the average carbon dioxide emitted per kilometer.</span>
                     </span>
                 </span>
                 <span class="value">{{ features.co2 }} g/km</span>
             </div>
+
             <div class="row">
-                <span class="title">
-                    Recyclability
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Percentage of materials that can be recycled at end-of-life.</span>
-                    </span>
-                </span>
-                <span class="value">{{ features.recyclability }}</span>
+                <span class="title">Live Carbon Footprint</span>
+                <span class="value">{{ carbonFootprint.toFixed(1) }} g</span>
+            </div>
+
+            <div class="row">
+                <span class="title">CO₂ Saved This Trip</span>
+                <span class="value">{{ co2Saved.toFixed(1) }} g</span>
             </div>
         </div>
     </section>
+
 
     <!-- Eco-Friendly Insight -->
     <section class="eco-section fade-in-up delay-5">

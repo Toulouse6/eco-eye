@@ -4,10 +4,10 @@
     "emissions": "Euro 6",
     "powerType": "Hybrid",
     "range": "610 km",
-    "batteryCapacity": "38 kWh",
-    "energyConsumption": "15.2 kWh/100km",
+    "batteryCapacity": "38",
+    "energyConsumption": "15.2/100",
     "chargeTime": "22:00–06:00 (Off-peak)",
-    "co2": "92 g/km",
+    "co2": "92",
     "recyclability": "84%",
     "greenRating": "A+"
   },
