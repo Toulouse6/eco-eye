@@ -134,6 +134,33 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return R * c;
     }
 
+    public calculateLiveGreenGrade(): string {
+        const score = this.getDrivingScore();
+        if (score >= 90) return 'A+';
+        if (score >= 80) return 'A';
+        if (score >= 70) return 'B';
+        if (score >= 60) return 'C';
+        return 'D';
+    }
+
+    private getDrivingScore(): number {
+        let score = 100;
+
+        const currentSpeed = parseFloat(this.userSpeed); 
+        const recommended = this.tips.speed;
+        const co2Output = this.carbonFootprint;
+        const co2Saved = this.co2Saved;
+
+        if (Math.abs(currentSpeed - recommended) > 15) score -= 20;
+        else if (Math.abs(currentSpeed - recommended) > 5) score -= 10;
+
+        if (co2Saved > 1000) score += 10;
+
+        if (co2Output > 3000) score -= 15;
+
+        return Math.max(0, Math.min(score, 100));
+    }
+
     private deg2rad(deg: number): number {
         return deg * (Math.PI / 180);
     }
