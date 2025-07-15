@@ -15,7 +15,7 @@
 /* Video */
 .eco-bg-video {
     position: absolute;
-    top: -530px;
+    top: -550px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -200,7 +200,7 @@
 @media (max-width: 780px) {
 
     .eco-bg-video {
-        top: -505px;
+        top: -520px;
     }
 
     .eco-report-container {
@@ -226,7 +226,7 @@
     }
 
     .eco-bg-video {
-        top: -515px;
+        top: -530px;
     }
 
     .eco-title-logo {
@@ -257,7 +257,7 @@
 @media (max-width: 560px) {
 
     .eco-bg-video {
-        top: -505px;
+        top: -520px;
     }
 
 }
@@ -266,7 +266,7 @@
 @media (max-width: 530px) {
 
     .eco-bg-video {
-        top: -490px;
+        top: -510px;
     }
 
 }
@@ -274,7 +274,7 @@
 @media (max-width: 430px) {
 
     .eco-bg-video {
-        top: -405px;
+        top: -415px;
     }
 
     .eco-report-container {
