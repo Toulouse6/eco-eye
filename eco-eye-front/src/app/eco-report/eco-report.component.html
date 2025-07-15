@@ -12,7 +12,7 @@
         </a>
         <!-- Title -->
         <h1 class="eco-title">{{ model }} {{ year }}</h1>
-  <p class="eco-grade">Green Level: {{ calculateLiveGreenGrade() }}</p>
+        <p class="eco-grade">Green Level: {{ calculateLiveGreenGrade() }}</p>
     </div>
 
     <!-- Smart Driving-->
@@ -77,20 +77,6 @@
                 </span>
             </div>
 
-            <!-- Carbon Output -->
-            <div class="eco-cell">
-                <span class="title">
-                    Carbon Output
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Real-time carbon output based on your driving distance and your car's
-                            CO₂ emissions rate.</span>
-                    </span>
-                </span>
-                <span class="value">
-                    <span class="user-display">{{ carbonFootprint.toFixed(1) }} g</span>
-                </span>
-            </div>
-
             <!-- CO₂ Saved -->
             <div class="eco-cell">
                 <span class="title">
@@ -102,6 +88,20 @@
                 </span>
                 <span class="value">
                     <span class="user-display">{{ co2Saved.toFixed(1) }} g</span>
+                </span>
+            </div>
+
+            <!-- Carbon Output -->
+            <div class="eco-cell">
+                <span class="title">
+                    Carbon Output
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Real-time carbon output based on your driving distance and your car's
+                            CO₂ emissions rate.</span>
+                    </span>
+                </span>
+                <span class="value">
+                    <span class="user-display">{{ carbonFootprint.toFixed(1) }} g</span>
                 </span>
             </div>
 
