@@ -31,7 +31,7 @@ header {
     height: 100%;
     object-fit: cover;
     z-index: -1;
-    opacity: 0.18;
+    opacity: 0.15;
     pointer-events: none;
 }
 
@@ -58,7 +58,7 @@ header {
 }
 
 .eco-grade {
-    color: #313131;
+    color: #367a40;
     font-weight: 500;
     font-size: 1.5rem;
     text-align: center;
@@ -85,7 +85,7 @@ header {
 }
 
 .eco-table:hover {
-    background: #f0fbf4;
+    background: #f5fff9;
     border-color: #a8d9be;
 }
 
@@ -97,7 +97,7 @@ header {
 .eco-table .title {
     white-space: nowrap;
     font-weight: 600;
-    color: #006d31;
+    color: #005a2b;
     display: flex;
     align-items: center;
     gap: 0.3rem;
@@ -128,7 +128,7 @@ header {
 }
 
 .eco-cell:hover {
-    background: #f0fbf4;
+    background: #f5fff9;
     border-color: #a8d9be;
 }
 
@@ -205,10 +205,10 @@ header {
 
 /* Fun Fact Box */
 .eco-section p {
-    background: #f0fbf4;
+    background: #f5fff9;
     padding: 1rem 1.2rem;
     border-radius: 12px;
-    color: #006d31;
+    color: #005a2b;
     border: 2px solid #a8d9be;
     font-weight: 500;
     text-align: center;

@@ -122,7 +122,7 @@ body {
 
 /* Errors */
 .error-message {
-    color: #005a2b;
+    color: #367a40;
     opacity: 0;
     animation: fadeInWarning 0.3s ease-in-out forwards;
 }
