@@ -137,7 +137,7 @@ input[type="file"].input-box {
     opacity: 80%;
     width: 12rem;
     position: fixed;
-    margin-top: 8rem;
+    margin-top: 7rem;
 }
 
 
@@ -147,7 +147,7 @@ input[type="file"].input-box {
 
 
     .loading-spinner img {
-        margin-top: 7rem;
+        margin-top: 6rem;
         width: 10rem;
     }
 }
@@ -182,7 +182,7 @@ input[type="file"].input-box {
     }
 
     .loading-spinner img {
-        margin-top: 8rem;
+        margin-top: 7rem;
         width: 9rem;
     }
 
