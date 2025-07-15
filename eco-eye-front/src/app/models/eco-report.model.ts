@@ -18,6 +18,7 @@ export interface EcoReportResponse {
         speed: number;
         tirePressure: number;
         idling: number;
+        passengers: number;
         funFact: string;
     };
 

@@ -68,22 +68,22 @@ Year: ${year}
 Structure the response in JSON format with these keys:
 
 {
-  "overallGrade": "A+ to D",
+  "overallGrade": "A+ to D (live eco score)",
   "fuelEfficiency": "e.g. 18 km/l or 5.2 L/100km",
   "energyConsumption": "e.g. 14.5 kWh/100km",
-  "emissions": "e.g. Euro 6 or Tier 3",
+  "emissions": "e.g. Euro 6 or Tier 3 standard",
   "powerType": "Gasoline / Diesel / Hybrid / Electric",
-  "batteryCapacity": "if hybrid/electric, kWh value",
+  "batteryCapacity": "kWh value (only for hybrid/electric)",
   "chargeTime": "e.g. Overnight (22:00–06:00)",
-  "co2": "grams/km",
-  "recyclability": "percentage",
-  "greenRating": "A+ to D",
-
+  "co2": "grams per km (g/km)",
+  "recyclability": "percentage, e.g. 82%",
+  
   "tips": {
-    "speed": "recommended cruising speed",
-    "tirePressure": "in PSI",
-    "idling": "max idle time in minutes",
-    "funFact": "short interesting eco tip"
+    "speed": "recommended cruising speed in km/h",
+    "tirePressure": "recommended pressure in PSI",
+    "idling": "maximum idle time in minutes",
+    "funFact": "short and fun eco driving tip",
+    "passengers": "recommended passenger range, e.g. 2–3"
   }
 }
 

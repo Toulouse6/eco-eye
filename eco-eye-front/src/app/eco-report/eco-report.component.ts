@@ -20,6 +20,7 @@ export interface EcoTips {
     speed: number;
     tirePressure: number;
     idling: number;
+    passengers: number;
     funFact: string;
 }
 
@@ -55,11 +56,11 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         co2: '',
         recyclability: ''
     };
-
     tips: EcoTips = {
         speed: 0,
         tirePressure: 0,
         idling: 0,
+        passengers: 0,
         funFact: ''
     };
 
@@ -144,7 +145,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     private getDrivingScore(): number {
         let score = 100;
 
-        const currentSpeed = parseFloat(this.userSpeed); 
+        const currentSpeed = parseFloat(this.userSpeed);
         const recommended = this.tips.speed;
         const co2Output = this.carbonFootprint;
         const co2Saved = this.co2Saved;
@@ -262,6 +263,7 @@ Eco-Friendly Tips:
 • Recommended Speed: ${this.tips.speed} km/h
 • Tire Pressure: ${this.tips.tirePressure} PSI
 • Avoid Idling Over: ${this.tips.idling} minutes
+• Optimal Passengers: ${this.tips.passengers}
 
 Fun Fact:
 ${this.tips.funFact}

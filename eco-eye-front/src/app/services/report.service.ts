@@ -94,7 +94,13 @@ export class EcoReportService {
                             co2: report.co2 ?? '',
                             recyclability: report.recyclability ?? ''
                         },
-                        tips: report.tips,
+                        tips: {
+                            speed: report.tips?.speed ?? 0,
+                            tirePressure: report.tips?.tirePressure ?? 0,
+                            idling: report.tips?.idling ?? 0,
+                            funFact: report.tips?.funFact ?? '',
+                            passengers: report.tips?.passengers ?? 1
+                        },
                         fallback: report.fallback ?? false
                     });
 
