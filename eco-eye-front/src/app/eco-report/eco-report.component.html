@@ -13,11 +13,22 @@
             </a>
             <!-- Title -->
             <h1 class="eco-title">{{ model }} {{ year }}</h1>
-            <p class="eco-grade">Green Level: {{ calculateLiveGreenGrade() }}</p>
         </div>
+
+
     </header>
 
     <!-- Smart Driving-->
+      <div class="grade-bar-container">
+            <div class="grade-bar">
+                <div *ngFor="let segment of gradeSegments" class="grade-segment"
+                    [ngStyle]="{ background: segment.color }"
+                    [class.active]="segment.label === calculateLiveGreenGrade()">
+                    {{ segment.label }}
+                </div>
+            </div>
+        </div>
+        
     <section class="eco-section fade-in-up delay-1">
         <h2>Smart Driving</h2>
         <div class="eco-table">

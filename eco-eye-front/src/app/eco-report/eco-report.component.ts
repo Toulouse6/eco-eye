@@ -197,6 +197,14 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                     score >= 60 ? 'C' : 'D';
     }
 
+    gradeSegments = [
+        { label: 'D', color: '#1b3d2f' },
+        { label: 'C', color: '#2f5f3f' },
+        { label: 'B', color: '#4f8f5f' },
+        { label: 'A', color: '#6fcf7f' },
+        { label: 'A+', color: '#7bd575ff' }
+    ];
+
     private getDrivingScore(): number {
         let score = 100;
 
