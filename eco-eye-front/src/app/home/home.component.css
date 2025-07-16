@@ -119,7 +119,7 @@ input[type="file"].input-box {
 }
 
 .dropdown-list {
-    overflow: auto;
+    overflow: scroll !important;
     max-height: 18rem;
     list-style: none;
     padding: 0;
