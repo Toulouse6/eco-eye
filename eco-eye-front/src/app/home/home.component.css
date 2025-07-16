@@ -124,30 +124,32 @@ input[type="file"].input-box {
     margin: 0;
 }
 
-/* Loading spinner */
+/* Spinner Container */
 .loading-spinner {
     display: flex;
     justify-content: center;
     align-items: center;
     height: auto;
+    width: 100%;
+    position: relative;
+    z-index: 10;
 }
 
+/* Spinner Image */
 .loading-spinner img {
-    animation: spin 8s linear infinite;
-    opacity: 80%;
+    animation: spin 1.5s linear infinite;
+    opacity: 0.8;
     width: 12rem;
     position: fixed;
-    margin-top: 7rem;
+    top: 7rem;
 }
-
 
 /* Responsive */
 
 @media (max-width: 600px) {
 
-
     .loading-spinner img {
-        margin-top: 6rem;
+        top: 6rem;
         width: 10rem;
     }
 }
@@ -182,7 +184,7 @@ input[type="file"].input-box {
     }
 
     .loading-spinner img {
-        margin-top: 7rem;
+        top: 7rem;
         width: 9rem;
     }
 

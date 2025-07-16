@@ -11,8 +11,8 @@
             <p class="intro fade-in-up delay-1">Ride the Green Side.</p>
 
             <!-- Loading Spinner -->
-            <div class="loading-overlay" *ngIf="isLoading">
-                <img src="assets/images/eco-loading.png" alt="Loading..." class="spinner-img" />
+            <div *ngIf="isLoading" class="loading-spinner">
+                <img src="assets/images/eco-loading.png" alt="Loading..." />
             </div>
 
             <!-- Error Message -->
