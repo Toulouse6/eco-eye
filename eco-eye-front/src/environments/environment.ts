@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: "https://us-central1-eco-eye.cloudfunctions.net/generateReport"
+  apiUrl: "https://generatereport-ikkn2wyyqa-uc.a.run.app/generate"
 };

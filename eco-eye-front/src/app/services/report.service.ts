@@ -10,7 +10,7 @@ import { CarFeatures, EcoTips } from '../eco-report/eco-report.component';
 
 export class EcoReportService {
 
-    private apiUrl = environment.apiUrl;
+    public apiUrl = environment.apiUrl;
 
     constructor(private http: HttpClient) { }
 
@@ -28,13 +28,10 @@ export class EcoReportService {
     }
 
     checkApiStatus(): Observable<boolean> {
-        return this.http.get(environment.apiUrl, { responseType: 'text' })
+        return this.http.get(environment.apiUrl.replace("/generate", "/status"), { responseType: 'json' })
             .pipe(
                 map(() => true),
-                catchError(err => {
-                    console.warn("🔌 API unreachable:", err.message);
-                    return of(false);
-                })
+                catchError(() => of(false))
             );
     }
 
