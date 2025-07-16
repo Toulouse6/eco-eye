@@ -137,11 +137,11 @@ input[type="file"].input-box {
 
 /* Spinner Image */
 .loading-spinner img {
-    animation: spin 1.5s linear infinite;
+    animation: spin 8s linear infinite;
     opacity: 0.8;
     width: 12rem;
     position: fixed;
-    top: 7rem;
+    top: 13rem;
 }
 
 /* Responsive */
@@ -149,7 +149,6 @@ input[type="file"].input-box {
 @media (max-width: 600px) {
 
     .loading-spinner img {
-        top: 6rem;
         width: 10rem;
     }
 }
@@ -184,8 +183,8 @@ input[type="file"].input-box {
     }
 
     .loading-spinner img {
-        top: 7rem;
-        width: 9rem;
+        top: 10rem;
+        width: 8rem;
     }
 
 }
