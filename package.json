@@ -3,6 +3,7 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "express-rate-limit": "^7.5.0",
-    "html2canvas": "^1.4.1"
+    "html2canvas": "^1.4.1",
+    "sonner": "^2.0.6"
   }
 }

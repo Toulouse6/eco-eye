@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import html2canvas from 'html2canvas';
 import { EcoReportService } from '../services/report.service';
 import { HttpClientModule } from '@angular/common/http';
+import { toast } from 'sonner'
 
 export interface CarFeatures {
     fuelEfficiency: string;
@@ -43,6 +44,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     fuelSaved = 0;
 
     isLoading = true;
+    isStatsReady = false;
     isSharing = false;
 
     features: CarFeatures = {
@@ -69,24 +71,30 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        toast.loading('Generating your eco report...');
         this.ecoService.fetchAndTrackReport(this.model, this.year, this.updateStats.bind(this)).subscribe({
             next: (data) => {
                 this.features = data.features;
                 this.tips = data.tips;
-                this.isLoading = false;
 
                 if (data.fallback) {
-                    console.warn('Fallback report shown.');
+                    toast.warning('Using fallback data.');
                 } else {
-                    console.log('Showing GPT report.');
+                    toast.success('Eco report ready!');
                 }
+                setTimeout(() => {
+                    this.isStatsReady = true;
+                    this.isLoading = false;
+                }, 1000);
             },
             error: (err) => {
                 console.error('Report loading failed completely.', err);
                 this.isLoading = false;
+                toast.error('Failed to load report.');
             }
         });
     }
+
 
     ngOnDestroy(): void {
         if (this.watchId !== null) {
@@ -165,11 +173,12 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     shareReportScreenshot() {
         if (this.isSharing) return;
         this.isSharing = true;
+        toast.loading('Preparing screenshot...'); // ✅ Screenshot loading toast
 
         const element = document.getElementById('eco-report-container');
         if (!element) {
             this.isSharing = false;
-            alert('Report area not found.');
+            toast.error('Report area not found.');
             return;
         }
 
@@ -186,7 +195,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             onclone: (clonedDoc) => {
                 const container = clonedDoc.getElementById('eco-report-container');
                 if (!container) return;
-
                 container.classList.add('screenshot-mode');
                 Object.assign(container.style, {
                     width: '1080px',
@@ -216,6 +224,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             canvas.toBlob(blob => {
                 if (!blob) {
                     this.isSharing = false;
+                    toast.error('Failed to generate screenshot.');
                     return;
                 }
 
@@ -226,27 +235,32 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                         title: 'My EcoEye Report',
                         files: [file],
                         text: 'Check out my EcoEye report!'
-                    }).finally(() => this.isSharing = false);
+                    }).finally(() => {
+                        this.isSharing = false;
+                        toast.success('Report shared!');
+                    });
                 } else {
                     const link = document.createElement('a');
                     link.href = URL.createObjectURL(blob);
                     link.download = 'eco-eye-report.png';
                     link.click();
                     this.isSharing = false;
+                    toast.success('Screenshot downloaded!');
                 }
             }, 'image/png', 0.95);
         }).catch(err => {
             element.classList.remove('screenshot-mode');
             console.error('Screenshot error:', err);
             this.isSharing = false;
+            toast.error('Screenshot failed.');
         });
     }
 
     copyToClipboard() {
         const text = this.getEcoReportText();
         navigator.clipboard.writeText(text)
-            .then(() => console.info('Report copied.'))
-            .catch(err => console.error('Copy failed:', err));
+            .then(() => toast.success('Report copied to clipboard!'))
+            .catch(err => toast.error('Copy failed.'));
     }
 
     private getEcoReportText(): string {
