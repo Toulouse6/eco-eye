@@ -111,17 +111,31 @@ export class HomeComponent implements OnInit {
     }
 
     generateReport(): void {
-        if (!this.selectedModel || !this.selectedYear) return;
+        if (!this.selectedModel || !this.selectedYear) {
+            this.errorMessage = 'Please select both model and year';
+            return;
+        }
 
         this.isLoading = true;
-        setTimeout(() => {
-            this.isLoading = false;
-            this.router.navigate(['/eco-report'], {
-                state: {
-                    model: this.selectedModel,
-                    year: this.selectedYear
-                }
-            });
-        }, 1500);
+        this.errorMessage = null;
+
+        this.reportService.getEcoReport(this.selectedModel, this.selectedYear).subscribe({
+            next: (report) => {
+                this.isLoading = false;
+                this.router.navigate(['/eco-report'], {
+                    state: {
+                        model: this.selectedModel,
+                        year: this.selectedYear,
+                        report: report
+                    }
+                });
+            },
+            error: (error) => {
+                this.isLoading = false;
+                this.errorMessage = 'Failed to generate report. Please try again.';
+                console.error('Report generation error:', error);
+            }
+        });
     }
+
 }

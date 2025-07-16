@@ -28,13 +28,14 @@ export class EcoReportService {
     }
 
     checkApiStatus(): Observable<boolean> {
-        return this.http.get(this.apiUrl + '/', { responseType: 'text' }).pipe(
-            map(() => true),
-            catchError(err => {
-                console.warn("🔌 API unreachable:", err.message);
-                return of(false);
-            })
-        );
+        return this.http.get(environment.apiUrl, { responseType: 'text' })
+            .pipe(
+                map(() => true),
+                catchError(err => {
+                    console.warn("🔌 API unreachable:", err.message);
+                    return of(false);
+                })
+            );
     }
 
     private loadFallback(): Observable<EcoReportResponse> {
@@ -130,7 +131,7 @@ export class EcoReportService {
                 }
 
                 this.http.post<{ report: EcoReportResponse | string; cost?: string }>(
-                    `${this.apiUrl}/generateReport`,
+                    this.apiUrl,
                     payload,
                     { headers }
                 ).pipe(

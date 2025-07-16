@@ -42,20 +42,12 @@ app.post("/generateReport", limiter, async (req: Request, res: Response) => {
 
     try {
         const {
-            base64,
-            mimeType = "image/jpeg",
             model,
             year,
         }: {
-            base64: string;
-            mimeType?: string;
             model: string;
             year: number;
         } = req.body;
-
-        if (!base64 || typeof base64 !== "string") {
-            return res.status(400).json({ error: "Missing or invalid 'base64'" });
-        }
 
         if (!model || !year) {
             return res.status(400).json({ error: "Missing model or year." });
@@ -94,15 +86,7 @@ Only output pure JSON.`;
                 { role: "system", content: prompt },
                 {
                     role: "user",
-                    content: [
-                        { type: "text", text: "Please create eco report" },
-                        {
-                            type: "image_url",
-                            image_url: {
-                                url: `data:${mimeType};base64,${base64}`,
-                            },
-                        },
-                    ],
+                    content: `Please create an eco report for ${model} ${year}`
                 },
             ],
             max_tokens: 1000,
