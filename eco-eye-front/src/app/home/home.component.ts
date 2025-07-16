@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { toast } from 'sonner';
 import { EcoReportService } from '../services/report.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
     isLoading = false;
     errorMessage: string | null = null;
 
+    private allModels: string[] = [];
     private backgroundAudio = new Audio('assets/audio/nova-notes.mp3');
 
     constructor(
@@ -35,14 +37,11 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         this.loadModels();
 
-        this.backgroundAudio.currentTime = 0;
         this.backgroundAudio.loop = true;
         this.backgroundAudio.volume = 0.3;
 
         this.backgroundAudio.play().catch(() => {
-            document.body.addEventListener('click', () => {
-                this.playBackgroundAudio();
-            }, { once: true });
+            window.addEventListener('click', this.playBackgroundAudio.bind(this), { once: true });
         });
     }
 
@@ -55,13 +54,29 @@ export class HomeComponent implements OnInit {
     }
 
     private loadModels(): void {
-        this.reportService.getModelsFromJson().subscribe(models => {
-            this.filteredModels = models;
+        if (this.allModels.length > 0) {
+            this.filteredModels = this.allModels;
+            return;
+        }
+
+        this.reportService.getModelsFromJson().subscribe({
+            next: models => {
+                if (!models.length) {
+                    toast.warning('No models available.');
+                }
+                this.allModels = models;
+                this.filteredModels = models;
+            },
+            error: () => {
+                toast.error('Failed to load car models.');
+            }
         });
+
     }
 
     toggleDropdown(): void {
         this.dropdownOpen = !this.dropdownOpen;
+        this.errorMessage = null;
         if (this.dropdownOpen) {
             this.modelSearch = '';
             this.loadModels();
@@ -70,11 +85,9 @@ export class HomeComponent implements OnInit {
 
     onModelSearchChange(): void {
         const query = this.modelSearch.toLowerCase();
-        this.reportService.getModelsFromJson().subscribe(models => {
-            this.filteredModels = models.filter(model =>
-                model.toLowerCase().includes(query)
-            );
-        });
+        this.filteredModels = this.allModels.filter(model =>
+            model.toLowerCase().includes(query)
+        );
     }
 
     selectModel(model: string): void {
@@ -83,18 +96,17 @@ export class HomeComponent implements OnInit {
         this.dropdownOpen = false;
         this.filteredModels = [];
 
-        this.reportService.getAvailableYearsFromJson(model).subscribe(years => {
-            this.availableYears = years;
-            this.selectedYear = null;
+        this.reportService.getAvailableYearsFromJson(model).subscribe({
+            next: years => {
+                this.availableYears = years;
+                this.selectedYear = null;
+            },
+            error: () => {
+                this.availableYears = [];
+                toast.error('Failed to load available years.');
+            }
         });
-    }
 
-    onModelSelect(event: Event): void {
-        this.selectedModel = (event.target as HTMLSelectElement).value;
-        this.reportService.getAvailableYearsFromJson(this.selectedModel).subscribe(years => {
-            this.availableYears = years;
-            this.selectedYear = null;
-        });
     }
 
     toggleYearDropdown() {
@@ -106,11 +118,9 @@ export class HomeComponent implements OnInit {
         this.yearDropdownOpen = false;
     }
 
-    onYearChange(event: Event): void {
-        this.selectedYear = +(event.target as HTMLSelectElement).value;
-    }
-
     generateReport(): void {
+        if (this.isLoading) return;
+
         if (!this.selectedModel || !this.selectedYear) {
             this.errorMessage = 'Please select both model and year';
             return;
@@ -118,24 +128,22 @@ export class HomeComponent implements OnInit {
 
         this.isLoading = true;
         this.errorMessage = null;
+        toast.loading('Generating your report...');
 
-        this.reportService.getEcoReport(this.selectedModel, this.selectedYear).subscribe({
-            next: (report) => {
-                this.isLoading = false;
-                this.router.navigate(['/eco-report'], {
-                    state: {
-                        model: this.selectedModel,
-                        year: this.selectedYear,
-                        report: report
-                    }
-                });
-            },
-            error: (error) => {
-                this.isLoading = false;
-                this.errorMessage = 'Failed to generate report. Please try again.';
-                console.error('Report generation error:', error);
+        this.router.navigate(['/eco-report'], {
+            state: {
+                model: this.selectedModel,
+                year: this.selectedYear
             }
+        }).then(() => {
+            this.isLoading = false;
+            toast.success('Report ready!');
+        }).catch(() => {
+            this.isLoading = false;
+            this.errorMessage = 'Navigation failed.';
+            toast.error('Failed to load report.');
         });
     }
+
 
 }

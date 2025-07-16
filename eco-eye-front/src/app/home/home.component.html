@@ -69,7 +69,7 @@
                     <!-- Submit Button -->
                     <div *ngIf="selectedModel && selectedYear" class="fade-in-up delay-1">
                         <button class="custom-upload-btn" (click)="generateReport()" [disabled]="isLoading">
-                            Show me
+                            {{ isLoading ? 'Loading...' : 'Show me' }}
                         </button>
                     </div>
 

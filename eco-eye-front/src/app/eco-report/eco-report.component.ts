@@ -43,6 +43,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     co2Saved = 0;
     fuelSaved = 0;
 
+    private geoErrorShown = false;
     isLoading = true;
     isStatsReady = false;
     isSharing = false;
@@ -72,20 +73,29 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         toast.loading('Generating your eco report...');
+        const requestStart = Date.now();
+
         this.ecoService.fetchAndTrackReport(this.model, this.year, this.updateStats.bind(this)).subscribe({
             next: (data) => {
                 this.features = data.features;
                 this.tips = data.tips;
 
+                const elapsed = Date.now() - requestStart;
+                const minDuration = data.fallback ? 5000 : 1000;
+                const delay = Math.max(0, minDuration - elapsed);
+
                 if (data.fallback) {
-                    toast.warning('Using fallback data.');
+                    toast.warning('Using fallback data.', { id: 'loading' });
+                    this.isLoading = true;
                 } else {
-                    toast.success('Eco report ready!');
+                    toast.success('Eco report ready!', { id: 'loading' });
                 }
+
                 setTimeout(() => {
                     this.isStatsReady = true;
                     this.isLoading = false;
-                }, 1000);
+                }, delay);
+
             },
             error: (err) => {
                 console.error('Report loading failed completely.', err);
@@ -93,8 +103,18 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                 toast.error('Failed to load report.');
             }
         });
-    }
 
+        this.watchId = navigator.geolocation.watchPosition(
+            pos => this.updateStats(pos, this.features),
+            err => {
+                if (!this.geoErrorShown) {
+                    toast.warning('Location access denied or unavailable.');
+                    this.geoErrorShown = true;
+                }
+            },
+            { enableHighAccuracy: true, maximumAge: 5000 }
+        );
+    }
 
     ngOnDestroy(): void {
         if (this.watchId !== null) {
@@ -112,15 +132,15 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     get estimatedRange(): string {
         if (!this.isElectric && !this.isHybrid) return '';
-        const cap = parseFloat(this.features.batteryCapacity);
-        const cons = parseFloat(this.features.energyConsumption);
+        const cap = parseFloat(this.features.batteryCapacity || '');
+        const cons = parseFloat(this.features.energyConsumption || '');
         if (!cap || !cons) return '';
         return `${Math.round((cap / cons) * 100)} km`;
     }
 
     get chargingTime(): string {
         if (!this.isElectric && !this.isHybrid) return '';
-        const cap = parseFloat(this.features.batteryCapacity);
+        const cap = parseFloat(this.features.batteryCapacity || '') || 0;
         const chargePower = 11;
         if (!cap) return '';
         return `${Math.round(cap / chargePower)} hours`;
@@ -146,6 +166,12 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             this.carbonFootprint = (this.totalDistance / 1000) * userEmission;
             this.co2Saved = (this.totalDistance / 1000) * (avgEmission - userEmission);
             this.fuelSaved = (this.totalDistance / 1000) / fuelEfficiency;
+
+            if (this.isElectric) {
+                this.fuelSaved = 0;
+            } else {
+                this.fuelSaved = (this.totalDistance / 1000) / fuelEfficiency;
+            }
         }
 
         this.lastPosition = position;
@@ -174,7 +200,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     private getDrivingScore(): number {
         let score = 100;
 
-        const currentSpeed = parseFloat(this.userSpeed);
+        const currentSpeed = parseFloat(this.userSpeed) || 0;
         const recommended = parseFloat(this.tips.speed) || 0;
 
         const co2Output = this.carbonFootprint;
@@ -198,7 +224,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     shareReportScreenshot() {
         if (this.isSharing) return;
         this.isSharing = true;
-        toast.loading('Preparing screenshot...');
+        toast.loading('Capturing screenshot...', { id: 'loading' });
 
         const element = document.getElementById('eco-report-container');
         if (!element) {

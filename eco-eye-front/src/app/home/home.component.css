@@ -134,7 +134,7 @@ input[type="file"].input-box {
     height: auto;
     width: 100%;
     position: relative;
-    z-index: 10;
+    z-index: 999;
 }
 
 /* Spinner Image */
