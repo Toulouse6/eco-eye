@@ -130,20 +130,35 @@ export class HomeComponent implements OnInit {
         this.errorMessage = null;
         toast.loading('Generating your report...');
 
-        this.router.navigate(['/eco-report'], {
-            state: {
-                model: this.selectedModel,
-                year: this.selectedYear
+        this.reportService.getEcoReport(this.selectedModel, this.selectedYear).subscribe({
+            next: (report) => {
+                setTimeout(() => {
+                    this.isLoading = false;
+                    toast.success('Report ready!');
+
+                    this.router.navigate(['/eco-report'], {
+                        state: {
+                            model: this.selectedModel,
+                            year: this.selectedYear,
+                            report: report
+                        }
+                    });
+                }, 5000);
+            },
+            error: (error) => {
+                this.isLoading = false;
+
+                if (error.status === 429) {
+                    this.errorMessage = 'Too many requests. Please wait a bit and try again.';
+                    toast.error('Rate limit hit. Try again soon.');
+                } else {
+                    this.errorMessage = 'Failed to generate report. Please try again.';
+                    toast.error('Report failed to generate.');
+                }
             }
-        }).then(() => {
-            this.isLoading = false;
-            toast.success('Report ready!');
-        }).catch(() => {
-            this.isLoading = false;
-            this.errorMessage = 'Navigation failed.';
-            toast.error('Failed to load report.');
         });
     }
+
 
 
 }
