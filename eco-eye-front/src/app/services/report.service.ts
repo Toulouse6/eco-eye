@@ -130,11 +130,7 @@ export class EcoReportService {
                     return;
                 }
 
-                this.http.post<{ report: EcoReportResponse | string; cost?: string }>(
-                    this.apiUrl,
-                    payload,
-                    { headers }
-                ).pipe(
+                this.http.post<{ report: EcoReportResponse | string; cost?: string }>(environment.apiUrl, payload, { headers }).pipe(
                     catchError(err => {
                         console.warn("API call failed. Using fallback.", err);
                         this.loadFallback().subscribe({

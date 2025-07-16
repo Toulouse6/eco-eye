@@ -7,12 +7,11 @@ import rateLimit from "express-rate-limit";
 // Express setup
 const app = express();
 
-app.use(
-    cors({
-        origin: ["https://eco-eye.web.app", "http://localhost:4200"],
-        credentials: true,
-    })
-);
+app.use(cors({
+    origin: ["https://eco-eye.web.app", "http://localhost:4200"],
+    credentials: true,
+}));
+app.options("*", cors());
 
 app.use(express.json({ limit: "6mb" }));
 
@@ -33,27 +32,20 @@ app.get("/", (_: Request, res: Response) => {
 });
 
 // Main endpoint
-app.post("/generateReport", limiter, async (req: Request, res: Response) => {
+app.post("/", limiter, async (req: Request, res: Response) => {
     console.log("Received report request.");
 
     const openai = new OpenAI({
         apiKey: process.env.OPENAI_API_KEY,
     });
 
-    try {
-        const {
-            model,
-            year,
-        }: {
-            model: string;
-            year: number;
-        } = req.body;
+    const { model, year }: { model: string; year: number } = req.body;
 
-        if (!model || !year) {
-            return res.status(400).json({ error: "Missing model or year." });
-        }
+    if (!model || !year) {
+        return res.status(400).json({ error: "Missing model or year." });
+    }
 
-        const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
+    const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
 Model: ${model}
 Year: ${year}
 
@@ -78,8 +70,10 @@ Structure the response in JSON format with these keys:
   }
 }
 
-Only output pure JSON.`;
+Only output pure JSON.
+Do not include any explanation or text outside the JSON. Only return pure JSON.`;
 
+    try {
         const response = await openai.chat.completions.create({
             model: "gpt-4o",
             messages: [
@@ -92,29 +86,17 @@ Only output pure JSON.`;
             max_tokens: 1000,
         });
 
-        // Cost tracking
-        let totalCost = 0;
-        const usage = response.usage;
-        if (usage) {
-            const inputCost = (usage.prompt_tokens || 0) * 0.005 / 1000;
-            const outputCost = (usage.completion_tokens || 0) * 0.015 / 1000;
-            totalCost = inputCost + outputCost;
+        const content = response.choices[0]?.message?.content;
+        const json = JSON.parse(content || '{}');
 
-            console.log(`Tokens: ${usage.prompt_tokens}/${usage.completion_tokens}`);
-            console.log(`Estimated cost: $${totalCost.toFixed(6)}`);
-        }
-
-        const report = response.choices[0]?.message?.content || "No report returned.";
-        res.status(200).json({ report, cost: totalCost.toFixed(6) });
+        return res.status(200).json({
+            report: json,
+            cost: null
+        });
 
     } catch (err: any) {
-        console.error("Error in /generateReport:", err);
-
-        if (err.response) {
-            console.error("OpenAI API Error Response:", JSON.stringify(err.response.data || {}, null, 2));
-        }
-
-        res.status(500).json({
+        console.error("Failed to process report:", err);
+        return res.status(500).json({
             error: "Failed to process report",
             details: err.message || "Unknown error",
         });
