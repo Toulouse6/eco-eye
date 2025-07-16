@@ -141,11 +141,10 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     public calculateLiveGreenGrade(): string {
         const score = this.getDrivingScore();
-        if (score >= 90) return 'A+';
-        if (score >= 80) return 'A';
-        if (score >= 70) return 'B';
-        if (score >= 60) return 'C';
-        return 'D';
+        return score >= 90 ? 'A+' :
+            score >= 80 ? 'A' :
+                score >= 70 ? 'B' :
+                    score >= 60 ? 'C' : 'D';
     }
 
     private getDrivingScore(): number {
@@ -170,10 +169,11 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return deg * (Math.PI / 180);
     }
 
+    // Screenshot and share
     shareReportScreenshot() {
         if (this.isSharing) return;
         this.isSharing = true;
-        toast.loading('Preparing screenshot...'); // ✅ Screenshot loading toast
+        toast.loading('Preparing screenshot...');
 
         const element = document.getElementById('eco-report-container');
         if (!element) {
@@ -213,7 +213,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                         htmlEl.style.animation = 'none';
                         htmlEl.style.transition = 'none';
                         htmlEl.style.transform = 'none';
-                        htmlEl.style.opacity = '1';
+                        htmlEl.style.opacity = '0.8';
                         htmlEl.style.visibility = 'visible';
                     }
                 });

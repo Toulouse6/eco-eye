@@ -4,59 +4,59 @@ import express, { Request, Response } from "express";
 import rateLimit from "express-rate-limit";
 const { Configuration, OpenAIApi } = require("openai");
 
-// 🔧 OpenAI setup (SDK v3, CommonJS-compatible)
+// OpenAI setup (SDK v3, JS-compatible)
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
-// 🚀 Express setup
+// Express
 export const app = express();
 
 app.use(cors({
-  origin: [
-    "https://eco-eye.web.app",
-    "http://localhost:4200",
-    "https://toulouse6.github.io"
-  ],
-  credentials: true,
+    origin: [
+        "https://eco-eye.web.app",
+        "http://localhost:4200",
+        "https://toulouse6.github.io"
+    ],
+    credentials: true,
 }));
 app.options("*", cors());
 
 app.use(express.json({ limit: "6mb" }));
 
-// 🚫 Rate limiting
+// Rate limiting
 const limiter = rateLimit({
-  windowMs: 60 * 60 * 1000,
-  max: 10,
-  message: {
-    error: "You've reached the limit. Please try again in an hour.",
-  },
-  standardHeaders: true,
-  legacyHeaders: false,
+    windowMs: 60 * 60 * 1000,
+    max: 10,
+    message: {
+        error: "You've reached the limit. Please try again in an hour.",
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
 });
 
-// ✅ Health check
+// Health check
 app.get("/status", (_req, res) => {
-  res.json({ status: "ok", timestamp: Date.now() });
+    res.json({ status: "ok", timestamp: Date.now() });
 });
 
 app.get("/", (_req, res) => {
-  res.status(200).send("Eco Eye API is alive!");
+    res.status(200).send("Eco Eye API is alive!");
 });
 
-// 🌱 Main endpoint
+// Main endpoint
 app.post("/generate", limiter, async (req: Request, res: Response) => {
-  console.log("Received report request.");
-  console.log("🔑 OPENAI_API_KEY loaded:", !!process.env.OPENAI_API_KEY);
+    console.log("Received report request.");
+    console.log("🔑 OPENAI_API_KEY loaded:", !!process.env.OPENAI_API_KEY);
 
-  const { model, year }: { model: string; year: number } = req.body;
+    const { model, year }: { model: string; year: number } = req.body;
 
-  if (typeof model !== "string" || typeof year !== "number") {
-    return res.status(400).json({ error: "Invalid model or year format." });
-  }
+    if (typeof model !== "string" || typeof year !== "number") {
+        return res.status(400).json({ error: "Invalid model or year format." });
+    }
 
-  const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
+    const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
 Model: ${model}
 Year: ${year}
 
@@ -84,48 +84,48 @@ Structure the response in JSON format with these keys:
 Only output pure JSON.
 Do not include any explanation or text outside the JSON. Only return pure JSON.`;
 
-  try {
-    const response = await openai.createChatCompletion({
-      model: "gpt-4",
-      messages: [
-        { role: "system", content: prompt },
-        { role: "user", content: `Please create an eco report for ${model} ${year}` },
-      ],
-      max_tokens: 1000,
-    });
+    try {
+        const response = await openai.createChatCompletion({
+            model: "gpt-4",
+            messages: [
+                { role: "system", content: prompt },
+                { role: "user", content: `Please create an eco report for ${model} ${year}` },
+            ],
+            max_tokens: 1000,
+        });
 
-    const content = response.data.choices[0]?.message?.content;
+        const content = response.data.choices[0]?.message?.content;
 
-    if (!content || !content.trim().startsWith("{")) {
-      console.warn("GPT response was not valid JSON.");
-      return res.status(200).json({
-        report: null,
-        fallback: true,
-        message: "OpenAI response was malformed."
-      });
+        if (!content || !content.trim().startsWith("{")) {
+            console.warn("GPT response was not valid JSON.");
+            return res.status(200).json({
+                report: null,
+                fallback: true,
+                message: "OpenAI response was malformed."
+            });
+        }
+
+        const json = JSON.parse(content);
+
+        return res.status(200).json({
+            report: json,
+            cost: null
+        });
+
+    } catch (err: any) {
+        console.error("Failed to process report:", err);
+        return res.status(500).json({
+            error: "Failed to process report",
+            details: err.message || "Unknown error",
+        });
     }
-
-    const json = JSON.parse(content);
-
-    return res.status(200).json({
-      report: json,
-      cost: null
-    });
-
-  } catch (err: any) {
-    console.error("Failed to process report:", err);
-    return res.status(500).json({
-      error: "Failed to process report",
-      details: err.message || "Unknown error",
-    });
-  }
 });
 
-// 🚀 Export Firebase Function
+// Export Firebase Function
 export const generateReport = onRequest(
-  {
-    region: "us-central1",
-    secrets: ["OPENAI_API_KEY"],
-  },
-  app
+    {
+        region: "us-central1",
+        secrets: ["OPENAI_API_KEY"],
+    },
+    app
 );
