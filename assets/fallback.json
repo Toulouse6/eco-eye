@@ -5,23 +5,131 @@
         "Ford Mustang Mach-E",
         "Honda Civic",
         "Hyundai Ioniq",
-        "Chevy Bolt"
+        "Chevy Bolt",
+        "Nissan Leaf",
+        "BMW i4",
+        "Kia EV6",
+        "Volkswagen ID.4",
+        "Lucid Air",
+        "Rivian R1T",
+        "Mercedes EQS",
+        "Audi Q4 e-tron",
+        "Volvo XC40 Recharge",
+        "Subaru Solterra",
+        "Polestar 2",
+        "Mazda MX-30",
+        "Porsche Taycan",
+        "Jeep Wrangler 4xe"
     ],
     "modelYearMap": {
         "Tesla Model Y": [
-            2025,
+            2023,
             2024,
-            2023
+            2025
         ],
         "Toyota Prius": [
-            2025,
-            2024,
+            2022,
             2023,
-            2022
+            2024,
+            2025
         ],
         "Ford Mustang Mach-E": [
-            2025,
+            2023,
+            2025
+        ],
+        "Honda Civic": [
+            2021,
+            2022,
+            2023,
+            2024,
+            2025
+        ],
+        "Hyundai Ioniq": [
+            2022,
+            2023,
+            2024
+        ],
+        "Chevy Bolt": [
+            2021,
+            2022,
             2023
+        ],
+        "Nissan Leaf": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "BMW i4": [
+            2022,
+            2023,
+            2024,
+            2025
+        ],
+        "Kia EV6": [
+            2022,
+            2023,
+            2024
+        ],
+        "Volkswagen ID.4": [
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Lucid Air": [
+            2022,
+            2023,
+            2024
+        ],
+        "Rivian R1T": [
+            2022,
+            2023,
+            2024
+        ],
+        "Mercedes EQS": [
+            2022,
+            2023,
+            2024
+        ],
+        "Audi Q4 e-tron": [
+            2022,
+            2023,
+            2024
+        ],
+        "Volvo XC40 Recharge": [
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Subaru Solterra": [
+            2023,
+            2024
+        ],
+        "Polestar 2": [
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Mazda MX-30": [
+            2022,
+            2023
+        ],
+        "Porsche Taycan": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Jeep Wrangler 4xe": [
+            2021,
+            2022,
+            2023,
+            2024
         ]
     },
     "vehicleOverview": {
