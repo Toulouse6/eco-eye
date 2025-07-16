@@ -24,7 +24,6 @@ export class HomeComponent implements OnInit {
     filteredModels: string[] = [];
 
     isLoading = false;
-    errorMessage: string | null = null;
 
     private allModels: string[] = [];
     private backgroundAudio = new Audio('assets/audio/nova-notes.mp3');
@@ -76,7 +75,6 @@ export class HomeComponent implements OnInit {
 
     toggleDropdown(): void {
         this.dropdownOpen = !this.dropdownOpen;
-        this.errorMessage = null;
         if (this.dropdownOpen) {
             this.modelSearch = '';
             this.loadModels();
@@ -119,15 +117,12 @@ export class HomeComponent implements OnInit {
     }
 
     generateReport(): void {
-        if (this.isLoading) return;
 
         if (!this.selectedModel || !this.selectedYear) {
-            this.errorMessage = 'Please select both model and year';
             return;
         }
 
         this.isLoading = true;
-        this.errorMessage = null;
         toast.loading('Generating your report...');
 
         this.reportService.getEcoReport(this.selectedModel, this.selectedYear).subscribe({
@@ -149,10 +144,8 @@ export class HomeComponent implements OnInit {
                 this.isLoading = false;
 
                 if (error.status === 429) {
-                    this.errorMessage = 'Too many requests. Please wait a bit and try again.';
                     toast.error('Rate limit hit. Try again soon.');
                 } else {
-                    this.errorMessage = 'Failed to generate report. Please try again.';
                     toast.error('Report failed to generate.');
                 }
             }
