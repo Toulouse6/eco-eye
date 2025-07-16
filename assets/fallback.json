@@ -143,6 +143,8 @@
     "energyConsumption": "18.7 kWh/100km",
     "co2": "92 g/km",
     "recyclability": "82%",
+    "estimatedRange": "528 km",
+    "chargingTime": "9 hours",
     "tips": {
         "speed": "85 km/h",
         "tirePressure": "33 PSI",
