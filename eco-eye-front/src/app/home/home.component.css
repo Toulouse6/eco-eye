@@ -119,6 +119,8 @@ input[type="file"].input-box {
 }
 
 .dropdown-list {
+    overflow: auto;
+    max-height: 18rem;
     list-style: none;
     padding: 0;
     margin: 0;
