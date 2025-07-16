@@ -19,7 +19,17 @@
         "Polestar 2",
         "Mazda MX-30",
         "Porsche Taycan",
-        "Jeep Wrangler 4xe"
+        "Jeep Wrangler 4xe",
+        "Toyota Corolla",
+        "Ford F-150",
+        "Hyundai Elantra",
+        "Chevrolet Malibu",
+        "Mazda 3",
+        "Dodge Charger",
+        "Volkswagen Jetta",
+        "Kia Forte",
+        "Honda Accord",
+        "Nissan Altima"
     ],
     "modelYearMap": {
         "Tesla Model Y": [
@@ -126,6 +136,72 @@
             2024
         ],
         "Jeep Wrangler 4xe": [
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Toyota Corolla": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Ford F-150": [
+            2019,
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Hyundai Elantra": [
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Chevrolet Malibu": [
+            2020,
+            2021,
+            2022,
+            2023
+        ],
+        "Mazda 3": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Dodge Charger": [
+            2020,
+            2021,
+            2022,
+            2023
+        ],
+        "Volkswagen Jetta": [
+            2020,
+            2021,
+            2022,
+            2023
+        ],
+        "Kia Forte": [
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Honda Accord": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Nissan Altima": [
+            2020,
             2021,
             2022,
             2023,
