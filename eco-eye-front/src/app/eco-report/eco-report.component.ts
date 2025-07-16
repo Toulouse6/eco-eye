@@ -130,6 +130,10 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return this.features.powerType === 'Hybrid';
     }
 
+    get isCombustion(): boolean {
+        return this.features.powerType !== 'Electric' && this.features.powerType !== 'Hybrid';
+    }
+
     get estimatedRange(): string {
         if (!this.isElectric && !this.isHybrid) return '';
         const cap = parseFloat(this.features.batteryCapacity || '');

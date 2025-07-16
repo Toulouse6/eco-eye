@@ -148,7 +148,7 @@
     "tips": {
         "speed": "85 km/h",
         "tirePressure": "33 PSI",
-        "idling": "2 minutes",
+        "idling": "2",
         "passengers": "2 - 3",
         "funFact": "Smooth acceleration saves up to 20% more fuel than aggressive driving."
     },

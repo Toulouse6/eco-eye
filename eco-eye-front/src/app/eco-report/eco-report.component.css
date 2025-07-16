@@ -59,7 +59,8 @@ header {
 
 /* Grade bar */
 .grade-bar-container {
-    margin: 1rem auto 1.5rem;
+    margin: -0.5rem auto 1.5rem;
+    padding: 0 1rem;
     text-align: center;
     max-width: 400px;
 }
@@ -272,7 +273,7 @@ header {
 
     .grade-bar-container {
         max-width: 90%;
-        padding: 0 1rem;
+        margin: -0.5rem auto 1.8rem auto;
     }
 
     .grade-segment {
