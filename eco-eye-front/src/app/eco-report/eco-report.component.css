@@ -239,6 +239,7 @@ header {
         width: 100%;
         margin: 0;
         border-radius: 0;
+        min-height: 100vh;
     }
 
     .eco-title-logo {
