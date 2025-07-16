@@ -102,6 +102,30 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         }
     }
 
+    get isElectric(): boolean {
+        return this.features.powerType === 'Electric';
+    }
+
+    get isHybrid(): boolean {
+        return this.features.powerType === 'Hybrid';
+    }
+
+    get estimatedRange(): string {
+        if (!this.isElectric && !this.isHybrid) return '';
+        const cap = parseFloat(this.features.batteryCapacity);
+        const cons = parseFloat(this.features.energyConsumption);
+        if (!cap || !cons) return '';
+        return `${Math.round((cap / cons) * 100)} km`;
+    }
+
+    get chargingTime(): string {
+        if (!this.isElectric && !this.isHybrid) return '';
+        const cap = parseFloat(this.features.batteryCapacity);
+        const chargePower = 11;
+        if (!cap) return '';
+        return `${Math.round(cap / chargePower)} hours`;
+    }
+
     private updateStats(position: GeolocationPosition, features: CarFeatures): void {
         const speedMps = position.coords.speed ?? 0;
         this.userSpeed = `${(speedMps * 3.6).toFixed(1)} km/h`;

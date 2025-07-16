@@ -13,6 +13,10 @@ export interface EcoReportResponse {
     co2: string;
     recyclability: string;
 
+    estimatedRange?: string;
+    chargingTime?: string;
+    energySaved?: string;
+
     tips: {
         speed: string;
         tirePressure: string;

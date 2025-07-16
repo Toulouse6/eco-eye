@@ -57,32 +57,35 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
     }
 
     const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
+
 Model: ${model}
 Year: ${year}
 
-Structure the response in JSON format with these keys:
+Respond in strict JSON format with the following keys:
 
 {
   "overallGrade": "A+ to D (live eco score)",
-  "fuelEfficiency": "e.g. 18 km/l or 5.2 L/100km",
+  "fuelEfficiency": "e.g. 18 km/l or 5.2 L/100km (set to 'N/A' if Electric)",
   "energyConsumption": "e.g. 14.5 kWh/100km",
-  "emissions": "e.g. Euro 6 or Tier 3 standard",
+  "emissions": "e.g. Euro 6 or Tier 3 standard (set to 'Zero Tailpipe Emissions' if Electric)",
   "powerType": "Gasoline / Diesel / Hybrid / Electric",
   "batteryCapacity": "kWh value (only for hybrid/electric)",
-  "co2": "grams per km (g/km)",
+  "co2": "grams per km (g/km), or 'Zero Tailpipe Emissions' if Electric",
   "recyclability": "percentage, e.g. 82%",
-  
-  "tips": {
-    "speed": "recommended cruising speed in km/h",
-    "tirePressure": "recommended pressure in PSI",
-    "idling": "maximum idle time in minutes",
-    "funFact": "short and fun eco driving tip",
-    "passengers": "recommended passenger range, e.g. 2–3"
-  }
+  "estimatedRange": "calculated from batteryCapacity and energyConsumption in km (e.g. 528 km)",
+  "chargingTime": "estimated full charge time in hours based on 11 kW charger (e.g. 9 hours)",
+  "energySaved": "estimated g CO₂ avoided based on electric vs ICE"
+
+"tips": {
+  "speed": "recommended cruising speed in km/h",
+  "tirePressure": "recommended pressure in PSI",
+  "idling": "maximum idle time in minutes or 'N/A' if Electric",
+  "funFact": "short and fun eco driving tip",
+  "passengers": "recommended passenger range, e.g. 2–3"
 }
 
-Only output pure JSON.
-Do not include any explanation or text outside the JSON. Only return pure JSON.`;
+Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
+
 
     try {
         const response = await openai.createChatCompletion({

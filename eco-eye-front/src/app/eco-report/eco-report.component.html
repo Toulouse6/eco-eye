@@ -48,7 +48,7 @@
             </div>
 
             <!-- Avoid Idling Over -->
-            <div class="row">
+            <div class="row" *ngIf="features.powerType !== 'Electric'">
                 <span class="title">
                     Avoid Idling Over
                     <span class="info-icon">ℹ
@@ -80,7 +80,7 @@
         <div class="eco-grid">
 
             <!-- Fuel Saved -->
-            <div class="eco-cell">
+            <div class="eco-cell" *ngIf="features.powerType !== 'Electric'">
                 <span class="title user-display">
                     Fuel Saved
                     <span class="info-icon">ℹ
@@ -90,6 +90,19 @@
                 </span>
                 <span class="value">
                     <span class="user-value">{{ fuelSaved.toFixed(2) }} L</span>
+                </span>
+            </div>
+
+            <!-- Energy Saved -->
+            <div class="eco-cell" *ngIf="isElectric">
+                <span class="title user-display">
+                    Energy Saved
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Energy saved compared to similar combustion-engine vehicles.</span>
+                    </span>
+                </span>
+                <span class="value">
+                    <span class="user-value">{{ co2Saved.toFixed(1) }} g</span>
                 </span>
             </div>
 
@@ -128,8 +141,20 @@
     <section class="eco-section fade-in-up delay-3">
         <h2>Vehicle Overview</h2>
         <div class="eco-table">
-            <!-- Fuel Efficiency -->
+
+            <!-- Power Type -->
             <div class="row">
+                <span class="title">
+                    Power Type
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Electric or hybrid engines reduce dependence on fossil fuels.</span>
+                    </span>
+                </span>
+                <span class="value">{{ features.powerType }}</span>
+            </div>
+
+            <!-- Fuel Efficiency -->
+            <div class="row" *ngIf="features.powerType !== 'Electric'">
                 <span class="title">
                     Fuel Efficiency
                     <span class="info-icon">ℹ
@@ -141,7 +166,7 @@
             </div>
 
             <!-- CO₂ Emissions -->
-            <div class="row">
+            <div class="row" *ngIf="features.powerType !== 'Electric'">
                 <span class="title">
                     CO₂ Emissions
                     <span class="info-icon" aria-label="Info" title="Info">ℹ
@@ -151,8 +176,13 @@
                 <span class="value">{{ features.co2 }}</span>
             </div>
 
+            <div class="row" *ngIf="isElectric">
+                <span class="title">CO₂ Emissions</span>
+                <span class="value">Zero Tailpipe</span>
+            </div>
+
             <!-- Emission Rating -->
-            <div class="row">
+            <div class="row" *ngIf="features.powerType !== 'Electric'">
                 <span class="title">
                     Emission Rating
                     <span class="info-icon">ℹ
@@ -160,16 +190,6 @@
                     </span>
                 </span>
                 <span class="value">{{ features.emissions }}</span>
-            </div>
-            <!-- Power Type -->
-            <div class="row">
-                <span class="title">
-                    Power Type
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Electric or hybrid engines reduce dependence on fossil fuels.</span>
-                    </span>
-                </span>
-                <span class="value">{{ features.powerType }}</span>
             </div>
 
             <!-- Recyclability -->
@@ -211,6 +231,28 @@
                     </span>
                 </span>
                 <span class="value">{{ features.energyConsumption }}</span>
+            </div>
+
+            <!-- Estimated Range -->
+            <div class="row">
+                <span class="title">
+                    Estimated Range
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Based on battery size and energy consumption rate.</span>
+                    </span>
+                </span>
+                <span class="value">{{ estimatedRange }}</span>
+            </div>
+
+            <!-- Charging Time -->
+            <div class="row">
+                <span class="title">
+                    Charging Time
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Estimated full charge time using Level 2 (11kW) charger.</span>
+                    </span>
+                </span>
+                <span class="value">{{ chargingTime }}</span>
             </div>
 
         </div>
