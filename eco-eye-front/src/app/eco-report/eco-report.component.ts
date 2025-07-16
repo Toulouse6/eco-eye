@@ -17,10 +17,10 @@ export interface CarFeatures {
 }
 
 export interface EcoTips {
-    speed: number;
-    tirePressure: number;
-    idling: number;
-    passengers: number;
+    speed: string;
+    tirePressure: string;
+    idling: string;
+    passengers: string;
     funFact: string;
 }
 
@@ -57,10 +57,10 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         recyclability: ''
     };
     tips: EcoTips = {
-        speed: 0,
-        tirePressure: 0,
-        idling: 0,
-        passengers: 0,
+        speed: '',
+        tirePressure: '',
+        idling: '',
+        passengers: '',
         funFact: ''
     };
 
@@ -151,7 +151,8 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         let score = 100;
 
         const currentSpeed = parseFloat(this.userSpeed);
-        const recommended = this.tips.speed;
+        const recommended = parseFloat(this.tips.speed) || 0;
+
         const co2Output = this.carbonFootprint;
         const co2Saved = this.co2Saved;
 

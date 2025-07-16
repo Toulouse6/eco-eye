@@ -14,10 +14,10 @@ export interface EcoReportResponse {
     recyclability: string;
 
     tips: {
-        speed: number;
-        tirePressure: number;
-        idling: number;
-        passengers: number;
+        speed: string;
+        tirePressure: string;
+        idling: string;
+        passengers: string;
         funFact: string;
     };
 
