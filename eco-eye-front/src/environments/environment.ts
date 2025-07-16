@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: "https://generatereport-ikkn2wyyqa-uc.a.run.app/generate"
+  apiUrl: "http://localhost:5001/eco-eye/us-central1/generateReport/generate",
+  statusUrl: "http://localhost:5001/eco-eye/us-central1/generateReport/status"
 };

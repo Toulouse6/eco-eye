@@ -14,7 +14,7 @@
                     "builder": "@angular-devkit/build-angular:application",
                     "options": {
                         "outputPath": "dist/eco-eye",
-                        "baseHref": "/",
+                        "baseHref": "./",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
                         "polyfills": [
@@ -101,7 +101,7 @@
                 "deploy": {
                     "builder": "angular-cli-ghpages:deploy",
                     "options": {
-                        "baseHref": "/eco-eye/",
+                        "baseHref": "/",
                         "name": "Deployment Bot",
                         "email": "your-email@example.com",
                         "noSilent": true

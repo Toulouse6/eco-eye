@@ -7,9 +7,7 @@ import { EcoReportResponse, EcoReportRequest } from '../models/eco-report.model'
 import { CarFeatures, EcoTips } from '../eco-report/eco-report.component';
 
 @Injectable({ providedIn: 'root' })
-
 export class EcoReportService {
-
     public apiUrl = environment.apiUrl;
 
     constructor(private http: HttpClient) { }
@@ -28,11 +26,10 @@ export class EcoReportService {
     }
 
     checkApiStatus(): Observable<boolean> {
-        return this.http.get(environment.apiUrl.replace("/generate", "/status"), { responseType: 'json' })
-            .pipe(
-                map(() => true),
-                catchError(() => of(false))
-            );
+        return this.http.get(environment.statusUrl).pipe(
+            map(() => true),
+            catchError(() => of(false))
+        );
     }
 
     private loadFallback(): Observable<EcoReportResponse> {
@@ -59,12 +56,10 @@ export class EcoReportService {
     }> {
         return new Observable(observer => {
             this.getEcoReport(model, year).subscribe({
-                next: (report) => {
-                    // Start GPS tracking
+                next: report => {
                     if (navigator.geolocation) {
-
                         navigator.geolocation.watchPosition(
-                            (position) => updateStats(position, {
+                            position => updateStats(position, {
                                 fuelEfficiency: report.fuelEfficiency ?? '',
                                 emissions: report.emissions ?? '',
                                 powerType: report.powerType ?? '',
@@ -73,9 +68,7 @@ export class EcoReportService {
                                 co2: report.co2 ?? '',
                                 recyclability: report.recyclability ?? ''
                             }),
-                            (err) => {
-                                console.warn("Geolocation error:", err.message);
-                            },
+                            err => console.warn("Geolocation error:", err.message),
                             { enableHighAccuracy: true }
                         );
                     }
@@ -102,13 +95,10 @@ export class EcoReportService {
 
                     observer.complete();
                 },
-                error: (err) => {
-                    observer.error(err);
-                }
+                error: err => observer.error(err)
             });
         });
     }
-
 
     getEcoReport(model: string, year: number): Observable<EcoReportResponse> {
         const payload: EcoReportRequest = { model, year };
@@ -127,7 +117,7 @@ export class EcoReportService {
                     return;
                 }
 
-                this.http.post<{ report: EcoReportResponse | string; cost?: string }>(environment.apiUrl, payload, { headers }).pipe(
+                this.http.post<{ report: EcoReportResponse | string; cost?: string }>(this.apiUrl, payload, { headers }).pipe(
                     catchError(err => {
                         console.warn("API call failed. Using fallback.", err);
                         this.loadFallback().subscribe({
