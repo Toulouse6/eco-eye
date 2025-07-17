@@ -81,7 +81,9 @@ export class EcoReportService {
                             batteryCapacity: report.batteryCapacity ?? '',
                             energyConsumption: report.energyConsumption ?? '',
                             co2: report.co2 ?? '',
-                            recyclability: report.recyclability ?? ''
+                            recyclability: report.recyclability ?? '',
+                            estimatedRange: report.estimatedRange ?? '',
+                            chargingTime: report.chargingTime ?? ''
                         },
                         tips: {
                             speed: report.tips?.speed ?? 0,

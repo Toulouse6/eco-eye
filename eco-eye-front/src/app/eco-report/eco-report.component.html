@@ -115,7 +115,7 @@
             </div>
 
             <!-- CO₂ Saved -->
-            <div class="eco-cell" *ngIf="isCombustion">
+            <div class="eco-cell" *ngIf="!isCombustion">
                 <span class="title user-display">
                     CO₂ Saved
                     <span class="info-icon">ℹ
@@ -128,34 +128,20 @@
                 </span>
             </div>
 
-            <!-- Estimated Range (Electric only) -->
-            <div class="eco-cell" *ngIf="!isCombustion">
+            <!-- CO₂ Emissions -->
+            <div class="eco-cell" *ngIf="isCombustion">
                 <span class="title user-display">
-                    Estimated Range
+                    CO₂ Emissions
                     <span class="info-icon">ℹ
-                        <span class="tooltip-text">Based on battery size and energy consumption rate.</span>
+                        <span class="tooltip-text">Represents the average carbon dioxide emitted per kilometer.</span>
                     </span>
                 </span>
                 <span class="value">
-                    <span class="user-value">{{ estimatedRange }}</span>
+                    <span class="user-value">{{ features.co2 }}</span>
                 </span>
             </div>
 
-            <!-- Battery Range -->
-            <div class="eco-cell" *ngIf="isElectric">
-                <span class="title user-display">
-                    Battery Range
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Estimated from your battery size, speed, and distance
-                            traveled.</span>
-                    </span>
-                </span>
-                <span class="value">
-                    <span class="user-value">{{ batteryRange }} km</span>
-                </span>
-            </div>
-
-            <!-- Carbon Output or Estimated Range -->
+            <!-- Carbon Output -->
             <div class="eco-cell" *ngIf="!isElectric">
                 <span class="title user-display">
                     Carbon Output
@@ -166,6 +152,20 @@
                 </span>
                 <span class="value">
                     <span class="user-value carbon">{{ carbonFootprint.toFixed(1) }} g</span>
+                </span>
+            </div>
+
+            <!-- Battery Left -->
+            <div class="eco-cell" *ngIf="isElectric">
+                <span class="title user-display">
+                    Battery Left
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Estimated from your battery size, speed, and distance
+                            traveled.</span>
+                    </span>
+                </span>
+                <span class="value">
+                    <span class="user-value">{{ batteryRange }} km</span>
                 </span>
             </div>
 
@@ -200,18 +200,7 @@
                 <span class="value">{{ features.fuelEfficiency }}</span>
             </div>
 
-            <!-- CO₂ Emissions -->
-            <div class="row" *ngIf="!isElectric">
-                <span class="title">
-                    CO₂ Emissions
-                    <span class="info-icon" aria-label="Info" title="Info">ℹ
-                        <span class="tooltip-text">Represents the average carbon dioxide emitted per kilometer.</span>
-                    </span>
-                </span>
-                <span class="value">{{ features.co2 }}</span>
-            </div>
-
-            <!-- Emission Rating -->
+            <!-- Emission Rate -->
             <div class="row">
                 <span class="title">
                     Emission Rating
@@ -237,7 +226,7 @@
     </section>
 
     <!-- Energy Breakdown -->
-    <section class="eco-section fade-in-up delay-4" *ngIf="isElectric || isHybrid">
+    <section class="eco-section fade-in-up delay-4" *ngIf="!isCombustion">
 
         <h2>Energy Breakdown</h2>
         <div class="eco-table">
@@ -263,8 +252,21 @@
                 <span class="value">{{ features.energyConsumption }}</span>
             </div>
 
+            <!-- Estimated Range -->
+            <div class="row">
+                <span class="title">
+                    Estimated Range
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Based on battery size and energy consumption rate.</span>
+                    </span>
+                </span>
+                <span class="value">
+                    <span class="value">{{ estimatedRange }}</span>
+                </span>
+            </div>
+
             <!-- Charging Time -->
-            <div class="row" *ngIf="isElectric || isHybrid">
+            <div class="row">
                 <span class="title">
                     Charging Time
                     <span class="info-icon">ℹ
@@ -272,7 +274,7 @@
                     </span>
                 </span>
                 <span class="value">
-                    <span class="user-value">{{ chargingTime || 'N/A' }}</span>
+                    <span class="value">{{ chargingTime || 'N/A' }}</span>
                 </span>
             </div>
 

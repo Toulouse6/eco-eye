@@ -92,7 +92,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             next: (data) => {
                 this.features = data.features;
                 this.tips = data.tips;
-
                 this.estimatedRange = data.features.estimatedRange ?? '';
                 this.chargingTime = data.features.chargingTime ?? '';
 
