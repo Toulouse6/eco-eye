@@ -47,11 +47,11 @@ header {
     width: 70px;
     height: auto;
     padding-top: 1.5rem;
-    margin-bottom: -0.8rem;
+    margin-bottom: -0.5rem;
 }
 
 .eco-title {
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     color: #005a2b;
     margin: 0;
     text-align: center;
@@ -243,7 +243,7 @@ header {
     }
 
     .eco-title {
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
 
     .eco-title-row {
@@ -263,7 +263,11 @@ header {
 
     .eco-title-logo {
         width: 70px;
-        margin-bottom: -0.2rem;
+        margin-bottom: -0.3rem;
+    }
+
+    .eco-title {
+        font-size: 1.8rem;
     }
 
     .grade-bar-container {
@@ -336,8 +340,7 @@ header {
     }
 
     .eco-title-logo {
-        width: 50px;
-        margin-bottom: -0.5rem;
+        width: 55px;
     }
 
     .eco-section p {

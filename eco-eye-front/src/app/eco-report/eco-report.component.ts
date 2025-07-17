@@ -76,7 +76,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
 
-        // Random background videos
+        // Random background
         const random = Math.random();
         this.selectedVideo = random < 0.5
             ? 'assets/videos/road-banner.mp4'
