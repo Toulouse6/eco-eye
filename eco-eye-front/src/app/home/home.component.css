@@ -196,7 +196,7 @@ input[type="file"].input-box {
 .loading-spinner img {
     animation: spin 8s linear infinite;
     opacity: 0.8;
-    width: 12rem;
+    width: 10rem;
     position: fixed;
     top: 13rem;
 }
@@ -206,7 +206,7 @@ input[type="file"].input-box {
 @media (max-width: 600px) {
 
     .loading-spinner img {
-        width: 10rem;
+        width: 9rem;
     }
 
     .consent-box {
