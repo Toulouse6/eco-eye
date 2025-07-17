@@ -14,6 +14,8 @@ export interface CarFeatures {
     energyConsumption: string;
     co2: string;
     recyclability: string;
+    estimatedRange?: string;
+    chargingTime?: string;
 }
 
 export interface EcoTips {
@@ -35,6 +37,9 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     model = '';
     year = 0;
     userSpeed = '0 km/h';
+    estimatedRange = '';
+    chargingTime = '';
+
 
     watchId: number | null = null;
     lastPosition: GeolocationPosition | null = null;
@@ -54,6 +59,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         powerType: '',
         batteryCapacity: '',
         energyConsumption: '',
+
         co2: '',
         recyclability: ''
     };
@@ -71,12 +77,9 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         this.year = state?.['year'] || new Date().getFullYear();
     }
 
-    // Background video
     public selectedVideo = 'assets/videos/road-banner.mp4';
 
     ngOnInit(): void {
-
-        // Random background
         const random = Math.random();
         this.selectedVideo = random < 0.5
             ? 'assets/videos/road-banner.mp4'
@@ -89,6 +92,9 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             next: (data) => {
                 this.features = data.features;
                 this.tips = data.tips;
+
+                this.estimatedRange = data.features.estimatedRange ?? '';
+                this.chargingTime = data.features.chargingTime ?? '';
 
                 const elapsed = Date.now() - requestStart;
                 const minDuration = data.fallback ? 5000 : 1000;
@@ -105,7 +111,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                     this.isStatsReady = true;
                     this.isLoading = false;
                 }, delay);
-
             },
             error: (err) => {
                 console.error('Report loading failed completely.', err);
@@ -144,20 +149,34 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return this.features.powerType !== 'Electric' && this.features.powerType !== 'Hybrid';
     }
 
-    get estimatedRange(): string {
-        if (!this.isElectric && !this.isHybrid) return '';
-        const cap = parseFloat(this.features.batteryCapacity || '');
-        const cons = parseFloat(this.features.energyConsumption || '');
-        if (!cap || !cons) return '';
-        return `${Math.round((cap / cons) * 100)} km`;
+    get batteryRange(): number {
+        const capacity = parseFloat(this.features.batteryCapacity || '');
+        const efficiency = parseFloat(this.features.energyConsumption || '15');
+        if (!capacity || !efficiency) return 0;
+
+        const baseRange = (capacity / efficiency) * 100;
+        const numericSpeed = parseFloat(this.userSpeed.replace(/[^\d.]/g, '')) || 80;
+        const speedFactor = numericSpeed < 80 ? 1.05 : numericSpeed > 100 ? 0.85 : 1;
+        const drivenDistance = this.totalDistance / 1000;
+        const adjustedRange = baseRange * speedFactor;
+
+        return Math.max(0, Math.round(adjustedRange - drivenDistance));
     }
 
-    get chargingTime(): string {
-        if (!this.isElectric && !this.isHybrid) return '';
-        const cap = parseFloat(this.features.batteryCapacity || '') || 0;
-        const chargePower = 11;
-        if (!cap) return '';
-        return `${Math.round(cap / chargePower)} hours`;
+    get displayBatteryRange(): string {
+        if (this.isElectric || this.isHybrid) {
+            const range = this.batteryRange;
+            return range ? `${range} km` : 'N/A';
+        }
+        return '';
+    }
+
+    get showCo2(): boolean {
+        return !this.isElectric;
+    }
+
+    get showEmissionRating(): boolean {
+        return true;
     }
 
     private updateStats(position: GeolocationPosition, features: CarFeatures): void {
@@ -202,6 +221,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
     }
+
 
     public calculateLiveGreenGrade(): string {
         const score = this.getDrivingScore();

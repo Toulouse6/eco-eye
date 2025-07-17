@@ -74,14 +74,14 @@ Respond in strict JSON format with the following keys:
   "recyclability": "percentage, e.g. 82%",
   "estimatedRange": "calculated from batteryCapacity and energyConsumption in km (e.g. 528 km)",
   "chargingTime": "estimated full charge time in hours based on 11 kW charger (e.g. 9 hours)",
-  "energySaved": "estimated g CO₂ avoided based on electric vs ICE"
-
-"tips": {
-  "speed": "recommended cruising speed in km/h",
-  "tirePressure": "recommended pressure in PSI",
-  "idling": "maximum idle time in minutes or 'N/A' if Electric",
-  "funFact": "short and fun eco driving tip",
-  "passengers": "recommended passenger range, e.g. 2–3"
+  "energySaved": "estimated g CO₂ avoided based on electric vs ICE",
+  "tips": {
+    "speed": "recommended cruising speed in km/h",
+    "tirePressure": "recommended pressure in PSI",
+    "idling": "maximum idle time in minutes, e.g. 2–3 minutes or 'N/A' if Electric",
+    "funFact": "short and fun eco driving tip",
+    "passengers": "recommended passenger range, e.g. 2–3 passengers"
+  }
 }
 
 Respond with only valid JSON. Do not include explanations, intro, or markdown.`;

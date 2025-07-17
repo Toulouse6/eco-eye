@@ -16,6 +16,7 @@ export interface EcoReportResponse {
     estimatedRange?: string;
     chargingTime?: string;
     energySaved?: string;
+    
 
     tips: {
         speed: string;

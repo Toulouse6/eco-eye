@@ -77,13 +77,12 @@
                             economy.</span>
                     </span>
                 </span>
-                <span class="value">{{ tips.passengers }} passengers</span>
+                <span class="value">{{ tips.passengers }}</span>
             </div>
 
         </div>
     </section>
 
-    <!-- Live Eco Footprint -->
     <section class="eco-section fade-in-up delay-2">
         <h2>Live Eco Footprint</h2>
         <div class="eco-grid">
@@ -116,7 +115,7 @@
             </div>
 
             <!-- CO₂ Saved -->
-            <div class="eco-cell">
+            <div class="eco-cell" *ngIf="isCombustion">
                 <span class="title user-display">
                     CO₂ Saved
                     <span class="info-icon">ℹ
@@ -129,8 +128,35 @@
                 </span>
             </div>
 
-            <!-- Carbon Output -->
-            <div class="eco-cell">
+            <!-- Estimated Range (Electric only) -->
+            <div class="eco-cell" *ngIf="!isCombustion">
+                <span class="title user-display">
+                    Estimated Range
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Based on battery size and energy consumption rate.</span>
+                    </span>
+                </span>
+                <span class="value">
+                    <span class="user-value">{{ estimatedRange }}</span>
+                </span>
+            </div>
+
+            <!-- Battery Range -->
+            <div class="eco-cell" *ngIf="isElectric">
+                <span class="title user-display">
+                    Battery Range
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Estimated from your battery size, speed, and distance
+                            traveled.</span>
+                    </span>
+                </span>
+                <span class="value">
+                    <span class="user-value">{{ batteryRange }} km</span>
+                </span>
+            </div>
+
+            <!-- Carbon Output or Estimated Range -->
+            <div class="eco-cell" *ngIf="!isElectric">
                 <span class="title user-display">
                     Carbon Output
                     <span class="info-icon">ℹ
@@ -186,7 +212,7 @@
             </div>
 
             <!-- Emission Rating -->
-            <div class="row" *ngIf="!isElectric">
+            <div class="row">
                 <span class="title">
                     Emission Rating
                     <span class="info-icon">ℹ
@@ -212,6 +238,7 @@
 
     <!-- Energy Breakdown -->
     <section class="eco-section fade-in-up delay-4" *ngIf="isElectric || isHybrid">
+
         <h2>Energy Breakdown</h2>
         <div class="eco-table">
             <!-- Battery Capacity -->
@@ -236,26 +263,17 @@
                 <span class="value">{{ features.energyConsumption }}</span>
             </div>
 
-            <!-- Estimated Range -->
-            <div class="row">
-                <span class="title">
-                    Estimated Range
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Based on battery size and energy consumption rate.</span>
-                    </span>
-                </span>
-                <span class="value">{{ estimatedRange }}</span>
-            </div>
-
             <!-- Charging Time -->
-            <div class="row">
+            <div class="row" *ngIf="isElectric || isHybrid">
                 <span class="title">
                     Charging Time
                     <span class="info-icon">ℹ
-                        <span class="tooltip-text">Estimated full charge time using Level 2 (11kW) charger.</span>
+                        <span class="tooltip-text">Estimated full charge time using a standard charger.</span>
                     </span>
                 </span>
-                <span class="value">{{ chargingTime }}</span>
+                <span class="value">
+                    <span class="user-value">{{ chargingTime || 'N/A' }}</span>
+                </span>
             </div>
 
         </div>

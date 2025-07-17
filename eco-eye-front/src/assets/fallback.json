@@ -1,9 +1,9 @@
 {
     "models": [
-        "Tesla Model Y",
-        "Toyota Prius",
-        "Ford Mustang Mach-E",
-        "Honda Civic",
+        "Honda Civic FU23",
+        "Tesla Model Y EL23",
+        "Toyota Prius HY24",
+        "Mustang Mach-E",
         "Hyundai Ioniq",
         "Chevy Bolt",
         "Nissan Leaf",
@@ -209,24 +209,26 @@
         ]
     },
     "vehicleOverview": {
-        "model": "Ford Mustang Mach-E",
+        "model": "Mustang Mach-E",
         "year": 2023
     },
+    "overallGrade": "A",
     "fuelEfficiency": "5.2 L/100km",
+    "energyConsumption": "18.7 kWh/100km",
     "emissions": "Euro 6 Standard",
     "powerType": "Hybrid",
     "batteryCapacity": "98.8 kWh",
-    "energyConsumption": "18.7 kWh/100km",
     "co2": "92 g/km",
     "recyclability": "82%",
     "estimatedRange": "528 km",
     "chargingTime": "9 hours",
+    "energySaved": "4200 g",
     "tips": {
         "speed": "85 km/h",
         "tirePressure": "33 PSI",
         "idling": "2 minutes",
-        "passengers": "2 - 3",
-        "funFact": "Smooth acceleration saves up to 20% more fuel than aggressive driving."
+        "funFact": "Smooth acceleration saves up to 20% more fuel than aggressive driving.",
+        "passengers": "2–3 passengers"
     },
     "fallback": true
 }
