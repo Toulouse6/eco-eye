@@ -328,31 +328,4 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             toast.error('Screenshot failed.');
         });
     }
-
-    copyToClipboard() {
-        const text = this.getEcoReportText();
-        navigator.clipboard.writeText(text)
-            .then(() => toast.success('Report copied to clipboard!'))
-            .catch(err => toast.error('Copy failed.'));
-    }
-
-    private getEcoReportText(): string {
-        return `EcoEye Report for ${this.model} (${this.year}):
-
-Top Features:
-• Fuel Efficiency: ${this.features.fuelEfficiency}
-• Emissions: ${this.features.emissions}
-• Power Type: ${this.features.powerType}
-
-Eco-Friendly Tips:
-• Recommended Speed: ${this.tips.speed} km/h
-• Tire Pressure: ${this.tips.tirePressure} PSI
-• Avoid Idling Over: ${this.tips.idling} minutes
-• Optimal Passengers: ${this.tips.passengers}
-
-Fun Fact:
-${this.tips.funFact}
-
-Try your own at: https://eco-eye.web.app/`.trim();
-    }
 }

@@ -14,6 +14,7 @@ import { EcoReportService } from '../services/report.service';
 })
 export class HomeComponent implements OnInit {
 
+    showConsent = true;
     selectedYear: number | null = null;
     selectedModel: string | null = null;
     yearDropdownOpen = false;
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+
         this.loadModels();
 
         this.backgroundAudio.loop = true;
@@ -50,6 +52,10 @@ export class HomeComponent implements OnInit {
                 console.warn('Background audio failed to play.', err);
             });
         }
+    }
+
+    acknowledgeConsent(): void {
+        this.showConsent = false;
     }
 
     private loadModels(): void {

@@ -10,6 +10,14 @@
 
             <p class="intro fade-in-up delay-1">Ride the Green Side.</p>
 
+            <div class="consent-overlay" *ngIf="showConsent">
+                <!-- Driver Consent -->
+                <div class="consent-box">
+                    <p>For safety reasons, please confirm you're not drving while using EcoEye.</p>
+                    <button (click)="acknowledgeConsent()">I'm not the driver</button>
+                </div>
+            </div>
+
             <!-- Loading Spinner -->
             <div *ngIf="isLoading" class="loading-spinner">
                 <img src="/assets/images/eco-loading.png" alt="Loading..." />
