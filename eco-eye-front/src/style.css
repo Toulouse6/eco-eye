@@ -68,12 +68,7 @@ body {
     width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-  background: linear-gradient(180deg,
-    #ffffff 0%,
-    #f6f6f6 25%,
-    #eeeeee 50%,
-    #e6e6e6 75%,
-    #dddddd 100%) !important;
+    background: #f9fefd;
 }
 
 /* Layout */
