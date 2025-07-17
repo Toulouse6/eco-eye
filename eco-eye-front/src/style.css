@@ -114,13 +114,6 @@ body {
     justify-content: center;
 }
 
-/* Errors */
-.error-message {
-    color: #367a40;
-    opacity: 0;
-    animation: fadeInWarning 0.3s ease-in-out forwards;
-}
-
 /* Typography */
 h1,
 h2,
@@ -145,7 +138,7 @@ button {
     font-size: 1.1rem;
     letter-spacing: 1px;
     text-transform: uppercase;
-    background-color: #005a2b;
+    background-color: #005a41;
     color: #fffaf5;
     border: 1px solid #ffffff;
     text-align: center;
@@ -158,8 +151,8 @@ button {
 button:hover,
 .custom-upload-btn:hover {
     background: #f5fff9;
-    color: #005a2b;
-    border-color: #005a2b;
+    color: #005a41;
+    border-color: #005a41;
 }
 
 .custom-upload-btn.disabled {

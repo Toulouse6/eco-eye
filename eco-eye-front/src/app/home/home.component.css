@@ -24,7 +24,7 @@
 
 .consent-box {
     position: relative;
-   background: #f9fefd !important;
+    background: #fafdff !important;
     padding: 1.5rem;
     border-radius: 8px;
     text-align: center;
@@ -86,7 +86,7 @@
     letter-spacing: 3px;
     text-shadow: 0 0 10px rgba(189, 140, 97, 0.2);
     font-weight: 500;
-    color: #005a2b;
+    color: #005a41;
     margin: 7rem 0 2rem 0;
 }
 
@@ -121,32 +121,31 @@ input[type="file"].input-box {
     border: 1px solid #cfe7d9;
     padding: 0.75rem 2rem;
     border-radius: 10px;
-    background: #f8fdf9;
+    background: white;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 128, 96, 0.06);
     font-size: 1.05rem;
 }
 
 .custom-select:hover {
-    background: #f5fff9;
-    border-color: #a5d6b5;
+    background: #fafdff;
+    border-color: #cfe7d9;
 }
 
 .custom-select span {
-    color: #005a2b;
+    color: #005a41;
     font-weight: 500;
 }
 
 .arrow-down {
     font-size: 1rem;
-    color: #006d31;
+    color: #005a41;
     margin-left: 5px;
 }
 
 /* Dropdown Box */
 .custom-dropdown {
     min-width: 100%;
-    border: 1px solid #cfe7d9;
+    border: 1px solid #edf7fa;
     background-color: #ffffff;
     border-radius: 8px;
     margin-top: 0.2rem;
@@ -162,7 +161,7 @@ input[type="file"].input-box {
 }
 
 .dropdown-item:hover {
-    background: #f5fff9;
+    background: #fafdff;
 }
 
 .dropdown-search-input {
@@ -170,7 +169,7 @@ input[type="file"].input-box {
     box-sizing: border-box;
     padding: 0.5rem;
     border: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #edf7fa;
     outline: none;
 }
 
