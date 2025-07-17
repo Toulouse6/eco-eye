@@ -71,7 +71,17 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         this.year = state?.['year'] || new Date().getFullYear();
     }
 
+    // Background video
+    public selectedVideo = 'assets/videos/road-banner.mp4';
+
     ngOnInit(): void {
+
+        // Random background videos
+        const random = Math.random();
+        this.selectedVideo = random < 0.5
+            ? 'assets/videos/road-banner.mp4'
+            : 'assets/videos/road-banner2.mp4';
+
         toast.loading('Generating your eco report...');
         const requestStart = Date.now();
 
