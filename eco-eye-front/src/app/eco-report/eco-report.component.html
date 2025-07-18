@@ -18,7 +18,7 @@
 
     </header>
 
-    <!-- Smart Driving-->
+    <!-- Live grade-->
     <div class="grade-bar-container fade-in">
         <div class="grade-bar">
             <div *ngFor="let segment of gradeSegments" class="grade-segment" [ngStyle]="{ background: segment.color }"
@@ -28,61 +28,7 @@
         </div>
     </div>
 
-    <section class="eco-section fade-in-up delay-1">
-        <h2>Smart Driving</h2>
-        <div class="eco-table">
-            <!-- Speed -->
-            <div class="row">
-                <span class="title">
-                    Speed Target
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Maintaining a steady speed around 80–90 km/h improves fuel
-                            efficiency.</span>
-                    </span>
-                </span>
-                <span class="value">
-                    {{ tips.speed }}
-                    <span class="user-value"> | {{ userSpeed }}</span>
-                </span>
-            </div>
-            <!-- Tire Pressure -->
-            <div class="row">
-                <span class="title">
-                    Tire Pressure
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Properly inflated tires reduce rolling resistance and increase
-                            mileage.</span>
-                    </span>
-                </span>
-                <span class="value">{{ tips.tirePressure }}</span>
-            </div>
-
-            <!-- Avoid Idling Over -->
-            <div class="row" *ngIf="!isElectric">
-                <span class="title">
-                    Limit Idling
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Idling wastes fuel and emits unnecessary pollutants.</span>
-                    </span>
-                </span>
-                <span class="value">{{ tips.idling }}</span>
-            </div>
-
-            <!-- Passengers -->
-            <div class="row">
-                <span class="title">
-                    Best Load
-                    <span class="info-icon">ℹ
-                        <span class="tooltip-text">Balancing load prevents excess strain on the engine, improving
-                            economy.</span>
-                    </span>
-                </span>
-                <span class="value">{{ tips.passengers }}</span>
-            </div>
-
-        </div>
-    </section>
-
+    <!-- Live Footprint-->
     <section class="eco-section fade-in-up delay-2">
         <h2>Live Eco Footprint</h2>
         <div class="eco-grid">
@@ -167,6 +113,62 @@
                 <span class="value">
                     <span class="user-value">{{ batteryRange }} km</span>
                 </span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Smart Driving-->
+    <section class="eco-section fade-in-up delay-1">
+        <h2>Smart Driving</h2>
+        <div class="eco-table">
+            <!-- Speed -->
+            <div class="row">
+                <span class="title">
+                    Speed Target
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Maintaining a steady speed around 80–90 km/h improves fuel
+                            efficiency.</span>
+                    </span>
+                </span>
+                <span class="value">
+                    {{ tips.speed }}
+                    <span class="user-value"> | {{ userSpeed }}</span>
+                </span>
+            </div>
+            <!-- Tire Pressure -->
+            <div class="row">
+                <span class="title">
+                    Tire Pressure
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Properly inflated tires reduce rolling resistance and increase
+                            mileage.</span>
+                    </span>
+                </span>
+                <span class="value">{{ tips.tirePressure }}</span>
+            </div>
+
+            <!-- Avoid Idling Over -->
+            <div class="row" *ngIf="!isElectric">
+                <span class="title">
+                    Limit Idling
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Idling wastes fuel and emits unnecessary pollutants.</span>
+                    </span>
+                </span>
+                <span class="value">{{ tips.idling }}</span>
+            </div>
+
+            <!-- Passengers -->
+            <div class="row">
+                <span class="title">
+                    Best Load
+                    <span class="info-icon">ℹ
+                        <span class="tooltip-text">Balancing load prevents excess strain on the engine, improving
+                            economy.</span>
+                    </span>
+                </span>
+                <span class="value">{{ tips.passengers }}</span>
             </div>
 
         </div>

@@ -231,11 +231,11 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     }
 
     gradeSegments = [
-        { label: 'D', color: '#1b3d2f' },
-        { label: 'C', color: '#4f8f5f' },
-        { label: 'B', color: '#39b257ff' },
-        { label: 'A', color: '#6fcf7f' },
-        { label: 'A+', color: '#0fda00ff' }
+        { label: 'D', color: '#47654eff' },
+        { label: 'C', color: '#367b41' },
+        { label: 'B', color: '#4aa65aff' },
+        { label: 'A', color: '#47d45fff' },
+        { label: 'A+', color: '#74ef88ff' }
     ];
 
     private getDrivingScore(): number {
