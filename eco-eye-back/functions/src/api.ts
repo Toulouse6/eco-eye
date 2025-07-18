@@ -3,6 +3,7 @@ import cors from "cors";
 import express, { Request, Response } from "express";
 import rateLimit from "express-rate-limit";
 const { Configuration, OpenAIApi } = require("openai");
+import admin from "firebase-admin";
 
 // OpenAI setup (SDK v3, JS-compatible)
 const configuration = new Configuration({
@@ -12,6 +13,12 @@ const openai = new OpenAIApi(configuration);
 
 // Express
 export const app = express();
+
+if (!admin.apps.length) {
+    admin.initializeApp();
+}
+
+const db = admin.firestore();
 
 app.use(cors({
     origin: [
@@ -88,6 +95,22 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
 
     try {
+
+        const yearKey = year.toString();
+        const modelKey = model.trim().toLowerCase().replace(/\s+/g, "_");
+        const docRef = db
+            .collection("ecoReports")
+            .doc(modelKey)
+            .collection("years")
+            .doc(year.toString());
+
+        const cachedDoc = await docRef.get();
+
+        if (cachedDoc.exists) {
+            console.log("✅ Using cached report from Firestore.");
+            return res.status(200).json({ report: cachedDoc.data(), cost: null });
+        }
+
         const response = await openai.createChatCompletion({
             model: "gpt-4",
             messages: [
@@ -99,21 +122,23 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
         const content = response.data.choices[0]?.message?.content;
 
-        if (!content || !content.trim().startsWith("{")) {
-            console.warn("GPT response was not valid JSON.");
+        try {
+            const json = JSON.parse(content);
+            await docRef.set(json);
+            console.log("📦 Report cached in Firestore.");
+
+            return res.status(200).json({
+                report: json,
+                cost: null
+            });
+        } catch (err) {
+            console.warn("❌ GPT returned bad JSON. Skipping cache.");
             return res.status(200).json({
                 report: null,
                 fallback: true,
                 message: "OpenAI response was malformed."
             });
         }
-
-        const json = JSON.parse(content);
-
-        return res.status(200).json({
-            report: json,
-            cost: null
-        });
 
     } catch (err: any) {
         console.error("Failed to process report:", err);

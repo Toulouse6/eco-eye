@@ -163,8 +163,18 @@ export class EcoReportService {
                         }
 
                         console.info("GPT report received.");
+
                         if (cost) console.log(`GPT Cost: $${parseFloat(cost).toFixed(6)}`);
+
+                        console.log(
+                            parsed?.fallback
+                                ? "⚠️ Using fallback report"
+                                : "✅ Using GPT-generated report"
+                        );
+                        console.log("📄 Report content:", parsed);
+
                         observer.next({ ...parsed, cost, fallback: false });
+
                         observer.complete();
                     },
                     error: err => observer.error(err)
