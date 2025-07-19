@@ -314,6 +314,10 @@ header {
         margin-bottom: 0;
     }
 
+     .grade-bar-container {
+        margin: -0.7rem auto 1.5rem auto;
+    }
+
     .eco-cell {
         padding: 1rem 0.5rem;
         margin-bottom: 1rem;
@@ -333,6 +337,10 @@ header {
         font-size: 0.8rem;
     }
 
+    .info-icon {
+        margin-left: 0;
+    }
+
     .tooltip-text {
         width: 130px;
         transform: translateX(-80%);
@@ -344,6 +352,15 @@ header {
 
     .eco-section p {
         font-size: 0.8rem;
+    }
+
+}
+
+@media (max-width: 320px) {
+
+    .eco-cell {
+        max-width: 92px;
+        font-size: 9px;
     }
 
 }
