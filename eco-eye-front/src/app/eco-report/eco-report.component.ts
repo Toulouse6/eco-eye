@@ -33,25 +33,34 @@ export interface EcoTips {
     templateUrl: './eco-report.component.html',
     styleUrls: ['./eco-report.component.css']
 })
+
 export class EcoReportComponent implements OnInit, OnDestroy {
-    model = '';
-    year = 0;
-    userSpeed = '0 km/h';
-    estimatedRange = '';
-    chargingTime = '';
 
-
+    // Geo Location
     watchId: number | null = null;
     lastPosition: GeolocationPosition | null = null;
-    totalDistance = 0;
-    carbonFootprint = 0;
-    co2Saved = 0;
-    fuelSaved = 0;
 
     private geoErrorShown = false;
     isLoading = true;
     isStatsReady = false;
     isSharing = false;
+
+    // Car profile
+
+    model = '';
+    year = 0;
+
+
+    userSpeed = '0 km/h';
+    estimatedRange = '';
+    chargingTime = '';
+
+    totalDistance = 0;
+    carbonFootprint = 0;
+    co2Saved = 0;
+    fuelSaved = 0;
+
+    // Car features
 
     features: CarFeatures = {
         fuelEfficiency: '',
@@ -63,6 +72,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         co2: '',
         recyclability: ''
     };
+    // Eco tips
     tips: EcoTips = {
         speed: '',
         tirePressure: '',
@@ -71,23 +81,31 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         funFact: ''
     };
 
+    // Constructor
     constructor(private router: Router, private ecoService: EcoReportService) {
         const state = this.router.getCurrentNavigation()?.extras?.state;
         this.model = state?.['model'] ?? 'Unknown';
         this.year = state?.['year'] || new Date().getFullYear();
     }
 
+    // Header video
     public selectedVideo = 'assets/videos/road-banner.mp4';
 
+    // On Init
     ngOnInit(): void {
+
+        // Random background video
         const random = Math.random();
         this.selectedVideo = random < 0.5
             ? 'assets/videos/road-banner.mp4'
             : 'assets/videos/road-banner2.mp4';
 
         toast.loading('Generating your eco report...');
+
+        // Date
         const requestStart = Date.now();
 
+        // Get Report
         this.ecoService.fetchAndTrackReport(this.model, this.year, this.updateStats.bind(this)).subscribe({
             next: (data) => {
                 this.features = data.features;
@@ -118,6 +136,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             }
         });
 
+        // Geo Location
         this.watchId = navigator.geolocation.watchPosition(
             pos => this.updateStats(pos, this.features),
             err => {
@@ -130,11 +149,14 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         );
     }
 
+    // On Destroy
     ngOnDestroy(): void {
         if (this.watchId !== null) {
             navigator.geolocation.clearWatch(this.watchId);
         }
     }
+
+    // Condition setup
 
     get isElectric(): boolean {
         return this.features.powerType === 'Electric';
@@ -147,6 +169,9 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     get isCombustion(): boolean {
         return this.features.powerType !== 'Electric' && this.features.powerType !== 'Hybrid';
     }
+
+
+    // Battery setup
 
     get batteryRange(): number {
         const capacity = parseFloat(this.features.batteryCapacity || '');
@@ -170,6 +195,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return '';
     }
 
+    // Emission setup
     get showCo2(): boolean {
         return !this.isElectric;
     }
@@ -178,6 +204,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return true;
     }
 
+    // Update User State
     private updateStats(position: GeolocationPosition, features: CarFeatures): void {
         const speedMps = position.coords.speed ?? 0;
         this.userSpeed = `${(speedMps * 3.6).toFixed(1)} km/h`;
@@ -209,6 +236,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         this.lastPosition = position;
     }
 
+    // Get Geo Location Distance 
     private getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
         const R = 6371;
         const dLat = this.deg2rad(lat2 - lat1);
@@ -221,7 +249,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return R * c;
     }
 
-
+    // Calculate Grade
     public calculateLiveGreenGrade(): string {
         const score = this.getDrivingScore();
         return score >= 90 ? 'A+' :
@@ -230,6 +258,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                     score >= 60 ? 'C' : 'D';
     }
 
+    // Grade bar
     gradeSegments = [
         { label: 'D', color: '#2d4b32' },
         { label: 'C', color: '#367b41' },
@@ -238,6 +267,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         { label: 'A+', color: '#a1f3b1' }
     ];
 
+    // Calculate score
     private getDrivingScore(): number {
         let score = 100;
 
@@ -276,6 +306,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
         element.classList.add('screenshot-mode');
 
+        // Canvas
         html2canvas(element, {
             logging: false,
             backgroundColor: null,

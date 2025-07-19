@@ -15,27 +15,30 @@ import { EcoReportService } from '../services/report.service';
 export class HomeComponent implements OnInit {
 
     showConsent = true;
+    isLoading = false;
+    private backgroundAudio = new Audio('assets/audio/nova-notes.mp3');
+
+    // Year
     selectedYear: number | null = null;
     selectedModel: string | null = null;
     yearDropdownOpen = false;
     availableYears: number[] = [];
 
+    // Model
     modelSearch = '';
     dropdownOpen = false;
     filteredModels: string[] = [];
-
-    isLoading = false;
-
     private allModels: string[] = [];
-    private backgroundAudio = new Audio('assets/audio/nova-notes.mp3');
 
     constructor(
         private router: Router,
         private reportService: EcoReportService
     ) { }
 
+    // OnInit
     ngOnInit() {
 
+        this.checkConsentOncePerDay();
         this.loadModels();
 
         this.backgroundAudio.loop = true;
@@ -46,6 +49,7 @@ export class HomeComponent implements OnInit {
         });
     }
 
+    // Background Music
     private playBackgroundAudio(): void {
         if (this.backgroundAudio.paused) {
             this.backgroundAudio.play().catch(err => {
@@ -54,10 +58,21 @@ export class HomeComponent implements OnInit {
         }
     }
 
+    // Driver Consent
+    private checkConsentOncePerDay(): void {
+        const lastConsentDate = localStorage.getItem('ecoConsentDate');
+        const today = new Date().toISOString().split('T')[0];
+
+        this.showConsent = lastConsentDate !== today;
+    }
+
     acknowledgeConsent(): void {
+        const today = new Date().toISOString().split('T')[0];
+        localStorage.setItem('ecoConsentDate', today);
         this.showConsent = false;
     }
 
+    // Load Models
     private loadModels(): void {
         if (this.allModels.length > 0) {
             this.filteredModels = this.allModels;
@@ -78,6 +93,8 @@ export class HomeComponent implements OnInit {
         });
 
     }
+
+    // Search Model
 
     toggleDropdown(): void {
         this.dropdownOpen = !this.dropdownOpen;
@@ -113,6 +130,7 @@ export class HomeComponent implements OnInit {
 
     }
 
+    // Search Year
     toggleYearDropdown() {
         this.yearDropdownOpen = !this.yearDropdownOpen;
     }
@@ -122,6 +140,7 @@ export class HomeComponent implements OnInit {
         this.yearDropdownOpen = false;
     }
 
+    // Generate Report
     generateReport(): void {
 
         if (!this.selectedModel || !this.selectedYear) {

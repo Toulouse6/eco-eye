@@ -13,10 +13,12 @@ export class EcoReportService {
 
     constructor(private http: HttpClient) { }
 
+    // Get models
     getModelsFromJson(): Observable<string[]> {
         return this.http.get<any>('assets/fallback.json').pipe(map(data => data.models));
     }
 
+    // Get years
     getAvailableYearsFromJson(model: string): Observable<number[]> {
         return this.http.get<any>('assets/fallback.json').pipe(
             map(data => {
@@ -26,6 +28,7 @@ export class EcoReportService {
         );
     }
 
+    // API Health
     checkApiStatus(): Observable<boolean> {
         return this.http.get(environment.statusUrl).pipe(
             map(() => true),
@@ -33,6 +36,7 @@ export class EcoReportService {
         );
     }
 
+    // Load Fallback
     private loadFallback(): Observable<EcoReportResponse> {
         return this.http.get<EcoReportResponse>('assets/fallback.json').pipe(
             map(data => {
@@ -46,6 +50,7 @@ export class EcoReportService {
         );
     }
 
+    // Fetch Report
     fetchAndTrackReport(
         model: string,
         year: number,
@@ -55,6 +60,7 @@ export class EcoReportService {
         tips: EcoTips;
         fallback: boolean;
     }> {
+        // Subscribe
         return new Observable(observer => {
             this.getEcoReport(model, year).subscribe({
                 next: report => {
@@ -73,7 +79,7 @@ export class EcoReportService {
                             { enableHighAccuracy: true }
                         );
                     }
-
+                    // Next
                     observer.next({
                         features: {
                             fuelEfficiency: report.fuelEfficiency ?? '',
@@ -95,7 +101,7 @@ export class EcoReportService {
                         },
                         fallback: report.fallback ?? false
                     });
-
+                    // Complete
                     observer.complete();
                 },
                 error: err => observer.error(err)
@@ -103,6 +109,7 @@ export class EcoReportService {
         });
     }
 
+    // Get Eco Report
     getEcoReport(model: string, year: number): Observable<EcoReportResponse> {
         const payload: EcoReportRequest = { model, year };
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -120,6 +127,7 @@ export class EcoReportService {
                     return;
                 }
 
+                // Post
                 this.http.post<{ report: EcoReportResponse | string; cost?: string }>(this.apiUrl, payload, { headers }).pipe(
                     catchError(err => {
                         console.warn("API call failed. Using fallback.", err);
@@ -132,6 +140,7 @@ export class EcoReportService {
                         });
                         return EMPTY;
                     })
+                    // Subscribe
                 ).subscribe({
                     next: ({ report, cost }) => {
                         let parsed: any = report;
@@ -150,7 +159,7 @@ export class EcoReportService {
                                 return;
                             }
                         }
-
+                        // Using Fallback
                         if (!parsed || typeof parsed !== 'object') {
                             console.warn("Invalid report structure. Using fallback.");
                             this.loadFallback().subscribe({
@@ -162,7 +171,7 @@ export class EcoReportService {
                             });
                             return;
                         }
-
+                        // Report received
                         console.info("GPT report received.");
                         if (cost) console.log(`GPT Cost: $${parseFloat(cost).toFixed(6)}`);
                         observer.next({ ...parsed, cost, fallback: false });

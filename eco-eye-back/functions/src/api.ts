@@ -56,6 +56,7 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
         return res.status(400).json({ error: "Invalid model or year format." });
     }
 
+    // GPT Prompt
     const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
 
 Model: ${model}
@@ -87,6 +88,7 @@ Respond in strict JSON format with the following keys:
 Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
     try {
+        // Chat Response
         const response = await openai.createChatCompletion({
             model: "gpt-4",
             messages: [
@@ -98,12 +100,13 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
         const content = response.data.choices[0]?.message?.content;
 
+        // Not a valid JSON Error
         if (!content || !content.trim().startsWith("{")) {
             console.warn("GPT response was not valid JSON.");
             return res.status(200).json({
                 report: null,
                 fallback: true,
-                message: "OpenAI response was malformed."
+                message: "Not a JSON response."
             });
         }
 
@@ -113,7 +116,7 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
             report: json,
             cost: null
         });
-
+        // Report failed
     } catch (err: any) {
         console.error("Failed to process report:", err);
         return res.status(500).json({
