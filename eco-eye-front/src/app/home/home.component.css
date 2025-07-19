@@ -138,14 +138,14 @@
     text-align: center;
     margin-top: -0.2rem;
     margin-bottom: 0.8rem;
-    padding-right: 95px;
+    padding-right: 90px;
 }
 
 /* Logo */
 .eco-logo-title {
-    width: 60px;
+    width: 55px;
     height: auto;
-    margin: 7rem 0 0 -0.3rem;
+    margin: 125px 0 0 -5px;
     padding: 0;
 }
 
@@ -286,8 +286,8 @@ input[type="file"].input-box {
     }
 
     .eco-logo-title {
-        width: 53px;
-        margin: 6.8rem 0 0 -0.3rem;
+        width: 50px;
+        margin: 115px 0 0 -5px;
     }
 
     .consent-box p {
@@ -327,8 +327,8 @@ input[type="file"].input-box {
     }
 
     .eco-logo-title {
-        width: 50px;
-        margin: 6.8rem 0 0 -0.3rem;
+        width: 42px;
+        margin: 115px 0 0 -2px;
     }
 
     .intro {

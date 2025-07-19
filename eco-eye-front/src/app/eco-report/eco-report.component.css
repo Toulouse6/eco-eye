@@ -260,6 +260,11 @@ header {
         min-height: 100vh;
     }
 
+
+    header {
+        margin: 0.2rem 0 1.8rem 0;
+    }
+
     .eco-title-logo {
         width: 70px;
         margin-bottom: -0.3rem;
@@ -303,7 +308,6 @@ header {
 
     header {
         height: 9rem;
-        margin: 0.2rem 0 1.8rem 0;
     }
 
     .eco-title {
@@ -314,7 +318,7 @@ header {
         margin-bottom: 0;
     }
 
-     .grade-bar-container {
+    .grade-bar-container {
         margin: -0.7rem auto 1.5rem auto;
     }
 
