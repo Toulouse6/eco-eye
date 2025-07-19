@@ -15,7 +15,7 @@ import { EcoReportService } from '../services/report.service';
 export class HomeComponent implements OnInit {
 
     showConsent = true;
-    isLoading = true;
+    isLoading = false;
     private backgroundAudio = new Audio('assets/audio/nova-notes.mp3');
 
     // Year
