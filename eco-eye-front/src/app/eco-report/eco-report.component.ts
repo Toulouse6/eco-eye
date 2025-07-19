@@ -355,9 +355,9 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
                 if (navigator.canShare?.({ files: [file] })) {
                     navigator.share({
-                        title: 'My EcoEye Report',
+                        title: 'My EcoFriendly Report',
                         files: [file],
-                        text: 'Check out my EcoEye report!'
+                        text: 'Check out my EcoFriendly report!'
                     }).finally(() => {
                         this.isSharing = false;
                         toast.success('Report shared!');

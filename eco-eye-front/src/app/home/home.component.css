@@ -64,43 +64,92 @@
     z-index: 3;
 }
 
-/* Title & Logo*/
-.home-title-row {
+/* Home Title & Logo */
+
+.flex-wrapper {
     display: flex;
-    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    width: 100%;
 }
 
-.eco-logo-title {
-    width: 60px;
-    height: auto;
-    margin: 4.7rem 0 0 -0.4rem;
+.home-title-row {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 600px;
+}
 
+/* Home Title containers */
+
+.title-logo-group {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    justify-content: center;
+}
+
+.container.home-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100vh;
+    padding-top: 4rem;
+    box-sizing: border-box;
+}
+
+.title-block {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.title-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 400px;
+    text-align: left;
 }
 
 /* Typography */
 .home-title h1 {
-    text-align: center;
     text-transform: capitalize;
-    font-size: 3.8rem;
+    font-size: 3.5rem;
     letter-spacing: 3px;
     text-shadow: 0 0 10px rgba(189, 140, 97, 0.2);
     font-weight: 500;
     color: #005a41;
-    margin: 7rem 0 2rem 0;
+    margin: 7rem 0 0 0;
 }
 
 .intro {
     color: #2d4b32;
     width: 100%;
+    max-width: 400px;
     line-height: 1;
-    font-size: 1.8rem;
-    margin: -2.2rem 0 2.5rem 0;
+    font-size: 1.6rem;
+    text-align: center;
+    margin-top: -0.2rem;
+    margin-bottom: 0.8rem;
+    padding-right: 95px;
+}
+
+/* Logo */
+.eco-logo-title {
+    width: 60px;
+    height: auto;
+    margin: 7rem 0 0 -0.3rem;
+    padding: 0;
 }
 
 /* Input */
-
 input[type="file"].input-box {
     position: absolute;
     clip: rect(0, 0, 0, 0);
@@ -218,20 +267,27 @@ input[type="file"].input-box {
     .consent-box p {
         font-size: 1rem;
     }
+
+
 }
 
 
 /* Mobile */
 @media (max-width: 440px) {
 
-    .home-title h1 {
-        line-height: 1.1;
-        font-size: 2.8rem;
-        margin: 4rem 0 1.2rem;
+    .consent-box {
+        margin-top: -18rem;
     }
 
-    .consent-box {
-        margin-top: -20rem;
+
+    .home-title h1 {
+        font-size: 2.8rem;
+        margin: 7rem 0 1rem 0;
+    }
+
+    .eco-logo-title {
+        width: 53px;
+        margin: 6.8rem 0 0 -0.3rem;
     }
 
     .consent-box p {
@@ -239,8 +295,10 @@ input[type="file"].input-box {
     }
 
     .intro {
-        font-size: 1.5rem;
-        margin: -1rem 0 1rem 0;
+        font-size: 1.3rem;
+        margin-top: -1rem;
+        padding-right: 80px;
+        margin-bottom: 0.5rem;
     }
 
     .custom-select-wrapper {
@@ -253,13 +311,27 @@ input[type="file"].input-box {
         padding: 0.75rem 1rem;
     }
 
-    .eco-logo-title {
-        margin: 2rem 0 0 -0.3rem;
-    }
-
     .loading-spinner img {
         top: 10rem;
         width: 8rem;
     }
 
+}
+
+@media (max-width: 320px) {
+
+
+    .home-title h1 {
+        font-size: 2.2rem;
+        margin: 7rem 0 1rem 0;
+    }
+
+    .eco-logo-title {
+        width: 50px;
+        margin: 6.8rem 0 0 -0.3rem;
+    }
+
+    .intro {
+        font-size: 1rem;
+    }
 }

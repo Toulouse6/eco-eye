@@ -3,17 +3,21 @@
         <div class="container home-title">
 
             <!-- Title Row -->
-            <div class="home-title-row fade-in">
-                <h1 class="home-title">EcoEye</h1>
-                <img src="assets/images/eco-logo.png" alt="Logo" class="eco-logo-title" />
-            </div>
+            <div class="title-block">
+                <div class="title-inner fade-in delay-1">
+                    <div class="title-logo-group">
+                        <h1 class="home-title">EcoFriendly</h1>
+                        <img src="assets/images/eco-logo.png" alt="Logo" class="eco-logo-title" />
+                    </div>
+                    <p class="intro fade-in-up delay-1">Smarter Rides Every Day</p>
+                </div>
 
-            <p class="intro fade-in-up delay-1">Ride the Green Side.</p>
+            </div>
 
             <div class="consent-overlay" *ngIf="showConsent">
                 <!-- Driver Consent -->
                 <div class="consent-box">
-                    <p>For safety reasons, please confirm you're not drving while using EcoEye.</p>
+                    <p>For safety reasons, please confirm you're not drving while using EcoFriendly.</p>
                     <button (click)="acknowledgeConsent()">I'm not the driver</button>
                 </div>
             </div>

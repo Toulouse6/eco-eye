@@ -31,6 +31,7 @@
 }
 
 .delay-1 {
+    animation: fadeInUp 0.7s ease-out both;
     animation-delay: 0.2s;
 }
 
@@ -75,10 +76,12 @@ body {
 .container {
     height: 100vh;
     justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 90%;
     max-width: 900px;
     margin: 0 auto;
-    text-align: center;
     color: #2f4636;
 }
 
@@ -109,7 +112,7 @@ body {
 }
 
 .flex-wrapper {
-    width: 75%;
+    width: 100%;
     display: flex;
     justify-content: center;
 }
@@ -143,7 +146,7 @@ button {
     border: 1px solid #ffffff;
     text-align: center;
     padding: 0.6rem 5.2rem;
-    border-radius: 60px !important;
+    border-radius: 30px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
