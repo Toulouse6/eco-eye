@@ -17,7 +17,8 @@
 
     </header>
     <!-- Live grade-->
-    <div class="grade-bar-container fade-in">
+    <div class="grade-bar-container eco-section  fade-in">
+                <h2>Live Eco Footprint</h2>
         <div class="grade-bar">
             <div *ngFor="let segment of gradeSegments" class="grade-segment" [ngStyle]="{ background: segment.color }"
                 [class.active]="segment.label === calculateLiveGreenGrade()">
@@ -28,7 +29,6 @@
 
     <!-- Live Footprint-->
     <section class="eco-section fade-in-up delay-1">
-        <h2>Live Eco Footprint</h2>
         <div class="eco-grid">
 
             <!-- Fuel Saved -->
