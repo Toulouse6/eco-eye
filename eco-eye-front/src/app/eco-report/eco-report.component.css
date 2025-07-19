@@ -21,7 +21,7 @@ header {
     padding: 0;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
-    margin: 0.5rem 0 1.5rem 0;
+    margin: 0.5rem 0 1.2rem 0;
 }
 
 /* Video */
@@ -59,7 +59,7 @@ header {
 
 /* Grade bar */
 .grade-bar-container {
-    margin: -0.5rem auto 1.5rem;
+    margin: -0.8rem auto 1.5rem;
     padding: 0 1rem;
     text-align: center;
     max-width: 400px;
@@ -97,6 +97,14 @@ header {
 /* Section headers */
 .eco-section h2 {
     color: #2d4b32;
+    font-size: 1.1rem;
+}
+
+.eco-section h3 {
+    text-transform: uppercase;
+    color: #367b41;
+    padding-top: 0.3rem;
+    margin-bottom: 0.8rem;
     font-size: 1.1rem;
 }
 
@@ -151,6 +159,7 @@ header {
 }
 
 .eco-cell .title {
+    color: #367b41;
     font-weight: 600;
     display: inline-flex;
     align-items: center;
@@ -170,7 +179,7 @@ header {
     cursor: pointer;
     font-size: 1rem;
     color: #919d97;
-    margin-left: 0.5rem;
+    margin-left: 0.2rem;
 }
 
 .info-icon:hover {
@@ -245,6 +254,10 @@ header {
         font-size: 2rem;
     }
 
+    .eco-table .value {
+        font-size: 0.8rem;
+    }
+
     .eco-title-row {
         margin-bottom: -0.5rem;
     }
@@ -258,11 +271,6 @@ header {
         margin: 0;
         border-radius: 0;
         min-height: 100vh;
-    }
-
-
-    header {
-        margin: 0.2rem 0 1.8rem 0;
     }
 
     .eco-title-logo {
@@ -282,10 +290,6 @@ header {
     .grade-segment {
         font-size: 0.8rem;
         padding: 0.5rem 0;
-    }
-
-    .eco-table .value {
-        font-size: 0.8rem;
     }
 
     .eco-cell .value {
@@ -308,6 +312,7 @@ header {
 
     header {
         height: 9rem;
+        margin: 0.2rem 0 1.5rem 0;
     }
 
     .eco-title {
@@ -330,6 +335,10 @@ header {
 
     .eco-section h2 {
         margin-top: -0.6rem;
+        font-size: 0.8rem;
+    }
+
+    .eco-section h3 {
         font-size: 0.8rem;
     }
 
