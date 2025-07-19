@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
 
-        this.checkConsentDaily();
         this.loadModels();
 
         this.backgroundAudio.loop = true;
@@ -56,16 +55,7 @@ export class HomeComponent implements OnInit {
     }
 
     acknowledgeConsent(): void {
-        const today = new Date().toISOString().split('T')[0];
-        localStorage.setItem('ecoConsentDate', today);
         this.showConsent = false;
-    }
-
-    private checkConsentDaily(): void {
-        const lastConsentDate = localStorage.getItem('ecoConsentDate');
-        const today = new Date().toISOString().split('T')[0];
-
-        this.showConsent = lastConsentDate !== today;
     }
 
     private loadModels(): void {
@@ -167,6 +157,7 @@ export class HomeComponent implements OnInit {
             }
         });
     }
+
 
 
 }
