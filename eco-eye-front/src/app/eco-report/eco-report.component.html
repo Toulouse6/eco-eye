@@ -17,6 +17,17 @@
 
     </header>
 
+    <!-- Live grade-->
+    <div class="grade-bar-container eco-section  fade-in">
+        <h3>Live Eco Footprint</h3>
+        <div class="grade-bar">
+            <div *ngFor="let segment of gradeSegments" class="grade-segment" [ngStyle]="{ background: segment.color }"
+                [class.active]="segment.label === calculateLiveGreenGrade()">
+                {{ segment.label }}
+            </div>
+        </div>
+    </div>
+
     <!-- Smart Driving-->
     <section class="eco-section fade-in-up delay-1">
         <h2>Smart Driving</h2>
@@ -73,19 +84,8 @@
         </div>
     </section>
 
-    <!-- Live grade-->
-    <div class="grade-bar-container eco-section  fade-in-up delay-2">
-        <h3>Live Eco Footprint</h3>
-        <div class="grade-bar">
-            <div *ngFor="let segment of gradeSegments" class="grade-segment" [ngStyle]="{ background: segment.color }"
-                [class.active]="segment.label === calculateLiveGreenGrade()">
-                {{ segment.label }}
-            </div>
-        </div>
-    </div>
-
     <!-- Live Footprint-->
-    <section class="eco-section fade-in-up delay-3">
+    <section class="eco-section fade-in-up delay-2">
         <div class="eco-grid">
 
             <!-- Fuel Saved -->
@@ -174,7 +174,7 @@
     </section>
 
     <!-- Vehicle Overview -->
-    <section class="eco-section fade-in-up delay-4">
+    <section class="eco-section fade-in-up delay-3">
         <h2>Vehicle Overview</h2>
         <div class="eco-table">
 

@@ -98,12 +98,12 @@ header {
 .eco-section h2 {
     color: #2d4b32;
     font-size: 1.1rem;
+    margin-left: 3px;
 }
 
 .eco-section h3 {
-    text-transform: uppercase;
     color: #367b41;
-    padding-top: 0.3rem;
+    padding-top: 0.5rem;
     margin-bottom: 0.8rem;
     font-size: 1.1rem;
 }
@@ -312,7 +312,7 @@ header {
 
     header {
         height: 9rem;
-        margin: 0.2rem 0 1.5rem 0;
+        margin: 0.2rem 0 1rem 0;
     }
 
     .eco-title {
