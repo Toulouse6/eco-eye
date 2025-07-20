@@ -95,10 +95,11 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
         const yearRef = modelRef.collection("years").doc(year.toString());
 
         // ✅ Ensure Firestore paths exist
-        await modelRef.set({}, { merge: true });
-        await yearRef.set({}, { merge: true }); // <-- resolves NOT_FOUND on .get()
+        await yearRef.set({}, { merge: true });
+        await new Promise(resolve => setTimeout(resolve, 50));
 
         console.log(`📦 Firestore path: eco-reports/${modelKey}/years/${year}`);
+        console.log("Reading from:", yearRef.path);
 
         const cachedDoc = await yearRef.get();
         const cachedData = cachedDoc.data();
