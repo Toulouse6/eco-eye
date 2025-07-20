@@ -39,15 +39,11 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     watchId: number | null = null;
     lastPosition: GeolocationPosition | null = null;
 
-    private geoErrorShown = false;
-
-    // Report spinner
     private firstUpdateDone = false;
 
     isLoading = true;
 
     // Car profile
-
     model = '';
     year = 0;
 
@@ -61,17 +57,16 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     fuelSaved = 0;
 
     // Car features
-
     features: CarFeatures = {
         fuelEfficiency: '',
         emissions: '',
         powerType: '',
         batteryCapacity: '',
         energyConsumption: '',
-
         co2: '',
         recyclability: ''
     };
+
     // Eco tips
     tips: EcoTips = {
         speed: '',
@@ -89,7 +84,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     // On Init
     ngOnInit(): void {
-        const state = this.router.getCurrentNavigation()?.extras?.state;
+        const state = this.router.getCurrentNavigation()?.extras?.state ?? {};
 
         if (state?.['model'] && state?.['year']) {
             this.model = state['model'];
@@ -106,8 +101,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             }
         }
 
-        // Prevent duplicate calls
-        if (this.firstUpdateDone) return;
+        console.log('Selected vehicle:', this.model, this.year);
 
         this.ecoService.fetchAndTrackReport(this.model, this.year, this.updateStats.bind(this)).subscribe({
             next: (data) => {
@@ -122,6 +116,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                     toast.warning('Using fallback.', { id: 'loading' });
                 }
 
+                // Pending Response
                 requestAnimationFrame(() => {
                     setTimeout(() => {
                         if (!this.firstUpdateDone) {
@@ -131,7 +126,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                             toast.dismiss('loading');
                             toast.warning('GPS update not received. Showing static report.');
                         }
-                    }, 3000);
+                    }, 5000);
                 });
             },
             error: () => {
@@ -140,16 +135,21 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.watchId = navigator.geolocation.watchPosition(
-            pos => this.updateStats(pos, this.features),
-            err => {
-                if (!this.geoErrorShown) {
-                    toast.warning('Location access denied.');
-                    this.geoErrorShown = true;
-                }
-            },
-            { enableHighAccuracy: true, maximumAge: 5000 }
-        );
+        if (!this.watchId) {
+            this.watchId = navigator.geolocation.watchPosition(
+                pos => {
+                    this.updateStats(pos, this.features);
+
+                },
+                err => {
+                    console.warn("GPS error:", err.message);
+                    this.isLoading = false;
+                    toast.dismiss('loading');
+                    toast.error("Unable to get location. Showing static report.");
+                },
+                { enableHighAccuracy: true }
+            );
+        }
     }
 
     // On Destroy
@@ -172,6 +172,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     get isCombustion(): boolean {
         return this.features.powerType !== 'Electric' && this.features.powerType !== 'Hybrid';
     }
+
 
     // Battery setup
 
@@ -198,7 +199,9 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return '';
     }
 
+
     // Emission setup
+
     get showCo2(): boolean {
         return !this.isElectric;
     }
@@ -207,12 +210,14 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return true;
     }
 
+
     // Update User State
     private updateStats(position: GeolocationPosition, features: CarFeatures): void {
 
         if (!this.firstUpdateDone) {
-            this.firstUpdateDone = true;
+
             this.isLoading = false;
+            this.firstUpdateDone = true;
 
             toast.dismiss('loading');
             toast.success('Eco report ready!');
@@ -233,21 +238,24 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             const userEmission = parseFloat(features.co2) || 120;
             const fuelEfficiency = parseFloat(features.fuelEfficiency.split(' ')[0]) || 15;
             const avgEmission = 180;
+            
+            const battery = parseFloat(this.features.batteryCapacity || '0');
+            const consumption = parseFloat(this.features.energyConsumption || '15');
+
+            if (!battery || !consumption) {
+                toast.error('Missing battery or consumption values.');
+                return;
+            }
+
 
             this.carbonFootprint = (this.totalDistance / 1000) * userEmission;
             this.co2Saved = (this.totalDistance / 1000) * (avgEmission - userEmission);
-            this.fuelSaved = (this.totalDistance / 1000) / fuelEfficiency;
+            this.fuelSaved = this.isElectric ? 0 : (this.totalDistance / 1000) / fuelEfficiency;
 
-            if (this.isElectric) {
-                this.fuelSaved = 0;
-            } else {
-                this.fuelSaved = (this.totalDistance / 1000) / fuelEfficiency;
-            }
         }
 
         this.lastPosition = position;
     }
-
 
     // Get Geo Location Distance 
     private getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
