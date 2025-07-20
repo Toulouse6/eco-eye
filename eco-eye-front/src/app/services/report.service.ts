@@ -134,7 +134,10 @@ export class EcoReportService {
 
     // Get Eco Report
     getEcoReport(model: string, year: number): Observable<EcoReportResponse> {
+
         const payload: EcoReportRequest = { model, year };
+        console.log('Sending payload to GPT:', payload);
+
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
         return new Observable(observer => {

@@ -107,6 +107,8 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         // Prevent mulitiple calls
         if (this.firstUpdateDone) return;
 
+        console.log('Selected vehicle:', this.model, this.year);
+
         this.ecoService.fetchAndTrackReport(this.model, this.year, this.updateStats.bind(this)).subscribe({
             next: (data) => {
                 this.features = data.features;
