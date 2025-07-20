@@ -1,5 +1,5 @@
 <div *ngIf="isLoading" class="loading-spinner fullscreen fade-in">
-    <img src="assets/images/eco-loading.png" alt="Loading..." />
+    <img src="assets/images/eco-logo-loading.png" alt="Loading..." />
 </div>
 
 <div *ngIf="!isLoading" class="eco-report-container fade-in" id="eco-report-container">
@@ -13,7 +13,7 @@
         <div class="eco-title-row fade-in">
             <!-- Logo -->
             <a routerLink="/">
-                <img src="assets/images/eco-loading.png" alt="EcoFriendly Logo" class="eco-title-logo" />
+                <img src="assets/images/eco-icon.png" alt="EcoFriendly Logo" class="eco-title-logo" />
             </a>
             <!-- Title -->
             <h1 class="eco-title">{{ model }} | {{ year }}</h1>
@@ -23,7 +23,7 @@
 
     <!-- Live grade-->
     <div class="grade-bar-container eco-section fade-in">
-        <h3>Live Eco Footprint</h3>
+        <h3>Your Live Eco Footprint</h3>
         <div class="grade-bar">
             <div *ngFor="let segment of gradeSegments" class="grade-segment" [ngStyle]="{ background: segment.color }"
                 [class.active]="segment.label === calculateLiveGreenGrade()">

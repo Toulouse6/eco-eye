@@ -29,7 +29,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: url('../../assets/images/eco-loading.png') no-repeat center center;
+    background: url('../../assets/images/eco-icon.png') no-repeat center center;
     background-size: contain;
     opacity: 0.08;
     z-index: 0;
@@ -55,29 +55,7 @@
 }
 
 
-/* Spinner Container */
-.loading-spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-    width: 100%;
-    position: relative;
-    z-index: 999;
-}
-
-/* Spinner Image */
-.loading-spinner img {
-    animation: spin 8s linear infinite;
-    opacity: 0.8;
-    width: 8rem;
-    position: fixed;
-    top: 13.5rem;
-}
-
-
 /* Home Title & Logo */
-
 .flex-wrapper {
     display: flex;
     justify-content: center;
@@ -148,17 +126,14 @@
     line-height: 1;
     font-size: 1.6rem;
     text-align: center;
-    margin-top: -0.2rem;
-    margin-bottom: 0.8rem;
-    padding-right: 95px;
+    margin-top: -5px;
+    margin-bottom: 1rem;
 }
 
 /* Logo */
 .eco-logo-title {
-    width: 70px;
-    height: auto;
-    margin: 111px 0 0 -8px;
-    padding: 0;
+    width: 400px;
+    margin-top: 10rem;
 }
 
 /* Input */
@@ -223,7 +198,7 @@ input[type="file"].input-box {
 }
 
 .dropdown-item:hover {
-   background: #f8fff7;
+    background: #f8fff7;
 }
 
 .dropdown-search-input {
@@ -256,7 +231,6 @@ input[type="file"].input-box {
         font-size: 1rem;
     }
 
-
 }
 
 
@@ -267,19 +241,10 @@ input[type="file"].input-box {
         margin-top: -18rem;
     }
 
-    .loading-spinner img {
-        top: 12.5rem;
-        width: 6.5rem;
-    }
-
-    .home-title h1 {
-        font-size: 2.8rem;
-        margin: 7rem 0 1rem 0;
-    }
-
+    /* Logo */
     .eco-logo-title {
-        width: 60px;
-        top: 108px;
+        width: 280px;
+        margin-top: 8rem;
     }
 
     .consent-box p {
@@ -287,10 +252,8 @@ input[type="file"].input-box {
     }
 
     .intro {
-        font-size: 1.3rem;
-        margin-top: -1rem;
-        padding-right: 80px;
-        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+        margin-bottom: 0.4rem;
     }
 
     .custom-select-wrapper {
@@ -306,17 +269,6 @@ input[type="file"].input-box {
 }
 
 @media (max-width: 320px) {
-
-
-    .home-title h1 {
-        font-size: 2.2rem;
-        margin: 7rem 0 1rem 0;
-    }
-
-    .eco-logo-title {
-        width: 42px;
-        margin: 115px 0 0 -2px;
-    }
 
     .intro {
         font-size: 1rem;

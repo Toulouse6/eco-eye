@@ -24,25 +24,6 @@ header {
     margin: 0.5rem 0 1.2rem 0;
 }
 
-/* Report Spinner */
-.loading-spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-    width: 100%;
-    position: relative;
-    z-index: 999;
-}
-
-.loading-spinner img {
-    animation: spin 8s linear infinite;
-    opacity: 0.8;
-    width: 11em;
-    position: fixed;
-    top: 12em;
-}
-
 /* Video */
 .eco-bg-video {
     position: absolute;
@@ -71,7 +52,7 @@ header {
 
 .eco-title {
     font-size: 2.3rem;
-    color: #005a2b;
+    color: #007c39;
     margin: 0;
     text-align: center;
 }
@@ -327,11 +308,6 @@ header {
     .eco-report-container {
         margin: 0 auto;
         padding: 0.5rem 0.5rem 2rem 0.5rem;
-    }
-
-    .loading-spinner img {
-        top: 11rem;
-        width: 8rem;
     }
 
     header {
