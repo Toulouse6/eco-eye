@@ -41,6 +41,8 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     lastPosition: GeolocationPosition | null = null;
 
     private geoErrorShown = false;
+    private firstUpdateDone = false;
+
     isLoading = true;
     isStatsReady = false;
 
@@ -123,15 +125,21 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                 }
 
                 setTimeout(() => {
-                    this.isStatsReady = true;
-                    this.isLoading = false;
-                }, delay);
+                    if (!this.firstUpdateDone) {
+                        this.isLoading = false;
+                        this.isStatsReady = true;
+                        toast.dismiss('loading');
+                        toast.warning('GPS update not received. Using fallback report.');
+                    }
+                }, 5000);
             },
             error: (err) => {
                 console.error('Report loading failed.', err);
                 this.isLoading = false;
                 toast.error('Failed to load report.');
             }
+
+
         });
 
         // Geo Location
@@ -204,6 +212,15 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     // Update User State
     private updateStats(position: GeolocationPosition, features: CarFeatures): void {
+
+        if (!this.firstUpdateDone) {
+            this.firstUpdateDone = true;
+            this.isStatsReady = true;
+            this.isLoading = false;
+            toast.dismiss('loading'); // clear loading toast
+            toast.success('Eco report ready!');
+        }
+
         const speedMps = position.coords.speed ?? 0;
         this.userSpeed = `${(speedMps * 3.6).toFixed(1)} km/h`;
 
@@ -233,6 +250,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
         this.lastPosition = position;
     }
+
 
     // Get Geo Location Distance 
     private getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number): number {

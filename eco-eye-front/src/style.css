@@ -1,5 +1,15 @@
 /* Animations */
 
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -117,6 +127,27 @@ body {
     justify-content: center;
 }
 
+
+/* Spinner Container */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    position: relative;
+    z-index: 999;
+}
+
+/* Spinner Image */
+.loading-spinner img {
+    animation: spin 8s linear infinite;
+    opacity: 0.8;
+    width: 9rem;
+    position: fixed;
+    top: 13rem;
+}
+
 /* Typography */
 h1,
 h2,
@@ -166,10 +197,23 @@ button:hover,
 
 /* Responsive */
 
+@media (max-width: 600px) {
+
+    .loading-spinner img {
+        width: 8rem;
+    }
+
+}
+
 @media (max-width: 430px) {
 
     .container {
         padding: 1rem 0rem 5rem;
+    }
+
+    .loading-spinner img {
+        top: 12rem;
+        width: 7rem;
     }
 
     .actions {

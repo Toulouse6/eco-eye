@@ -152,22 +152,16 @@ export class HomeComponent implements OnInit {
 
         this.reportService.getEcoReport(this.selectedModel, this.selectedYear).subscribe({
             next: (report) => {
-                setTimeout(() => {
-                    this.isLoading = false;
-                    toast.success('Report ready!');
-
-                    this.router.navigate(['/eco-report'], {
-                        state: {
-                            model: this.selectedModel,
-                            year: this.selectedYear,
-                            report: report
-                        }
-                    });
-                }, 5000);
+                this.router.navigate(['/eco-report'], {
+                    state: {
+                        model: this.selectedModel,
+                        year: this.selectedYear,
+                        report: report
+                    }
+                });
             },
             error: (error) => {
-                this.isLoading = false;
-
+            
                 if (error.status === 429) {
                     toast.error('Rate limit hit. Try again soon.');
                 } else {
