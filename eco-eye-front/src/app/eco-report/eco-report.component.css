@@ -144,7 +144,6 @@ header {
     display: contents;
 }
 
-.eco-cell .title,
 .eco-table .title {
     white-space: nowrap;
     font-weight: 600;
@@ -184,6 +183,7 @@ header {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
+    white-space: nowrap;
 }
 
 .eco-cell .value {
@@ -211,28 +211,32 @@ header {
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.3s ease;
-    position: absolute;
-    bottom: 125%;
-    left: 80%;
-    transform: translateX(-65%);
+    position: fixed;
+
+    bottom: 83%;
+    left: 50%;
+    transform: translateX(-50%);
+
     background: white;
     color: #313131;
     padding: 0.5em 0.8em;
     border-radius: 6px;
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 500;
-    width: 220px;
+    width: 75%;
+    min-height: 40px;
     z-index: 100;
+
     border: 2px solid #edf7fa;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    text-align: left;
+    text-align: center;
     white-space: normal;
 }
 
 .info-icon:hover .tooltip-text,
 .info-icon:focus-within .tooltip-text {
     visibility: visible;
-    opacity: 1;
+    opacity: 0.9;
 }
 
 .user-display {
@@ -316,11 +320,6 @@ header {
         font-size: 1rem;
     }
 
-    .tooltip-text {
-        width: 180px;
-        transform: translateX(-75%);
-    }
-
 }
 
 @media (max-width: 430px) {
@@ -369,20 +368,20 @@ header {
     }
 
     .eco-table span {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 
     .eco-cell .title {
+        font-size: 0.9rem;
+    }
+
+    .tooltip-text {
         font-size: 0.8rem;
+        width: 80%;
     }
 
     .info-icon {
         margin-left: -2px;
-    }
-
-    .tooltip-text {
-        width: 130px;
-        transform: translateX(-80%);
     }
 
     .eco-title-logo {
