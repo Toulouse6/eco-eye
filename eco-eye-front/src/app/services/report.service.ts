@@ -40,12 +40,12 @@ export class EcoReportService {
     private loadFallback(): Observable<EcoReportResponse> {
         return this.http.get<EcoReportResponse>('assets/fallback.json').pipe(
             map(data => {
-                console.warn("Using fallback eco report.");
+                console.warn("Using fallback report.");
                 return { ...data, fallback: true };
             }),
             catchError(err => {
-                console.error("Failed to load fallback report:", err);
-                throw new Error("Fallback load failed.");
+                console.error("Failed to load fallback:", err);
+                throw new Error("Failed to load fallback.");
             })
         );
     }

@@ -116,7 +116,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                 const delay = Math.max(0, minDuration - elapsed);
 
                 if (data.fallback) {
-                    toast.warning('Using fallback data.', { id: 'loading' });
+                    toast.warning('Using fallback.', { id: 'loading' });
                     this.isLoading = true;
                 } else {
                     toast.success('Eco report ready!', { id: 'loading' });
@@ -128,7 +128,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                 }, delay);
             },
             error: (err) => {
-                console.error('Report loading failed completely.', err);
+                console.error('Report loading failed.', err);
                 this.isLoading = false;
                 toast.error('Failed to load report.');
             }

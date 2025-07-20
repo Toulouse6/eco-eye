@@ -48,7 +48,7 @@ app.get("/", (_req, res) => {
 // Main endpoint
 app.post("/generate", limiter, async (req: Request, res: Response) => {
     console.log("Received report request.");
-    console.log("🔑 OPENAI_API_KEY loaded:", !!process.env.OPENAI_API_KEY);
+    console.log("OPENAI_API_KEY loaded:", !!process.env.OPENAI_API_KEY);
 
     const { model, year }: { model: string; year: number } = req.body;
 
@@ -102,7 +102,7 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
         // Not a valid JSON Error
         if (!content || !content.trim().startsWith("{")) {
-            console.warn("GPT response was not valid JSON.");
+            console.warn("Not a JSON response.");
             return res.status(200).json({
                 report: null,
                 fallback: true,

@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
     private playBackgroundAudio(): void {
         if (this.backgroundAudio.paused) {
             this.backgroundAudio.play().catch(err => {
-                console.warn('Background audio failed to play.', err);
+                console.warn('Background audio failed.', err);
             });
         }
     }
