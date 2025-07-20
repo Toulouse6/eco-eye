@@ -94,7 +94,6 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
         const modelRef = db.collection("eco-reports").doc(modelKey);
         const yearRef = modelRef.collection("years").doc(year.toString());
 
-        // ✅ Ensure Firestore paths exist
         await yearRef.set({}, { merge: true });
 
         console.log(`📦 Firestore path: eco-reports/${modelKey}/years/${year}`);
@@ -103,9 +102,15 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
         const cachedDoc = await yearRef.get();
         const cachedData = cachedDoc.data();
 
-        if (cachedDoc.exists && cachedData && typeof cachedData === "object" && Object.keys(cachedData).length > 0) {
+        if (
+            cachedDoc.exists &&
+            cachedData !== undefined &&
+            typeof cachedData === "object" &&
+            Object.keys(cachedData).length > 0
+        ) {
             return res.status(200).json({ report: cachedData, cost: null });
         }
+
         const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
 
 Model: ${model}
@@ -136,7 +141,6 @@ Respond with strict JSON only. Do not include comments, explanations, markdown, 
 
 Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
-
         const response = await openai.createChatCompletion({
             model: "gpt-4",
             messages: [
@@ -160,25 +164,19 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
         let parsed;
         try {
             parsed = JSON.parse(content);
-        } catch (err: unknown) {
-            const message = err instanceof Error ? err.message : String(err);
+        } catch (err: any) {
+            const message = err.message || String(err);
             console.error("Failed to parse GPT response:", message);
             return res.status(500).json({
                 error: "Invalid GPT output format",
                 details: message
             });
         }
-        if (!parsed || typeof parsed !== "object") {
-            return res.status(500).json({
-                error: "GPT returned invalid JSON structure",
-                details: "Parsed value was empty or not an object"
-            });
-        }
 
-        if (!parsed || typeof parsed !== "object") {
+        if (typeof parsed !== "object" || parsed === null) {
             return res.status(500).json({
                 error: "GPT returned invalid JSON structure",
-                details: "Parsed value was empty or not an object"
+                details: "Parsed value was not a valid object"
             });
         }
 
