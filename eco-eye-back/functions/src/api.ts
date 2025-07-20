@@ -34,10 +34,10 @@ app.options("*", cors());
 app.use(express.json({ limit: "6mb" }));
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  next();
+    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    next();
 });
 
 // Rate limiter
@@ -59,6 +59,14 @@ app.get("/models", async (_req, res) => {
         res.status(500).json({ error: "Failed to fetch models.", details: String(err) });
     }
 });
+
+app.get("/years/:model", async (req, res) => {
+    const model = req.params.model.toLowerCase();
+    const snapshot = await db.collection("eco-reports").doc(model).collection("years").listDocuments();
+    const years = snapshot.map(doc => parseInt(doc.id));
+    res.status(200).json({ years });
+});
+
 
 app.get('/status', (_req, res) => {
     res.status(200).send({ status: 'ok' });
@@ -128,8 +136,17 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
         });
 
         const content = response.data.choices[0]?.message?.content;
-        const parsed = JSON.parse(content);
 
+        let parsed;
+        try {
+            parsed = JSON.parse(content);
+        } catch (e) {
+            if (e instanceof Error) {
+                console.error(e.message);
+            } else {
+                console.error("Unknown error:", e);
+            }
+        }
         await yearRef.set(parsed);
 
         // Add to modelMap
