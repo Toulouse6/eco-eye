@@ -87,7 +87,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     // On Init
     ngOnInit(): void {
-        const state = this.router.getCurrentNavigation()?.extras?.state;
+        const state = this.router.getCurrentNavigation()?.extras?.state ?? {};
 
         if (state?.['model'] && state?.['year']) {
             this.model = state['model'];
@@ -245,13 +245,8 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
             this.carbonFootprint = (this.totalDistance / 1000) * userEmission;
             this.co2Saved = (this.totalDistance / 1000) * (avgEmission - userEmission);
-            this.fuelSaved = (this.totalDistance / 1000) / fuelEfficiency;
+            this.fuelSaved = this.isElectric ? 0 : (this.totalDistance / 1000) / fuelEfficiency;
 
-            if (this.isElectric) {
-                this.fuelSaved = 0;
-            } else {
-                this.fuelSaved = (this.totalDistance / 1000) / fuelEfficiency;
-            }
         }
 
         this.lastPosition = position;

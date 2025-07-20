@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: "https://generatereport-ikkn2wyyga-uc.a.run.app/generate",
-  statusUrl: "https://generatereport-ikkn2wyyga-uc.a.run.app/status"
+  apiUrl: "https://us-central1-YOUR_PROJECT.cloudfunctions.net/generateReport/generate",
+  statusUrl: "https://us-central1-YOUR_PROJECT.cloudfunctions.net/generateReport/status"
 };

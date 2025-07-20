@@ -43,6 +43,11 @@ export class HomeComponent implements OnInit {
         });
     }
 
+    ngOnDestroy() {
+        this.backgroundAudio.pause();
+        this.backgroundAudio.currentTime = 0;
+    }
+
     // Background Music
     private playBackgroundAudio(): void {
         if (this.backgroundAudio.paused) {

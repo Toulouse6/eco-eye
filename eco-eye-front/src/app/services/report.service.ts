@@ -8,6 +8,10 @@ import { EcoReportResponse, EcoReportRequest } from '../models/eco-report.model'
 import { CarFeatures, EcoTips } from '../eco-report/eco-report.component';
 import { BehaviorSubject } from 'rxjs';
 
+interface FallbackReport extends EcoReportResponse {
+    fallback: true;
+}
+
 @Injectable({ providedIn: 'root' })
 export class EcoReportService {
 
