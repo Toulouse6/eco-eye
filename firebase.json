@@ -1,19 +1,18 @@
 {
-    "hosting": {
-        "public": "eco-eye-front/dist/eco-eye/browser",
-        "ignore": [
-            "firebase.json",
-            "**/.*",
-            "**/node_modules/**"
-        ],
-        "rewrites": [
-            {
-                "source": "**",
-                "destination": "/index.html"
-            }
-        ]
-    },
-    "functions": {
-        "source": "eco-eye-back/functions"
-    }
+  "hosting": {
+    "public": "eco-eye-front/dist/eco-eye/browser",
+    "rewrites": [
+      {
+        "source": "/generate",
+        "function": "generateReport"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "functions": {
+    "source": "eco-eye-back/functions"
+  }
 }

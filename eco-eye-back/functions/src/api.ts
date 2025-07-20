@@ -34,7 +34,7 @@ app.use(cors({
 app.options("*", cors());
 app.use(express.json({ limit: "6mb" }));
 
-app.set('trust proxy', true);
+app.set('trust proxy', 1);
 
 // Rate limiter
 const limiter = rateLimit({
@@ -44,6 +44,11 @@ const limiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
 });
+
+app.get("/", (_req, res) => {
+    res.status(200).send("Eco Eye API is alive!");
+});
+
 
 // Health check
 app.get("/models", async (_req, res) => {
@@ -81,21 +86,19 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
         return res.status(400).json({ error: "Invalid model or year format." });
     }
 
-    const modelKey = model
-        .trim()
-        .toLowerCase()
+    const modelKey = model.trim().toLowerCase()
         .replace(/[^a-z0-9_\s-]/gi, '')
         .replace(/\s+/g, "_");
 
     try {
-        // Ensure parent doc exists
-        await db.collection("eco-reports").doc(modelKey).set({}, { merge: true });
+        const modelRef = db.collection("eco-reports").doc(modelKey);
+        const yearRef = modelRef.collection("years").doc(year.toString());
 
-        const yearRef = db
-            .collection("eco-reports")
-            .doc(modelKey)
-            .collection("years")
-            .doc(year.toString());
+        // ✅ Ensure Firestore paths exist
+        await modelRef.set({}, { merge: true });
+        await yearRef.set({}, { merge: true }); // <-- resolves NOT_FOUND on .get()
+
+        console.log(`📦 Firestore path: eco-reports/${modelKey}/years/${year}`);
 
         const cachedDoc = await yearRef.get();
         const cachedData = cachedDoc.data();
@@ -134,6 +137,8 @@ Respond with strict JSON only. Do not include comments, explanations, markdown, 
 
 Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
+
+
         const response = await openai.createChatCompletion({
             model: "gpt-4",
             messages: [
@@ -144,13 +149,22 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
         });
 
         const content = response.data.choices[0]?.message?.content;
+        console.log("GPT response:", content);
+
+        if (!content || typeof content !== "string") {
+            console.error("GPT response was empty or invalid:", content);
+            return res.status(500).json({
+                error: "GPT response is missing or malformed",
+                details: "No content returned from OpenAI"
+            });
+        }
 
         let parsed;
         try {
             parsed = JSON.parse(content);
         } catch (e) {
             const message = e instanceof Error ? e.message : String(e);
-            console.error("❌ Failed to parse GPT response:", message);
+            console.error("Failed to parse GPT response:", message);
             return res.status(500).json({
                 error: "Invalid GPT output format",
                 details: message
@@ -164,6 +178,7 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
             });
         }
 
+        await yearRef.set(parsed);
         await db.collection("eco-meta").doc("modelMap").set({
             [modelKey]: admin.firestore.FieldValue.arrayUnion(year)
         }, { merge: true });
@@ -171,19 +186,11 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
         return res.status(200).json({ report: parsed, cost: null });
 
     } catch (err: any) {
-        console.error("❌ GPT or Firestore error:", err);
+        console.error("GPT or Firestore error:", err);
+        console.error("Stack trace:", err.stack);
         return res.status(500).json({
             error: "Failed to process report",
             details: err.message || "Unknown error"
         });
     }
 });
-
-// Export function
-export const generateReport = onRequest(
-    {
-        region: "us-central1",
-        secrets: ["OPENAI_API_KEY"],
-    },
-    app
-);
