@@ -24,27 +24,27 @@ export class EcoReportService {
 
     constructor(private http: HttpClient) { }
 
-    // Get models
+    // Get models & Years
     getAvailableModels(): Observable<string[]> {
-        return this.http.get<{ [key: string]: number[] }>(`${this.apiUrl}/models`).pipe(
-            map(data => Object.keys(data)),
+        return this.http.get<{ models: string[] }>('assets/fallback.json').pipe(
+            map(data => data.models),
             catchError(err => {
-                console.error('API fetch failed. Falling back to local models.json', err);
-                return this.http.get<string[]>('assets/models.json');
-            })
-        );
-    }
-
-    // Get years
-    getAvailableYears(model: string): Observable<number[]> {
-        return this.http.get<{ [key: string]: number[] }>(`${this.apiUrl}/models`).pipe(
-            map(data => data[model] || []),
-            catchError(err => {
-                console.error('Failed to fetch years from API:', err);
+                console.error('Failed to load models from fallback:', err);
                 return of([]);
             })
         );
     }
+
+    getAvailableYears(model: string): Observable<number[]> {
+        return this.http.get<{ modelYearMap: { [key: string]: number[] } }>('assets/fallback.json').pipe(
+            map(data => data.modelYearMap[model] || []),
+            catchError(err => {
+                console.error('Failed to load years from fallback:', err);
+                return of([]);
+            })
+        );
+    }
+
 
     setSelectedVehicle(model: string, year: number): void {
         this.selectedModel = model;

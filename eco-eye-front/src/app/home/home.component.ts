@@ -79,7 +79,6 @@ export class HomeComponent implements OnInit {
     }
 
     // Search Model
-
     toggleDropdown(): void {
         this.dropdownOpen = !this.dropdownOpen;
         if (this.dropdownOpen) {
