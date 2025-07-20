@@ -78,7 +78,7 @@ header {
 
 /* Grade bar */
 .grade-bar-container {
-    margin: -0.8rem auto 1.5rem;
+    margin: -0.8rem auto 1.2rem;
     padding: 0 1rem;
     text-align: center;
     max-width: 400px;
@@ -125,6 +125,7 @@ header {
     padding-top: 0.5rem;
     margin-bottom: 0.8rem;
     font-size: 1.1rem;
+    text-align: center;
 }
 
 .eco-table {
@@ -303,7 +304,7 @@ header {
 
     .grade-bar-container {
         max-width: 90%;
-        margin: -0.5rem auto 1.5rem auto;
+        margin: -0.5rem auto 1rem auto;
     }
 
     .grade-segment {
@@ -348,7 +349,7 @@ header {
     }
 
     .grade-bar-container {
-        margin: -0.7rem auto 1.5rem auto;
+        margin: -0.7rem auto 1rem auto;
     }
 
     .eco-cell {
@@ -358,16 +359,17 @@ header {
     }
 
     .eco-section h2 {
-        margin-top: -0.6rem;
+        margin-top: -0.5rem;
         font-size: 0.8rem;
     }
 
     .eco-section h3 {
         font-size: 0.8rem;
+        padding-top: 0.8rem;
     }
 
     .eco-table span {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
 
     .eco-cell .title {
@@ -375,7 +377,7 @@ header {
     }
 
     .info-icon {
-        margin-left: 0;
+        margin-left: -2px;
     }
 
     .tooltip-text {
