@@ -43,13 +43,11 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     private geoErrorShown = false;
     isLoading = true;
     isStatsReady = false;
-    isSharing = false;
 
     // Car profile
 
     model = '';
     year = 0;
-
 
     userSpeed = '0 km/h';
     estimatedRange = '';
@@ -291,91 +289,4 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return deg * (Math.PI / 180);
     }
 
-    // Screenshot and share
-    shareReportScreenshot() {
-        if (this.isSharing) return;
-        this.isSharing = true;
-        toast.loading('Capturing screenshot...', { id: 'loading' });
-
-        const element = document.getElementById('eco-report-container');
-        if (!element) {
-            this.isSharing = false;
-            toast.error('Report area not found.');
-            return;
-        }
-
-        element.classList.add('screenshot-mode');
-
-        // Canvas
-        html2canvas(element, {
-            logging: false,
-            backgroundColor: null,
-            width: 1080,
-            height: 1920,
-            scale: 1,
-            useCORS: true,
-            allowTaint: true,
-            onclone: (clonedDoc) => {
-                const container = clonedDoc.getElementById('eco-report-container');
-                if (!container) return;
-                container.classList.add('screenshot-mode');
-                Object.assign(container.style, {
-                    width: '1080px',
-                    height: '1920px',
-                    margin: '0',
-                    padding: '0',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    boxSizing: 'border-box',
-                    background: 'linear-gradient(135deg, #2f2b4d 0%, #393466 20%, #403971 35%, #453676 50%, #342b5b 65%, #2c254e 80%, #221d3a 100%)'
-                });
-
-                container.querySelectorAll('*').forEach(el => {
-                    const htmlEl = el as HTMLElement;
-                    if (htmlEl.style) {
-                        htmlEl.style.animation = 'none';
-                        htmlEl.style.transition = 'none';
-                        htmlEl.style.transform = 'none';
-                        htmlEl.style.opacity = '0.8';
-                        htmlEl.style.visibility = 'visible';
-                    }
-                });
-            }
-        }).then(canvas => {
-            element.classList.remove('screenshot-mode');
-
-            canvas.toBlob(blob => {
-                if (!blob) {
-                    this.isSharing = false;
-                    toast.error('Failed to generate screenshot.');
-                    return;
-                }
-
-                const file = new File([blob], 'eco-eye-report.png', { type: 'image/png' });
-
-                if (navigator.canShare?.({ files: [file] })) {
-                    navigator.share({
-                        title: 'My EcoFriendly Report',
-                        files: [file],
-                        text: 'Check out my EcoFriendly report!'
-                    }).finally(() => {
-                        this.isSharing = false;
-                        toast.success('Report shared!');
-                    });
-                } else {
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    link.download = 'eco-eye-report.png';
-                    link.click();
-                    this.isSharing = false;
-                    toast.success('Screenshot downloaded!');
-                }
-            }, 'image/png', 0.95);
-        }).catch(err => {
-            element.classList.remove('screenshot-mode');
-            console.error('Screenshot error:', err);
-            this.isSharing = false;
-            toast.error('Screenshot failed.');
-        });
-    }
 }
