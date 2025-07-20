@@ -272,7 +272,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         { label: 'C', color: '#367b41' },
         { label: 'B', color: '#4fa95c' },
         { label: 'A', color: '#6cd876' },
-        { label: 'A+', color: '#a1f3b1' }
+        { label: 'A+', color: '#9fecaeff' }
     ];
 
     // Calculate score

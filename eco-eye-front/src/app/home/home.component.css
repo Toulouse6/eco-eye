@@ -189,7 +189,7 @@ input[type="file"].input-box {
 }
 
 .custom-select:hover {
-    background: #fafdff;
+    background: #f8fff7;
     border-color: #cfe7d9;
 }
 
@@ -207,7 +207,7 @@ input[type="file"].input-box {
 /* Dropdown Box */
 .custom-dropdown {
     min-width: 100%;
-    border: 1px solid #edf7fa;
+    border: 1px solid #eefaed;
     background-color: #ffffff;
     border-radius: 8px;
     margin-top: 0.2rem;
@@ -223,7 +223,7 @@ input[type="file"].input-box {
 }
 
 .dropdown-item:hover {
-    background: #fafdff;
+   background: #f8fff7;
 }
 
 .dropdown-search-input {
@@ -231,7 +231,7 @@ input[type="file"].input-box {
     box-sizing: border-box;
     padding: 0.5rem;
     border: none;
-    border-bottom: 1px solid #edf7fa;
+    border-bottom: 1px solid #eefaed;
     outline: none;
 }
 

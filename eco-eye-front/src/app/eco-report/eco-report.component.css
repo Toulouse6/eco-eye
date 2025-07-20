@@ -132,10 +132,10 @@ header {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem 1rem;
-    background: #fafdff;
+    background: #fbfffc;
     padding: 1.2rem 1rem;
     border-radius: 12px;
-    border: 2px solid #edf7fa;
+    border: 2px solid #eefaed;
     margin-bottom: 1.5rem;
     transition: background 0.3s ease, border-color 0.3s ease;
 }
@@ -170,8 +170,8 @@ header {
 }
 
 .eco-cell {
-    background-color: #fafdff;
-    border: 2px solid #edf7fa;
+    background-color: #fbfffc;
+    border: 2px solid #eefaed;
     border-radius: 10px;
     padding: 1rem;
     text-align: center;
@@ -218,16 +218,16 @@ header {
     transform: translateX(-50%);
 
     background: white;
-    color: #367b41;
+    color: #2d4b32;
     padding: 1em 1em;
     border-radius: 6px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 500;
     width: 75%;
     min-height: 50px;
     z-index: 100;
 
-    border: 2px solid #367b41;
+    border: 1px solid #367b41;
     box-shadow: 0 0 8px rgba(54, 123, 65, 0.35);
     text-align: center;
     white-space: normal;
@@ -256,11 +256,11 @@ header {
 
 /* Fun Fact Box */
 .eco-section p {
-    background: #f5fcfe;
+    background: #f0faf3;
     padding: 1rem 1.2rem;
     border-radius: 12px;
     color: #005a41;
-    border: 2px solid #edf7fa;
+    border: 2px solid #eefaed;
     font-weight: 500;
     text-align: center;
     margin: 0;

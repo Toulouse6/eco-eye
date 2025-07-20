@@ -79,7 +79,7 @@ body {
     width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-    background: #f9fefd;
+    background: #fafefb;
 }
 
 /* Layout */
@@ -163,7 +163,7 @@ button {
 
 button:hover,
 .custom-upload-btn:hover {
-    background: #f5fff9;
+    background: #f8fff7;
     color: #005a41;
     border-color: #005a41;
 }
