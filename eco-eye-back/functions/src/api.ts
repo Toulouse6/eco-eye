@@ -80,8 +80,8 @@ Respond in strict JSON format with the following keys:
     "speed": "recommended cruising speed in km/h",
     "tirePressure": "recommended pressure in PSI",
     "idling": "maximum idle time in minutes, e.g. 2–3 minutes or 'N/A' if Electric",
-    "funFact": "short and fun eco driving tip",
-    "passengers": "recommended passenger range, e.g. 2–3 passengers"
+    "passengers": "recommended passenger range, e.g. 2–3 passengers",
+    "funFact": "🌱 short and fun eco driving tip"
   }
 }
 
