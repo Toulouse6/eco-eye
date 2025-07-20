@@ -47,7 +47,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     isLoading = true;
 
     // Car profile
-
     model = '';
     year = 0;
 
@@ -61,17 +60,16 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     fuelSaved = 0;
 
     // Car features
-
     features: CarFeatures = {
         fuelEfficiency: '',
         emissions: '',
         powerType: '',
         batteryCapacity: '',
         energyConsumption: '',
-
         co2: '',
         recyclability: ''
     };
+
     // Eco tips
     tips: EcoTips = {
         speed: '',
@@ -89,7 +87,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     // On Init
     ngOnInit(): void {
-
         const state = this.router.getCurrentNavigation()?.extras?.state;
 
         if (state?.['model'] && state?.['year']) {
@@ -98,9 +95,17 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             this.ecoService.setSelectedVehicle(this.model, this.year);
         } else {
             const stored = this.ecoService.getSelectedVehicle();
-            this.model = stored.model || 'Unknown';
-            this.year = stored.year || new Date().getFullYear();
+            this.model = stored.model;
+            this.year = stored.year;
+
+            if (!this.model || !this.year) {
+                this.router.navigate(['/']);
+                return;
+            }
         }
+
+        // Prevent mulitiple calls
+        if (this.firstUpdateDone) return;
 
         this.ecoService.fetchAndTrackReport(this.model, this.year, this.updateStats.bind(this)).subscribe({
             next: (data) => {
@@ -115,14 +120,15 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                     toast.warning('Using fallback.', { id: 'loading' });
                 }
 
+                // Pending Response
                 requestAnimationFrame(() => {
+
+                    // Allow transition before hiding spinner
                     setTimeout(() => {
                         if (!this.firstUpdateDone) {
                             this.firstUpdateDone = true;
                             this.isLoading = false;
-
                             this.ecoService.setReportReady(true);
-
                             toast.dismiss('loading');
                             toast.warning('GPS update not received. Showing static report.');
                         }
@@ -134,7 +140,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                 toast.error('Report failed to load.');
             }
         });
-
+        // Watch ID
         this.watchId = navigator.geolocation.watchPosition(
             pos => this.updateStats(pos, this.features),
             err => {
@@ -147,12 +153,14 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         );
     }
 
+
     // On Destroy
     ngOnDestroy(): void {
         if (this.watchId !== null) {
             navigator.geolocation.clearWatch(this.watchId);
         }
     }
+
 
     // Condition setup
 
@@ -167,6 +175,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     get isCombustion(): boolean {
         return this.features.powerType !== 'Electric' && this.features.powerType !== 'Hybrid';
     }
+
 
     // Battery setup
 
@@ -193,7 +202,9 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return '';
     }
 
+
     // Emission setup
+
     get showCo2(): boolean {
         return !this.isElectric;
     }
@@ -201,6 +212,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     get showEmissionRating(): boolean {
         return true;
     }
+
 
     // Update User State
     private updateStats(position: GeolocationPosition, features: CarFeatures): void {
