@@ -170,7 +170,7 @@ header {
 }
 
 .eco-cell {
-    background-color: #fbfffc;
+    background: #fbfffc;
     border: 2px solid #eefaed;
     border-radius: 10px;
     padding: 1rem;
@@ -256,7 +256,7 @@ header {
 
 /* Fun Fact Box */
 .eco-section p {
-    background: #f0faf3;
+    background-color: #fbfffc;
     padding: 1rem 1.2rem;
     border-radius: 12px;
     color: #005a41;
