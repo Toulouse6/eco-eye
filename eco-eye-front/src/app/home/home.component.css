@@ -150,7 +150,7 @@
     text-align: center;
     margin-top: -0.2rem;
     margin-bottom: 0.8rem;
-    padding-right: 100px;
+    padding-right: 95px;
 }
 
 /* Logo */
@@ -279,7 +279,7 @@ input[type="file"].input-box {
 
     .eco-logo-title {
         width: 60px;
-        margin: 108px 0 0 -5px;
+        top: 108px;
     }
 
     .consent-box p {
@@ -289,7 +289,7 @@ input[type="file"].input-box {
     .intro {
         font-size: 1.3rem;
         margin-top: -1rem;
-        padding-right: 90px;
+        padding-right: 80px;
         margin-bottom: 0.5rem;
     }
 
