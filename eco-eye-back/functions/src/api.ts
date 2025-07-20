@@ -96,7 +96,6 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
 
         // ✅ Ensure Firestore paths exist
         await yearRef.set({}, { merge: true });
-        await new Promise(resolve => setTimeout(resolve, 50));
 
         console.log(`📦 Firestore path: eco-reports/${modelKey}/years/${year}`);
         console.log("Reading from:", yearRef.path);
@@ -104,10 +103,9 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
         const cachedDoc = await yearRef.get();
         const cachedData = cachedDoc.data();
 
-        if (cachedDoc.exists && cachedData && Object.keys(cachedData).length > 0) {
+        if (cachedDoc.exists && cachedData && typeof cachedData === "object" && Object.keys(cachedData).length > 0) {
             return res.status(200).json({ report: cachedData, cost: null });
         }
-
         const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
 
 Model: ${model}
@@ -139,7 +137,6 @@ Respond with strict JSON only. Do not include comments, explanations, markdown, 
 Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
 
-
         const response = await openai.createChatCompletion({
             model: "gpt-4",
             messages: [
@@ -163,12 +160,18 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
         let parsed;
         try {
             parsed = JSON.parse(content);
-        } catch (e) {
-            const message = e instanceof Error ? e.message : String(e);
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : String(err);
             console.error("Failed to parse GPT response:", message);
             return res.status(500).json({
                 error: "Invalid GPT output format",
                 details: message
+            });
+        }
+        if (!parsed || typeof parsed !== "object") {
+            return res.status(500).json({
+                error: "GPT returned invalid JSON structure",
+                details: "Parsed value was empty or not an object"
             });
         }
 
