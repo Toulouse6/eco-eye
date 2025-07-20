@@ -213,22 +213,22 @@ header {
     transition: opacity 0.3s ease;
     position: fixed;
 
-    bottom: 83%;
+    bottom: 80%;
     left: 50%;
     transform: translateX(-50%);
 
     background: white;
-    color: #313131;
-    padding: 0.5em 0.8em;
+    color: #367b41;
+    padding: 1em 1em;
     border-radius: 6px;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 500;
     width: 75%;
-    min-height: 40px;
+    min-height: 50px;
     z-index: 100;
 
-    border: 2px solid #edf7fa;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #367b41;
+    box-shadow: 0 0 8px rgba(54, 123, 65, 0.35);
     text-align: center;
     white-space: normal;
 }
@@ -236,7 +236,7 @@ header {
 .info-icon:hover .tooltip-text,
 .info-icon:focus-within .tooltip-text {
     visibility: visible;
-    opacity: 0.9;
+    opacity: 0.95;
 }
 
 .user-display {
@@ -364,10 +364,11 @@ header {
 
     .eco-section h3 {
         font-size: 0.8rem;
-        padding-top: 0.8rem;
+        padding-top: 0.6rem;
     }
 
-    .eco-table span {
+    .eco-table .title,
+    .eco-table .user-value {
         font-size: 0.8rem;
     }
 
@@ -376,8 +377,8 @@ header {
     }
 
     .tooltip-text {
-        font-size: 0.8rem;
-        width: 80%;
+        font-size: 1rem;
+        width: 85%;
     }
 
     .info-icon {
