@@ -101,17 +101,19 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
         const content = response.data.choices[0]?.message?.content;
 
         // Not a valid JSON Error
-        if (!content || !content.trim().startsWith("{")) {
-            console.warn("Not a JSON response.");
+        let json;
+
+        try {
+            json = JSON.parse(content);
+        } catch (parseErr) {
+            console.error("JSON parsing failed:", parseErr);
+            console.warn("Raw GPT output:", content);
             return res.status(200).json({
                 report: null,
                 fallback: true,
-                message: "Not a JSON response."
+                message: "GPT returned non-JSON.",
             });
         }
-
-        const json = JSON.parse(content);
-
         return res.status(200).json({
             report: json,
             cost: null
