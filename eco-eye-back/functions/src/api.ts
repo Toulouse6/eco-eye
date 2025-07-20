@@ -28,7 +28,7 @@ app.use(express.json({ limit: "6mb" }));
 // Rate limiting
 const limiter = rateLimit({
     windowMs: 60 * 60 * 1000,
-    max: 30,
+    max: 40,
     message: {
         error: "You've reached the limit. Please try again in an hour.",
     },
