@@ -40,6 +40,8 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     lastPosition: GeolocationPosition | null = null;
 
     private geoErrorShown = false;
+
+    // Report spinner
     private firstUpdateDone = false;
 
     isLoading = true;

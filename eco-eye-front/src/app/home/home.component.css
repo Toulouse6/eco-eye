@@ -54,6 +54,28 @@
     z-index: 3;
 }
 
+
+/* Spinner Container */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    position: relative;
+    z-index: 999;
+}
+
+/* Spinner Image */
+.loading-spinner img {
+    animation: spin 8s linear infinite;
+    opacity: 0.8;
+    width: 8rem;
+    position: fixed;
+    top: 13.5rem;
+}
+
+
 /* Home Title & Logo */
 
 .flex-wrapper {
@@ -245,6 +267,10 @@ input[type="file"].input-box {
         margin-top: -18rem;
     }
 
+    .loading-spinner img {
+        top: 12.5rem;
+        width: 6.5rem;
+    }
 
     .home-title h1 {
         font-size: 2.8rem;
