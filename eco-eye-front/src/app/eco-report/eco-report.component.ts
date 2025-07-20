@@ -47,6 +47,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     isLoading = true;
 
     // Car profile
+
     model = '';
     year = 0;
 
@@ -60,16 +61,17 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     fuelSaved = 0;
 
     // Car features
+
     features: CarFeatures = {
         fuelEfficiency: '',
         emissions: '',
         powerType: '',
         batteryCapacity: '',
         energyConsumption: '',
+
         co2: '',
         recyclability: ''
     };
-
     // Eco tips
     tips: EcoTips = {
         speed: '',
@@ -87,7 +89,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     // On Init
     ngOnInit(): void {
-        const state = this.router.getCurrentNavigation()?.extras?.state ?? {};
+        const state = this.router.getCurrentNavigation()?.extras?.state;
 
         if (state?.['model'] && state?.['year']) {
             this.model = state['model'];
@@ -104,10 +106,8 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             }
         }
 
-        // Prevent mulitiple calls
+        // Prevent duplicate calls
         if (this.firstUpdateDone) return;
-
-        console.log('Selected vehicle:', this.model, this.year);
 
         this.ecoService.fetchAndTrackReport(this.model, this.year, this.updateStats.bind(this)).subscribe({
             next: (data) => {
@@ -122,10 +122,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                     toast.warning('Using fallback.', { id: 'loading' });
                 }
 
-                // Pending Response
                 requestAnimationFrame(() => {
-
-                    // Allow transition before hiding spinner
                     setTimeout(() => {
                         if (!this.firstUpdateDone) {
                             this.firstUpdateDone = true;
@@ -142,27 +139,19 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                 toast.error('Report failed to load.');
             }
         });
-        this.watchId = navigator.geolocation.watchPosition(
-            position => this.updateStats(position, this.features),
-            error => {
-                if (error instanceof GeolocationPositionError) {
-                    if (error.code === error.POSITION_UNAVAILABLE) {
-                        console.warn("GPS unavailable.");
-                    } else {
-                        console.warn("Geolocation error:", error.message);
-                    }
-                } else {
-                    console.warn("Unknown geolocation error:", error);
-                }
 
+        this.watchId = navigator.geolocation.watchPosition(
+            pos => this.updateStats(pos, this.features),
+            err => {
                 if (!this.geoErrorShown) {
                     toast.warning('Location access denied.');
                     this.geoErrorShown = true;
                 }
             },
             { enableHighAccuracy: true, maximumAge: 5000 }
-        )
+        );
     }
+
     // On Destroy
     ngOnDestroy(): void {
         if (this.watchId !== null) {
@@ -183,7 +172,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     get isCombustion(): boolean {
         return this.features.powerType !== 'Electric' && this.features.powerType !== 'Hybrid';
     }
-
 
     // Battery setup
 
@@ -210,9 +198,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return '';
     }
 
-
     // Emission setup
-
     get showCo2(): boolean {
         return !this.isElectric;
     }
@@ -220,7 +206,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     get showEmissionRating(): boolean {
         return true;
     }
-
 
     // Update User State
     private updateStats(position: GeolocationPosition, features: CarFeatures): void {
@@ -251,8 +236,13 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
             this.carbonFootprint = (this.totalDistance / 1000) * userEmission;
             this.co2Saved = (this.totalDistance / 1000) * (avgEmission - userEmission);
-            this.fuelSaved = this.isElectric ? 0 : (this.totalDistance / 1000) / fuelEfficiency;
+            this.fuelSaved = (this.totalDistance / 1000) / fuelEfficiency;
 
+            if (this.isElectric) {
+                this.fuelSaved = 0;
+            } else {
+                this.fuelSaved = (this.totalDistance / 1000) / fuelEfficiency;
+            }
         }
 
         this.lastPosition = position;
