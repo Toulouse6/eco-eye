@@ -18,13 +18,11 @@ export class HomeComponent implements OnInit {
     isLoading = false;
     private backgroundAudio = new Audio('assets/audio/nova-notes.mp3');
 
-    // Year
     selectedYear: number | null = null;
     selectedModel: string | null = null;
     yearDropdownOpen = false;
     availableYears: number[] = [];
 
-    // Model
     modelSearch = '';
     dropdownOpen = false;
     filteredModels: string[] = [];
@@ -35,15 +33,11 @@ export class HomeComponent implements OnInit {
         private reportService: EcoReportService
     ) { }
 
-    // OnInit
     ngOnInit() {
-
         this.checkConsentOncePerDay();
         this.loadModels();
-
         this.backgroundAudio.loop = true;
         this.backgroundAudio.volume = 0.3;
-
         this.backgroundAudio.play().catch(() => {
             window.addEventListener('click', this.playBackgroundAudio.bind(this), { once: true });
         });
@@ -74,24 +68,14 @@ export class HomeComponent implements OnInit {
 
     // Load Models
     private loadModels(): void {
-        if (this.allModels.length > 0) {
-            this.filteredModels = this.allModels;
-            return;
-        }
-
-        this.reportService.getModelsFromJson().subscribe({
-            next: models => {
-                if (!models.length) {
-                    toast.warning('No models available.');
-                }
+        this.reportService.getAvailableModels().subscribe({
+            next: (models: string[]) => {
+                if (!models.length) toast.warning('No models available.');
                 this.allModels = models;
                 this.filteredModels = models;
             },
-            error: () => {
-                toast.error('Failed to load car models.');
-            }
+            error: () => toast.error('Failed to load car models.')
         });
-
     }
 
     // Search Model
@@ -100,7 +84,7 @@ export class HomeComponent implements OnInit {
         this.dropdownOpen = !this.dropdownOpen;
         if (this.dropdownOpen) {
             this.modelSearch = '';
-            this.loadModels();
+            this.filteredModels = this.allModels;
         }
     }
 
@@ -117,7 +101,7 @@ export class HomeComponent implements OnInit {
         this.dropdownOpen = false;
         this.filteredModels = [];
 
-        this.reportService.getAvailableYearsFromJson(model).subscribe({
+        this.reportService.getAvailableYears(model).subscribe({
             next: years => {
                 this.availableYears = years;
                 this.selectedYear = null;
@@ -127,15 +111,14 @@ export class HomeComponent implements OnInit {
                 toast.error('Failed to load available years.');
             }
         });
-
     }
 
     // Search Year
-    toggleYearDropdown() {
+    toggleYearDropdown(): void {
         this.yearDropdownOpen = !this.yearDropdownOpen;
     }
 
-    selectYear(year: number) {
+    selectYear(year: number): void {
         this.selectedYear = year;
         this.yearDropdownOpen = false;
     }
@@ -143,7 +126,6 @@ export class HomeComponent implements OnInit {
     // Generate Report
     generateReport(): void {
         if (!this.selectedModel || !this.selectedYear) return;
-
         this.isLoading = true;
         toast.loading('Generating your report...');
 
@@ -156,5 +138,4 @@ export class HomeComponent implements OnInit {
             }
         });
     }
-
 }

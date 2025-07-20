@@ -25,16 +25,23 @@ export class EcoReportService {
     constructor(private http: HttpClient) { }
 
     // Get models
-    getModelsFromJson(): Observable<string[]> {
-        return this.http.get<any>('assets/fallback.json').pipe(map(data => data.models));
+    getAvailableModels(): Observable<string[]> {
+        return this.http.get<{ [key: string]: number[] }>(`${this.apiUrl}/models`).pipe(
+            map(data => Object.keys(data)),
+            catchError(err => {
+                console.error('API fetch failed. Falling back to local models.json', err);
+                return this.http.get<string[]>('assets/models.json');
+            })
+        );
     }
 
     // Get years
-    getAvailableYearsFromJson(model: string): Observable<number[]> {
-        return this.http.get<any>('assets/fallback.json').pipe(
-            map(data => {
-                const currentYear = new Date().getFullYear();
-                return data.modelYearMap[model] ?? Array.from({ length: 5 }, (_, i) => currentYear - i);
+    getAvailableYears(model: string): Observable<number[]> {
+        return this.http.get<{ [key: string]: number[] }>(`${this.apiUrl}/models`).pipe(
+            map(data => data[model] || []),
+            catchError(err => {
+                console.error('Failed to fetch years from API:', err);
+                return of([]);
             })
         );
     }

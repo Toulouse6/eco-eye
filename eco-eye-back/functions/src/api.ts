@@ -2,61 +2,81 @@ import { onRequest } from "firebase-functions/v2/https";
 import cors from "cors";
 import express, { Request, Response } from "express";
 import rateLimit from "express-rate-limit";
+import * as admin from "firebase-admin";
 const { Configuration, OpenAIApi } = require("openai");
 
-// OpenAI setup (SDK v3, JS-compatible)
+// Firebase Admin
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+    projectId: process.env.GCLOUD_PROJECT,
+  });
+}
+const db = admin.firestore();
+
+// OpenAI
 const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
 // Express
 export const app = express();
-
 app.use(cors({
-    origin: [
-        "https://eco-eye.web.app",
-        "http://localhost:4200",
-        "https://toulouse6.github.io"
-    ],
-    credentials: true,
+  origin: [
+    "https://eco-eye.web.app",
+    "http://localhost:4200",
+    "https://toulouse6.github.io"
+  ],
+  credentials: true
 }));
 app.options("*", cors());
-
 app.use(express.json({ limit: "6mb" }));
 
-// Rate limiting
+// Rate limiter
 const limiter = rateLimit({
-    windowMs: 60 * 60 * 1000,
-    max: 30,
-    message: {
-        error: "You've reached the limit. Please try again in an hour.",
-    },
-    standardHeaders: true,
-    legacyHeaders: false,
+  windowMs: 60 * 60 * 1000,
+  max: 30,
+  message: { error: "You've reached the limit. Please try again in an hour." },
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 
 // Health check
-app.get("/status", (_req, res) => {
-    res.json({ status: "ok", timestamp: Date.now() });
-});
-
-app.get("/", (_req, res) => {
-    res.status(200).send("Eco Eye API is alive!");
+app.get("/models", async (_req, res) => {
+    try {
+        const doc = await db.collection("eco-meta").doc("modelMap").get();
+        if (!doc.exists) return res.status(404).json({ error: "Model map not found." });
+        res.status(200).json(doc.data());
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch models.", details: String(err) });
+    }
 });
 
 // Main endpoint
 app.post("/generate", limiter, async (req: Request, res: Response) => {
-    console.log("Received report request.");
-    console.log("OPENAI_API_KEY loaded:", !!process.env.OPENAI_API_KEY);
+  const { model, year }: { model: string; year: number } = req.body;
+  const modelKey = model.trim().toLowerCase().replace(/\s+/g, "_");
 
-    const { model, year }: { model: string; year: number } = req.body;
+  if (typeof model !== "string" || typeof year !== "number") {
+    return res.status(400).json({ error: "Invalid model or year format." });
+  }
 
-    if (typeof model !== "string" || typeof year !== "number") {
-        return res.status(400).json({ error: "Invalid model or year format." });
+  try {
+    // Ensure parent doc exists
+    await db.collection("eco-reports").doc(modelKey).set({}, { merge: true });
+
+    const yearRef = db
+      .collection("eco-reports")
+      .doc(modelKey)
+      .collection("years")
+      .doc(year.toString());
+
+    const cachedDoc = await yearRef.get();
+    if (cachedDoc.exists && Object.keys(cachedDoc.data() || {}).length > 0) {
+      return res.status(200).json({ report: cachedDoc.data(), cost: null });
     }
 
-    // GPT Prompt
     const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
 
 Model: ${model}
@@ -87,52 +107,41 @@ Respond in strict JSON format with the following keys:
 
 Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
-    try {
-        // Chat Response
-        const response = await openai.createChatCompletion({
-            model: "gpt-4",
-            messages: [
-                { role: "system", content: prompt },
-                { role: "user", content: `Please create an eco report for ${model} ${year}` },
-            ],
-            max_tokens: 1000,
-        });
+    const response = await openai.createChatCompletion({
+      model: "gpt-4",
+      messages: [
+        { role: "system", content: prompt },
+        { role: "user", content: `Please create an eco report for ${model} ${year}` }
+      ],
+      max_tokens: 1000,
+    });
 
-        const content = response.data.choices[0]?.message?.content;
+    const content = response.data.choices[0]?.message?.content;
+    const parsed = JSON.parse(content);
 
-        // Not a valid JSON Error
-        let json;
+    await yearRef.set(parsed);
 
-        try {
-            json = JSON.parse(content);
-        } catch (parseErr) {
-            console.error("JSON parsing failed:", parseErr);
-            console.warn("Raw GPT output:", content);
-            return res.status(200).json({
-                report: null,
-                fallback: true,
-                message: "GPT returned non-JSON.",
-            });
-        }
-        return res.status(200).json({
-            report: json,
-            cost: null
-        });
-        // Report failed
-    } catch (err: any) {
-        console.error("Failed to process report:", err);
-        return res.status(500).json({
-            error: "Failed to process report",
-            details: err.message || "Unknown error",
-        });
-    }
+    // Add to modelMap
+    await db.collection("eco-meta").doc("modelMap").set({
+      [modelKey]: admin.firestore.FieldValue.arrayUnion(year)
+    }, { merge: true });
+
+    return res.status(200).json({ report: parsed, cost: null });
+
+  } catch (err: any) {
+    console.error("❌ GPT or Firestore error:", err);
+    return res.status(500).json({
+      error: "Failed to process report",
+      details: err.message || "Unknown error"
+    });
+  }
 });
 
-// Export Firebase Function
+// Export function
 export const generateReport = onRequest(
-    {
-        region: "us-central1",
-        secrets: ["OPENAI_API_KEY"],
-    },
-    app
+  {
+    region: "us-central1",
+    secrets: ["OPENAI_API_KEY"],
+  },
+  app
 );
