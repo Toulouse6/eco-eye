@@ -142,35 +142,19 @@ export class HomeComponent implements OnInit {
 
     // Generate Report
     generateReport(): void {
-
-        if (!this.selectedModel || !this.selectedYear) {
-            return;
-        }
+        if (!this.selectedModel || !this.selectedYear) return;
 
         this.isLoading = true;
         toast.loading('Generating your report...');
 
-        this.reportService.getEcoReport(this.selectedModel, this.selectedYear).subscribe({
-            next: (report) => {
-                this.router.navigate(['/eco-report'], {
-                    state: {
-                        model: this.selectedModel,
-                        year: this.selectedYear,
-                        report: report
-                    }
-                });
-            },
-            error: (error) => {
-            
-                if (error.status === 429) {
-                    toast.error('Rate limit hit. Try again soon.');
-                } else {
-                    toast.error('Report failed to generate.');
-                }
+        this.reportService.setSelectedVehicle(this.selectedModel, this.selectedYear);
+
+        this.router.navigate(['/eco-report'], {
+            state: {
+                model: this.selectedModel,
+                year: this.selectedYear
             }
         });
     }
-
-
 
 }

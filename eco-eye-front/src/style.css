@@ -143,9 +143,9 @@ body {
 .loading-spinner img {
     animation: spin 8s linear infinite;
     opacity: 0.8;
-    width: 9rem;
+    width: 8rem;
     position: fixed;
-    top: 13rem;
+    top: 13.5rem;
 }
 
 /* Typography */
@@ -197,14 +197,6 @@ button:hover,
 
 /* Responsive */
 
-@media (max-width: 600px) {
-
-    .loading-spinner img {
-        width: 8rem;
-    }
-
-}
-
 @media (max-width: 430px) {
 
     .container {
@@ -212,8 +204,8 @@ button:hover,
     }
 
     .loading-spinner img {
-        top: 12rem;
-        width: 7rem;
+        top: 12.5rem;
+        width: 6.5rem;
     }
 
     .actions {

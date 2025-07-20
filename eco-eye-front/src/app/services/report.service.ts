@@ -6,10 +6,21 @@ import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { EcoReportResponse, EcoReportRequest } from '../models/eco-report.model';
 import { CarFeatures, EcoTips } from '../eco-report/eco-report.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class EcoReportService {
+
     public apiUrl = environment.apiUrl;
+
+    private reportReadySubject = new BehaviorSubject<boolean>(false);
+    public reportReady$ = this.reportReadySubject.asObservable();
+    private selectedModel = '';
+    private selectedYear = 0;
+
+    public setReportReady(isReady: boolean): void {
+        this.reportReadySubject.next(isReady);
+    }
 
     constructor(private http: HttpClient) { }
 
@@ -26,6 +37,18 @@ export class EcoReportService {
                 return data.modelYearMap[model] ?? Array.from({ length: 5 }, (_, i) => currentYear - i);
             })
         );
+    }
+
+    setSelectedVehicle(model: string, year: number): void {
+        this.selectedModel = model;
+        this.selectedYear = year;
+    }
+
+    getSelectedVehicle(): { model: string; year: number } {
+        return {
+            model: this.selectedModel,
+            year: this.selectedYear
+        };
     }
 
     // API Health

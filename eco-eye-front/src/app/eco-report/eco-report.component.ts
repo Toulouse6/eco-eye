@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import html2canvas from 'html2canvas';
 import { EcoReportService } from '../services/report.service';
 import { HttpClientModule } from '@angular/common/http';
 import { toast } from 'sonner'
@@ -44,7 +43,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     private firstUpdateDone = false;
 
     isLoading = true;
-    isStatsReady = false;
 
     // Car profile
 
@@ -83,9 +81,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     // Constructor
     constructor(private router: Router, private ecoService: EcoReportService) {
-        const state = this.router.getCurrentNavigation()?.extras?.state;
-        this.model = state?.['model'] ?? 'Unknown';
-        this.year = state?.['year'] || new Date().getFullYear();
+
     }
 
     // Header video
@@ -94,18 +90,18 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     // On Init
     ngOnInit(): void {
 
-        // Random background video
-        const random = Math.random();
-        this.selectedVideo = random < 0.5
-            ? 'assets/videos/road-banner.mp4'
-            : 'assets/videos/road-banner2.mp4';
+        const state = this.router.getCurrentNavigation()?.extras?.state;
 
-        toast.loading('Generating your eco report...');
+        if (state?.['model'] && state?.['year']) {
+            this.model = state['model'];
+            this.year = state['year'];
+            this.ecoService.setSelectedVehicle(this.model, this.year);
+        } else {
+            const stored = this.ecoService.getSelectedVehicle();
+            this.model = stored.model || 'Unknown';
+            this.year = stored.year || new Date().getFullYear();
+        }
 
-        // Date
-        const requestStart = Date.now();
-
-        // Get Report
         this.ecoService.fetchAndTrackReport(this.model, this.year, this.updateStats.bind(this)).subscribe({
             next: (data) => {
                 this.features = data.features;
@@ -113,41 +109,35 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                 this.estimatedRange = data.features.estimatedRange ?? '';
                 this.chargingTime = data.features.chargingTime ?? '';
 
-                const elapsed = Date.now() - requestStart;
-                const minDuration = data.fallback ? 5000 : 1000;
-                const delay = Math.max(0, minDuration - elapsed);
-
-                if (data.fallback) {
-                    toast.warning('Using fallback.', { id: 'loading' });
-                    this.isLoading = true;
-                } else {
+                if (!data.fallback) {
                     toast.success('Eco report ready!', { id: 'loading' });
+                } else {
+                    toast.warning('Using fallback.', { id: 'loading' });
                 }
 
                 setTimeout(() => {
                     if (!this.firstUpdateDone) {
+                        this.firstUpdateDone = true;
                         this.isLoading = false;
-                        this.isStatsReady = true;
+
+                        this.ecoService.setReportReady(true);
+
                         toast.dismiss('loading');
-                        toast.warning('GPS update not received. Using fallback report.');
+                        toast.warning('GPS update not received. Showing static report.');
                     }
-                }, 5000);
+                }, 7000);
             },
-            error: (err) => {
-                console.error('Report loading failed.', err);
+            error: () => {
                 this.isLoading = false;
-                toast.error('Failed to load report.');
+                toast.error('Report failed to load.');
             }
-
-
         });
 
-        // Geo Location
         this.watchId = navigator.geolocation.watchPosition(
             pos => this.updateStats(pos, this.features),
             err => {
                 if (!this.geoErrorShown) {
-                    toast.warning('Location access denied or unavailable.');
+                    toast.warning('Location access denied.');
                     this.geoErrorShown = true;
                 }
             },
@@ -176,12 +166,12 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return this.features.powerType !== 'Electric' && this.features.powerType !== 'Hybrid';
     }
 
-
     // Battery setup
 
     get batteryRange(): number {
         const capacity = parseFloat(this.features.batteryCapacity || '');
         const efficiency = parseFloat(this.features.energyConsumption || '15');
+
         if (!capacity || !efficiency) return 0;
 
         const baseRange = (capacity / efficiency) * 100;
@@ -215,9 +205,9 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
         if (!this.firstUpdateDone) {
             this.firstUpdateDone = true;
-            this.isStatsReady = true;
             this.isLoading = false;
-            toast.dismiss('loading'); // clear loading toast
+
+            toast.dismiss('loading');
             toast.success('Eco report ready!');
         }
 
