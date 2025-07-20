@@ -142,27 +142,33 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                 toast.error('Report failed to load.');
             }
         });
-        // Watch ID
         this.watchId = navigator.geolocation.watchPosition(
-            pos => this.updateStats(pos, this.features),
-            err => {
+            position => this.updateStats(position, this.features),
+            error => {
+                if (error instanceof GeolocationPositionError) {
+                    if (error.code === error.POSITION_UNAVAILABLE) {
+                        console.warn("GPS unavailable.");
+                    } else {
+                        console.warn("Geolocation error:", error.message);
+                    }
+                } else {
+                    console.warn("Unknown geolocation error:", error);
+                }
+
                 if (!this.geoErrorShown) {
                     toast.warning('Location access denied.');
                     this.geoErrorShown = true;
                 }
             },
             { enableHighAccuracy: true, maximumAge: 5000 }
-        );
+        )
     }
-
-
     // On Destroy
     ngOnDestroy(): void {
         if (this.watchId !== null) {
             navigator.geolocation.clearWatch(this.watchId);
         }
     }
-
 
     // Condition setup
 
