@@ -30,15 +30,11 @@ app.use(cors({
     ],
     credentials: true
 }));
+
 app.options("*", cors());
 app.use(express.json({ limit: "6mb" }));
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    next();
-});
+app.set('trust proxy', true);
 
 // Rate limiter
 const limiter = rateLimit({
@@ -61,9 +57,14 @@ app.get("/models", async (_req, res) => {
 });
 
 app.get("/years/:model", async (req, res) => {
+
     const model = req.params.model.toLowerCase();
     const snapshot = await db.collection("eco-reports").doc(model).collection("years").listDocuments();
-    const years = snapshot.map(doc => parseInt(doc.id));
+
+    const years = snapshot
+        .map(doc => parseInt(doc.id))
+        .filter(year => !isNaN(year));
+
     res.status(200).json({ years });
 });
 
@@ -75,11 +76,16 @@ app.get('/status', (_req, res) => {
 // Main endpoint
 app.post("/generate", limiter, async (req: Request, res: Response) => {
     const { model, year }: { model: string; year: number } = req.body;
-    const modelKey = model.trim().toLowerCase().replace(/\s+/g, "_");
 
     if (typeof model !== "string" || typeof year !== "number") {
         return res.status(400).json({ error: "Invalid model or year format." });
     }
+
+    const modelKey = model
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9_\s-]/gi, '')
+        .replace(/\s+/g, "_");
 
     try {
         // Ensure parent doc exists
@@ -92,8 +98,10 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
             .doc(year.toString());
 
         const cachedDoc = await yearRef.get();
-        if (cachedDoc.exists && Object.keys(cachedDoc.data() || {}).length > 0) {
-            return res.status(200).json({ report: cachedDoc.data(), cost: null });
+        const cachedData = cachedDoc.data();
+
+        if (cachedDoc.exists && cachedData && Object.keys(cachedData).length > 0) {
+            return res.status(200).json({ report: cachedData, cost: null });
         }
 
         const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
@@ -101,7 +109,7 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
 Model: ${model}
 Year: ${year}
 
-Respond in strict JSON format with the following keys:
+Respond with strict JSON only. Do not include comments, explanations, markdown, or non-JSON formatting. If unsure, respond with the closest valid structure.
 
 {
   "overallGrade": "A+ to D (live eco score)",
@@ -120,7 +128,7 @@ Respond in strict JSON format with the following keys:
     "tirePressure": "recommended pressure in PSI",
     "idling": "maximum idle time in minutes, e.g. 2–3 minutes or 'N/A' if Electric",
     "passengers": "recommended passenger range, e.g. 2–3 passengers",
-    "funFact": "🌱 short and fun eco driving tip"
+    "funFact": "🌱  short and fun eco driving tip"
   }
 }
 
@@ -141,15 +149,21 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
         try {
             parsed = JSON.parse(content);
         } catch (e) {
-            if (e instanceof Error) {
-                console.error(e.message);
-            } else {
-                console.error("Unknown error:", e);
-            }
+            const message = e instanceof Error ? e.message : String(e);
+            console.error("❌ Failed to parse GPT response:", message);
+            return res.status(500).json({
+                error: "Invalid GPT output format",
+                details: message
+            });
         }
-        await yearRef.set(parsed);
 
-        // Add to modelMap
+        if (!parsed || typeof parsed !== "object") {
+            return res.status(500).json({
+                error: "GPT returned invalid JSON structure",
+                details: "Parsed value was empty or not an object"
+            });
+        }
+
         await db.collection("eco-meta").doc("modelMap").set({
             [modelKey]: admin.firestore.FieldValue.arrayUnion(year)
         }, { merge: true });
