@@ -80,9 +80,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     };
 
     // Constructor
-    constructor(private router: Router, private ecoService: EcoReportService) {
-
-    }
+    constructor(private router: Router, private ecoService: EcoReportService) { }
 
     // Header video
     public selectedVideo = 'assets/videos/road-banner.mp4';
@@ -115,17 +113,19 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                     toast.warning('Using fallback.', { id: 'loading' });
                 }
 
-                setTimeout(() => {
-                    if (!this.firstUpdateDone) {
-                        this.firstUpdateDone = true;
-                        this.isLoading = false;
+                requestAnimationFrame(() => {
+                    setTimeout(() => {
+                        if (!this.firstUpdateDone) {
+                            this.firstUpdateDone = true;
+                            this.isLoading = false;
 
-                        this.ecoService.setReportReady(true);
+                            this.ecoService.setReportReady(true);
 
-                        toast.dismiss('loading');
-                        toast.warning('GPS update not received. Showing static report.');
-                    }
-                }, 7000);
+                            toast.dismiss('loading');
+                            toast.warning('GPS update not received. Showing static report.');
+                        }
+                    }, 3000);
+                });
             },
             error: () => {
                 this.isLoading = false;
