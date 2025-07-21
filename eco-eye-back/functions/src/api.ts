@@ -81,6 +81,7 @@ app.get('/status', (_req, res) => {
 // Main endpoint
 app.post("/generate", limiter, async (req: Request, res: Response) => {
     const { model, year }: { model: string; year: number } = req.body;
+    console.log('Fetching report for', model, year);
 
     if (typeof model !== "string" || typeof year !== "number") {
         return res.status(400).json({ error: "Invalid model or year format." });
@@ -93,7 +94,11 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
     try {
         const modelRef = db.collection("eco-reports").doc(modelKey);
         const yearRef = modelRef.collection("years").doc(year.toString());
-
+        const existing = await yearRef.get();
+        
+        if (existing.exists && Object.keys(existing.data() ?? {}).length > 0) {
+            return res.status(200).json({ report: existing.data(), cost: null });
+        }
         await yearRef.set({}, { merge: true });
 
         console.log(`📦 Firestore path: eco-reports/${modelKey}/years/${year}`);

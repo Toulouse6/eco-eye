@@ -6,6 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { EcoReportResponse, EcoReportRequest } from '../models/eco-report.model';
 import { CarFeatures, EcoTips } from '../eco-report/eco-report.component';
+import { toast } from 'sonner';
 import { BehaviorSubject } from 'rxjs';
 
 interface FallbackReport extends EcoReportResponse {
@@ -145,77 +146,92 @@ export class EcoReportService {
 
     // Get Eco Report
     getEcoReport(model: string, year: number): Observable<EcoReportResponse> {
-
         const payload: EcoReportRequest = { model, year };
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         console.log('Sending payload to GPT:', payload);
 
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
         return new Observable(observer => {
-            this.checkApiStatus().subscribe(isOnline => {
-                if (!isOnline) {
-                    this.loadFallback().subscribe({
-                        next: report => {
-                            observer.next(report);
-                            observer.complete();
-                        },
-                        error: err => observer.error(err)
-                    });
-                    return;
-                }
-
-                // Post
-                this.http.post<{ report: EcoReportResponse | string; cost?: string }>(this.apiUrl, payload, { headers }).pipe(
-                    catchError(err => {
-                        console.warn("API call failed. Using fallback.", err);
+            this.checkApiStatus().subscribe({
+                next: isOnline => {
+                    if (!isOnline) {
                         this.loadFallback().subscribe({
                             next: report => {
                                 observer.next(report);
                                 observer.complete();
                             },
-                            error: fallbackErr => observer.error(fallbackErr)
+                            error: err => observer.error(err)
                         });
-                        return EMPTY;
-                    })
-                    // Subscribe
-                ).subscribe({
-                    next: ({ report, cost }) => {
-                        let parsed: any = report;
-                        if (typeof report === 'string') {
-                            try {
-                                parsed = JSON.parse(report);
-                            } catch (err) {
-                                console.warn("Could not parse GPT report. Using fallback.");
-                                this.loadFallback().subscribe({
-                                    next: fallback => {
-                                        observer.next(fallback);
-                                        observer.complete();
-                                    },
-                                    error: fallbackErr => observer.error(fallbackErr)
-                                });
-                                return;
-                            }
-                        }
-                        // Using Fallback
-                        if (!parsed || typeof parsed !== 'object') {
-                            console.warn("Invalid report structure. Using fallback.");
+                        return;
+                    }
+
+                    this.http.post<{ report: EcoReportResponse | string; cost?: string }>(
+                        this.apiUrl, payload, { headers }
+                    ).pipe(
+                        catchError(err => {
+                            console.warn("API call failed. Using fallback.", err);
+                            toast.warning("Live data unavailable. Using cached fallback.");
+
                             this.loadFallback().subscribe({
                                 next: fallback => {
                                     observer.next(fallback);
                                     observer.complete();
                                 },
-                                error: fallbackErr => observer.error(fallbackErr)
+                                error: fallbackErr => {
+                                    toast.error("Fallback failed. Please try again.");
+                                    observer.error(fallbackErr);
+                                }
                             });
-                            return;
+
+                            return EMPTY;
+                        })
+                    ).subscribe({
+                        next: ({ report, cost }) => {
+                            toast.success("Eco report loaded!");
+
+                            let parsed = report;
+                            if (typeof report === 'string') {
+                                try {
+                                    parsed = JSON.parse(report);
+                                } catch (err) {
+                                    toast.warning("Malformed report. Loading fallback.");
+                                    this.loadFallback().subscribe({
+                                        next: fallback => {
+                                            observer.next(fallback);
+                                            observer.complete();
+                                        },
+                                        error: fallbackErr => {
+                                            toast.error("Fallback unavailable.");
+                                            observer.error(fallbackErr);
+                                        }
+                                    });
+                                    return;
+                                }
+                            }
+
+                            if (!parsed || typeof parsed !== 'object') {
+                                toast.warning("Invalid report format. Showing fallback.");
+                                this.loadFallback().subscribe({
+                                    next: fallback => {
+                                        observer.next(fallback);
+                                        observer.complete();
+                                    },
+                                    error: fallbackErr => {
+                                        toast.error("Unable to display fallback.");
+                                        observer.error(fallbackErr);
+                                    }
+                                });
+                                return;
+                            }
+
+                            observer.next({ ...parsed, cost, fallback: false });
+                            observer.complete();
+                        },
+                        error: err => {
+                            toast.error("Failed to load report.");
+                            observer.error(err);
                         }
-                        // Report received
-                        console.info("GPT report received.");
-                        if (cost) console.log(`GPT Cost: $${parseFloat(cost).toFixed(6)}`);
-                        observer.next({ ...parsed, cost, fallback: false });
-                        observer.complete();
-                    },
-                    error: err => observer.error(err)
-                });
+                    });
+                }
             });
         });
     }
