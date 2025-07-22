@@ -84,7 +84,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     // On Init
     ngOnInit(): void {
-        this.loadStartTime = Date.now(); // Record when loading starts
+        this.loadStartTime = Date.now(); 
 
         const state = this.router.getCurrentNavigation()?.extras?.state ?? {};
 
@@ -118,7 +118,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                     toast.warning('Using fallback.', { id: 'loading' });
                 }
 
-                // Ensure spinner is visible for at least 3 seconds
                 const elapsed = Date.now() - this.loadStartTime;
                 const minDuration = 3000;
                 const remaining = Math.max(0, minDuration - elapsed);
@@ -165,7 +164,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         }
     }
 
-    // Condition setup
+    // Condition setup\
 
     get isElectric(): boolean {
         return this.features.powerType === 'Electric';
