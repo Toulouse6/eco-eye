@@ -45,6 +45,7 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+/* Driver Consent Button */
 .consent-box button {
     padding: 0.5rem 1.2rem;
     font-size: 0.8rem;
@@ -55,7 +56,7 @@
 }
 
 
-/* Home Title & Logo */
+/* Home Logo */
 .flex-wrapper {
     display: flex;
     justify-content: center;
@@ -71,8 +72,13 @@
     max-width: 600px;
 }
 
-/* Home Title containers */
+/* Logo */
+.eco-logo-title {
+    width: 400px;
+    margin-top: 10rem;
+}
 
+/* Home Title containers */
 .title-logo-group {
     display: flex;
     align-items: flex-start;
@@ -108,17 +114,8 @@
     text-align: left;
 }
 
-/* Typography */
-.home-title h1 {
-    text-transform: capitalize;
-    font-size: 3.5rem;
-    letter-spacing: 3px;
-    text-shadow: 0 0 10px rgba(189, 140, 97, 0.2);
-    font-weight: 500;
-    color: #005a41;
-    margin: 7rem 0 0 0;
-}
 
+/* Intro */
 .intro {
     color: #2d4b32;
     width: 100%;
@@ -128,12 +125,6 @@
     text-align: center;
     margin-top: -5px;
     margin-bottom: 1rem;
-}
-
-/* Logo */
-.eco-logo-title {
-    width: 400px;
-    margin-top: 10rem;
 }
 
 /* Input */
@@ -146,6 +137,7 @@ input[type="file"].input-box {
     position: relative;
 }
 
+/* Select */
 .custom-select-wrapper {
     position: relative;
     width: 100%;
@@ -174,13 +166,14 @@ input[type="file"].input-box {
     font-weight: 500;
 }
 
+/* Dropdown */
 .arrow-down {
     font-size: 1rem;
     color: #005a41;
     margin-left: 5px;
 }
 
-/* Dropdown Box */
+/* Dropdown */
 .custom-dropdown {
     min-width: 100%;
     border: 1px solid #eefaed;
@@ -190,7 +183,15 @@ input[type="file"].input-box {
     box-shadow: 0 8px 16px rgba(0, 128, 96, 0.1);
 }
 
-/* Items */
+.dropdown-list {
+    overflow: scroll !important;
+    max-height: 18rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Dropdown Items */
 .dropdown-item {
     padding: 0.6rem 1rem;
     font-size: 1rem;
@@ -202,6 +203,7 @@ input[type="file"].input-box {
     background: #f8fff7;
 }
 
+/* Search */
 .dropdown-search-input {
     width: 100%;
     box-sizing: border-box;
@@ -209,14 +211,6 @@ input[type="file"].input-box {
     border: none;
     border-bottom: 1px solid #eefaed;
     outline: none;
-}
-
-.dropdown-list {
-    overflow: scroll !important;
-    max-height: 18rem;
-    list-style: none;
-    padding: 0;
-    margin: 0;
 }
 
 /* Responsive */
@@ -242,7 +236,6 @@ input[type="file"].input-box {
         margin-top: -18rem;
     }
 
-    /* Logo */
     .eco-logo-title {
         width: 280px;
         margin-top: 8rem;
@@ -268,6 +261,7 @@ input[type="file"].input-box {
     }
 
 }
+
 
 @media (max-width: 320px) {
 

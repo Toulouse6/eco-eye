@@ -1,23 +1,28 @@
+// Vehicle interface
 export interface EcoReportRequest {
     model: string;
     year: number;
 }
 
 export interface EcoReportResponse {
+
+    // Values
     overallGrade: string;
+
     fuelEfficiency: string;
     emissions: string;
-    powerType: string;
-    batteryCapacity?: string;
-    energyConsumption?: string;
     co2: string;
     recyclability: string;
 
+    powerType: string;
+    batteryCapacity?: string;
+    energyConsumption?: string;
     estimatedRange?: string;
     chargingTime?: string;
-    energySaved?: string;
-    
 
+    energySaved?: string;
+
+    // Tips
     tips: {
         speed: string;
         tirePressure: string;
@@ -26,6 +31,7 @@ export interface EcoReportResponse {
         funFact: string;
     };
 
+    // Fallback & GPT COST
     cost?: string;
     fallback?: boolean;
 }

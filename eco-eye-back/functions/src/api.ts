@@ -29,12 +29,11 @@ const limiter = rateLimit({
     legacyHeaders: false,
 });
 
+// Health check
 app.get("/", (_req, res) => {
     res.status(200).send("ECOfriendly API is alive!");
 });
 
-
-// Health check
 app.get('/status', (_req, res) => {
     res.status(200).send({ status: 'ok' });
 });
@@ -50,6 +49,8 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
     if (typeof model !== "string" || typeof year !== "number") {
         return res.status(400).json({ error: "Invalid model or year format." });
     }
+
+    ////// GPT PROMPT //////
     const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
 
 Model: ${model}
@@ -80,6 +81,7 @@ Respond with strict JSON only. Do not include comments, explanations, markdown, 
 
 Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
+    // Const GPT reponse   
     try {
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
@@ -92,6 +94,7 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
         const content = response.choices[0]?.message?.content;
 
+        // GPT Error
         if (!content || typeof content !== "string") {
             return res.status(500).json({
                 error: "GPT response is missing or malformed",
@@ -99,7 +102,9 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
             });
         }
 
+        // parse GPT reponse 
         let parsed;
+
         try {
             parsed = JSON.parse(content);
         } catch (err: any) {

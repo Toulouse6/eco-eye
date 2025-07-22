@@ -1,9 +1,12 @@
+<!-- Loading Spinner -->
 <div *ngIf="isLoading" class="loading-spinner fullscreen fade-in">
     <img src="assets/images/eco-logo-loading.png" alt="Loading..." />
 </div>
 
+<!-- Report Container -->
 <div *ngIf="!isLoading" class="eco-report-container fade-in" id="eco-report-container">
 
+    <!-- Header -->
     <header>
         <!-- Video -->
         <video autoplay muted loop playsinline class="eco-bg-video" aria-hidden="true" title="Road video">
@@ -139,6 +142,7 @@
                     <span class="user-value"> | {{ userSpeed }}</span>
                 </span>
             </div>
+
             <!-- Tire Pressure -->
             <div class="row">
                 <span class="title">

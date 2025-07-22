@@ -35,6 +35,7 @@ header {
     pointer-events: none;
 }
 
+/* Header container */
 .eco-title-row {
     display: flex;
     flex-direction: column;
@@ -43,6 +44,7 @@ header {
     margin-bottom: 2rem;
 }
 
+/* Report logo */
 .eco-title-logo {
     width: 85px;
     height: auto;
@@ -50,6 +52,7 @@ header {
     margin-bottom: -1rem;
 }
 
+/* H1 report title */
 .eco-title {
     font-size: 2.3rem;
     color: #007c39;
@@ -73,6 +76,7 @@ header {
     height: 30px;
 }
 
+/* Grade segments */
 .grade-segment {
     flex: 1;
     display: flex;
@@ -101,6 +105,7 @@ header {
     margin-left: 3px;
 }
 
+/* H3 titles */
 .eco-section h3 {
     color: #2d4b32;
     padding-top: 0.5rem;
@@ -109,6 +114,7 @@ header {
     text-align: center;
 }
 
+/* tables */
 .eco-table {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -134,6 +140,7 @@ header {
     gap: 0.3rem;
 }
 
+/* Values */
 .eco-table .value {
     color: #313131;
     font-weight: 500;
@@ -150,6 +157,7 @@ header {
     padding: 0;
 }
 
+/* Cells */
 .eco-cell {
     background: #fbfffc;
     border: 2px solid #eefaed;
@@ -167,6 +175,7 @@ header {
     white-space: nowrap;
 }
 
+/* Grid values */
 .eco-cell .value {
     display: block;
     margin-top: 0.4rem;
@@ -185,6 +194,12 @@ header {
 
 .info-icon:hover {
     color: #e4eef2;
+}
+
+.info-icon:hover .tooltip-text,
+.info-icon:focus-within .tooltip-text {
+    visibility: visible;
+    opacity: 0.95;
 }
 
 /* Tooltip */
@@ -214,12 +229,7 @@ header {
     white-space: normal;
 }
 
-.info-icon:hover .tooltip-text,
-.info-icon:focus-within .tooltip-text {
-    visibility: visible;
-    opacity: 0.95;
-}
-
+/* User Results */
 .user-display {
     font-weight: 600;
 }
@@ -248,7 +258,9 @@ header {
     transition: background 0.3s ease, border-color 0.3s ease;
 }
 
+
 /* Responsive */
+
 @media (max-width: 780px) {
 
     .eco-report-container {
@@ -268,6 +280,7 @@ header {
     }
 
 }
+
 
 @media (max-width: 610px) {
 
@@ -303,6 +316,8 @@ header {
 
 }
 
+
+/* Mobile */
 @media (max-width: 430px) {
 
     .eco-report-container {
@@ -370,6 +385,7 @@ header {
     }
 
 }
+
 
 @media (max-width: 320px) {
 

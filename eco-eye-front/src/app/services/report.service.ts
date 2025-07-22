@@ -9,25 +9,29 @@ import { CarFeatures, EcoTips } from '../eco-report/eco-report.component';
 import { toast } from 'sonner';
 import { BehaviorSubject } from 'rxjs';
 
-interface FallbackReport extends EcoReportResponse {
-    fallback: true;
-}
 
 @Injectable({ providedIn: 'root' })
 export class EcoReportService {
 
+    // Backend URL
     public apiUrl = environment.apiUrl;
 
-    private reportReadySubject = new BehaviorSubject<boolean>(false);
-    public reportReady$ = this.reportReadySubject.asObservable();
+    // Model & Year
     private selectedModel = '';
     private selectedYear = 0;
 
+    // Check report status
+    private reportReadySubject = new BehaviorSubject<boolean>(false);
+    public reportReady$ = this.reportReadySubject.asObservable();
+
+    // Set report status
     public setReportReady(isReady: boolean): void {
         this.reportReadySubject.next(isReady);
     }
 
+    // Ccnstructor
     constructor(private http: HttpClient) { }
+
 
     // Get models & Years
     getAvailableModels(): Observable<string[]> {
@@ -51,6 +55,7 @@ export class EcoReportService {
     }
 
 
+    // Set / Get Selected Vehicle
     setSelectedVehicle(model: string, year: number): void {
         this.selectedModel = model;
         this.selectedYear = year;
@@ -85,11 +90,14 @@ export class EcoReportService {
         );
     }
 
-    // Fetch Report
+
+    /////// Fetch Report ///////
+
     fetchAndTrackReport(
+
         model: string,
         year: number,
-        updateStats: (position: GeolocationPosition, features: CarFeatures) => void
+
     ): Observable<{
         features: CarFeatures;
         tips: EcoTips;

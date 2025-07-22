@@ -9,6 +9,7 @@ import { BackgroundAudioService } from './services/audio.service';
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnDestroy {
+
     constructor(private backgroundAudioService: BackgroundAudioService) { }
 
     ngOnDestroy() {

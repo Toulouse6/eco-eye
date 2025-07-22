@@ -35,10 +35,16 @@ export class HomeComponent implements OnInit {
         private backgroundAudioService: BackgroundAudioService
     ) { }
 
+    // On Init
     ngOnInit() {
- 
+
+        // Check consent
+        this.checkConsentOncePerDay()
+
+        // Models
         this.loadModels();
 
+        // Background Music
         this.backgroundAudioService.play();
         window.addEventListener('click', this.playBackgroundAudio.bind(this), { once: true });
     }
@@ -48,7 +54,8 @@ export class HomeComponent implements OnInit {
         this.backgroundAudioService.playOnUserGesture();
     }
 
-    // Driver Consent
+
+    // Limit Driver consent
     private checkConsentOncePerDay(): void {
         const lastConsentDate = localStorage.getItem('ecoConsentDate');
         const today = new Date().toISOString().split('T')[0];
@@ -56,6 +63,7 @@ export class HomeComponent implements OnInit {
         this.showConsent = lastConsentDate !== today;
     }
 
+    // Sign Driver Consent
     acknowledgeConsent(): void {
         const today = new Date().toISOString().split('T')[0];
         localStorage.setItem('ecoConsentDate', today);
@@ -83,6 +91,7 @@ export class HomeComponent implements OnInit {
         }
     }
 
+    // Select Model
     onModelSearchChange(): void {
         const query = this.modelSearch.toLowerCase();
         this.filteredModels = this.allModels.filter(model =>
@@ -90,6 +99,7 @@ export class HomeComponent implements OnInit {
         );
     }
 
+    // On model change
     selectModel(model: string): void {
         this.selectedModel = model;
         this.modelSearch = model;
@@ -113,6 +123,7 @@ export class HomeComponent implements OnInit {
         this.yearDropdownOpen = !this.yearDropdownOpen;
     }
 
+    // Select Year
     selectYear(year: number): void {
         this.selectedYear = year;
         this.yearDropdownOpen = false;

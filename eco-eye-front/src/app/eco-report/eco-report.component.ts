@@ -33,6 +33,7 @@ export interface EcoTips {
     styleUrls: ['./eco-report.component.css']
 })
 
+// Report Conponenet
 export class EcoReportComponent implements OnInit, OnDestroy {
 
     // Geo Location
@@ -83,8 +84,10 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     // On Init
     ngOnInit(): void {
+
         const state = this.router.getCurrentNavigation()?.extras?.state ?? {};
 
+        // Check model & year
         if (state?.['model'] && state?.['year']) {
             this.model = state['model'];
             this.year = state['year'];
@@ -102,13 +105,19 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
         console.log('Selected vehicle:', this.model, this.year);
 
-        this.ecoService.fetchAndTrackReport(this.model, this.year, this.updateStats.bind(this)).subscribe({
+
+        ////// Fetch report //////
+
+        this.ecoService.fetchAndTrackReport(this.model, this.year).subscribe({
+
+            // Next
             next: (data) => {
                 this.features = data.features;
                 this.tips = data.tips;
                 this.estimatedRange = data.features.estimatedRange ?? '';
                 this.chargingTime = data.features.chargingTime ?? '';
 
+                // Report or Fallback
                 if (!data.fallback) {
                     toast.success('Eco report ready!', { id: 'loading' });
                 } else {
@@ -117,6 +126,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
                 // Pending Response
                 requestAnimationFrame(() => {
+
                     setTimeout(() => {
                         if (!this.firstUpdateDone) {
                             this.firstUpdateDone = true;
@@ -134,6 +144,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             }
         });
 
+        // Watch user ID
         if (!this.watchId) {
             this.watchId = navigator.geolocation.watchPosition(
                 pos => {
@@ -176,6 +187,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     // Battery setup
 
     get batteryRange(): number {
+
         const capacity = parseFloat(this.features.batteryCapacity || '');
         const efficiency = parseFloat(this.features.energyConsumption || '15');
 
@@ -190,6 +202,8 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         return Math.max(0, Math.round(adjustedRange - drivenDistance));
     }
 
+
+    // Display battery range
     get displayBatteryRange(): string {
         if (this.isElectric || this.isHybrid) {
             const range = this.batteryRange;
@@ -210,6 +224,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     }
 
 
+
     // Update User State
     private updateStats(position: GeolocationPosition, features: CarFeatures): void {
 
@@ -222,9 +237,11 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             toast.success('Eco report ready!');
         }
 
+        // Calculate user speed
         const speedMps = position.coords.speed ?? 0;
         this.userSpeed = `${(speedMps * 3.6).toFixed(1)} km/h`;
 
+        // Calculate user distance
         if (this.lastPosition) {
             const dist = this.getDistanceFromLatLonInKm(
                 this.lastPosition.coords.latitude,
@@ -232,12 +249,14 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                 position.coords.latitude,
                 position.coords.longitude
             );
+
             this.totalDistance += dist * 1000;
 
+            // User values
             const userEmission = parseFloat(features.co2) || 120;
             const fuelEfficiency = parseFloat(features.fuelEfficiency.split(' ')[0]) || 15;
             const avgEmission = 180;
-            
+
             const battery = parseFloat(this.features.batteryCapacity || '0');
             const consumption = parseFloat(this.features.energyConsumption || '15');
 
@@ -255,6 +274,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
         this.lastPosition = position;
     }
+
 
     // Get Geo Location Distance 
     private getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -287,8 +307,9 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         { label: 'A+', color: '#9fecaeff' }
     ];
 
-    // Calculate score
+    // Calculate overall score
     private getDrivingScore(): number {
+        
         let score = 100;
 
         const currentSpeed = parseFloat(this.userSpeed) || 0;
