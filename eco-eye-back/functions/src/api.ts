@@ -2,17 +2,7 @@ import { onRequest } from "firebase-functions/v2/https";
 import cors from "cors";
 import express, { Request, Response } from "express";
 import rateLimit from "express-rate-limit";
-import * as admin from "firebase-admin";
 const { Configuration, OpenAIApi } = require("openai");
-
-// Firebase Admin
-if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.applicationDefault(),
-        projectId: process.env.GCLOUD_PROJECT,
-    });
-}
-const db = admin.firestore();
 
 // OpenAI
 const configuration = new Configuration({
@@ -51,29 +41,6 @@ app.get("/", (_req, res) => {
 
 
 // Health check
-app.get("/models", async (_req, res) => {
-    try {
-        const doc = await db.collection("eco-meta").doc("modelMap").get();
-        if (!doc.exists) return res.status(404).json({ error: "Model map not found." });
-        res.status(200).json(doc.data());
-    } catch (err) {
-        res.status(500).json({ error: "Failed to fetch models.", details: String(err) });
-    }
-});
-
-app.get("/years/:model", async (req, res) => {
-
-    const model = req.params.model.toLowerCase();
-    const snapshot = await db.collection("eco-reports").doc(model).collection("years").listDocuments();
-
-    const years = snapshot
-        .map(doc => parseInt(doc.id))
-        .filter(year => !isNaN(year));
-
-    res.status(200).json({ years });
-});
-
-
 app.get('/status', (_req, res) => {
     res.status(200).send({ status: 'ok' });
 });
@@ -86,37 +53,7 @@ app.post("/generate", limiter, async (req: Request, res: Response) => {
     if (typeof model !== "string" || typeof year !== "number") {
         return res.status(400).json({ error: "Invalid model or year format." });
     }
-
-    const modelKey = model.trim().toLowerCase()
-        .replace(/[^a-z0-9_\s-]/gi, '')
-        .replace(/\s+/g, "_");
-
-    try {
-        const modelRef = db.collection("eco-reports").doc(modelKey);
-        const yearRef = modelRef.collection("years").doc(year.toString());
-        const existing = await yearRef.get();
-        
-        if (existing.exists && Object.keys(existing.data() ?? {}).length > 0) {
-            return res.status(200).json({ report: existing.data(), cost: null });
-        }
-        await yearRef.set({}, { merge: true });
-
-        console.log(`📦 Firestore path: eco-reports/${modelKey}/years/${year}`);
-        console.log("Reading from:", yearRef.path);
-
-        const cachedDoc = await yearRef.get();
-        const cachedData = cachedDoc.data();
-
-        if (
-            cachedDoc.exists &&
-            cachedData !== undefined &&
-            typeof cachedData === "object" &&
-            Object.keys(cachedData).length > 0
-        ) {
-            return res.status(200).json({ report: cachedData, cost: null });
-        }
-
-        const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
+    const prompt = `You are an eco vehicle analyst. Based on the following car model and year, generate a sustainable vehicle report.
 
 Model: ${model}
 Year: ${year}
@@ -146,8 +83,9 @@ Respond with strict JSON only. Do not include comments, explanations, markdown, 
 
 Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
+    try {
         const response = await openai.createChatCompletion({
-            model: "gpt-4",
+            model: "gpt-3.5-turbo",
             messages: [
                 { role: "system", content: prompt },
                 { role: "user", content: `Please create an eco report for ${model} ${year}` }
@@ -156,10 +94,7 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
         });
 
         const content = response.data.choices[0]?.message?.content;
-        console.log("GPT response:", content);
-
         if (!content || typeof content !== "string") {
-            console.error("GPT response was empty or invalid:", content);
             return res.status(500).json({
                 error: "GPT response is missing or malformed",
                 details: "No content returned from OpenAI"
@@ -170,34 +105,28 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
         try {
             parsed = JSON.parse(content);
         } catch (err: any) {
-            const message = err.message || String(err);
-            console.error("Failed to parse GPT response:", message);
             return res.status(500).json({
                 error: "Invalid GPT output format",
-                details: message
+                details: err.message || String(err)
             });
         }
-
-        if (typeof parsed !== "object" || parsed === null) {
-            return res.status(500).json({
-                error: "GPT returned invalid JSON structure",
-                details: "Parsed value was not a valid object"
-            });
-        }
-
-        await yearRef.set(parsed);
-        await db.collection("eco-meta").doc("modelMap").set({
-            [modelKey]: admin.firestore.FieldValue.arrayUnion(year)
-        }, { merge: true });
 
         return res.status(200).json({ report: parsed, cost: null });
 
     } catch (err: any) {
-        console.error("GPT or Firestore error:", err);
-        console.error("Stack trace:", err.stack);
+        console.error("OpenAI error:", err.response?.data || err.message || err);
         return res.status(500).json({
             error: "Failed to process report",
             details: err.message || "Unknown error"
         });
     }
-});
+})
+
+// Export Firebase Function
+export const generateReport = onRequest(
+    {
+        region: "us-central1",
+        secrets: ["OPENAI_API_KEY"],
+    },
+    app
+);
