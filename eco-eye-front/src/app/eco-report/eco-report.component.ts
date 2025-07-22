@@ -39,7 +39,9 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     watchId: number | null = null;
     lastPosition: GeolocationPosition | null = null;
 
-    private firstUpdateDone = false;
+    // Flags
+    private reportLoaded = false;
+    private gpsReceived = false;
     private loadStartTime = 0;
     isLoading = true;
 
@@ -76,18 +78,19 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         funFact: ''
     };
 
-    // Constructor
-    constructor(private router: Router, private ecoService: EcoReportService) { }
 
     // Header video
     public selectedVideo = 'assets/videos/road-banner.mp4';
 
+    // Constructor
+    constructor(private router: Router, private ecoService: EcoReportService) { }
+
+
     // On Init
     ngOnInit(): void {
-        this.loadStartTime = Date.now(); 
+        this.loadStartTime = Date.now();
 
         const state = this.router.getCurrentNavigation()?.extras?.state ?? {};
-
         if (state?.['model'] && state?.['year']) {
             this.model = state['model'];
             this.year = state['year'];
@@ -96,16 +99,16 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             const stored = this.ecoService.getSelectedVehicle();
             this.model = stored.model;
             this.year = stored.year;
-
             if (!this.model || !this.year) {
                 this.router.navigate(['/']);
                 return;
             }
         }
 
-        console.log('Selected vehicle:', this.model, this.year);
-
+        // Fetch Report
         this.ecoService.fetchAndTrackReport(this.model, this.year, this.updateStats.bind(this)).subscribe({
+
+
             next: (data) => {
                 this.features = data.features;
                 this.tips = data.tips;
@@ -115,36 +118,43 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                 if (!data.fallback) {
                     toast.success('Eco report ready!', { id: 'loading' });
                 } else {
-                    toast.warning('Using fallback.', { id: 'loading' });
+                    if (!this.gpsReceived) {
+                        toast.warning('GPS update not received. Showing static report.');
+                    }
                 }
+
+                this.reportLoaded = true;
+                this.checkLoadingComplete();
 
                 const elapsed = Date.now() - this.loadStartTime;
                 const minDuration = 3000;
                 const remaining = Math.max(0, minDuration - elapsed);
 
                 setTimeout(() => {
-                    if (!this.firstUpdateDone) {
-                        this.firstUpdateDone = true;
-                        this.isLoading = false;
-                        this.ecoService.setReportReady(true);
-                        toast.dismiss('loading');
-                        toast.warning('GPS update not received. Showing static report.');
-                    }
+                    this.isLoading = false;
+                    this.ecoService.setReportReady(true);
+                    toast.dismiss('loading');
+                    toast.warning('GPS update not received. Showing static report.');
                 }, remaining);
             },
             error: () => {
-                this.isLoading = false;
-                toast.error('Report failed to load.');
+                const minDuration = 3000;
+                const elapsed = Date.now() - this.loadStartTime;
+                const remaining = Math.max(0, minDuration - elapsed);
+
+                setTimeout(() => {
+                    this.isLoading = false;
+                    toast.error('Report failed to load.');
+                }, remaining);
             }
         });
-
-        console.log('Selected vehicle:', this.model, this.year);
 
         if (!this.watchId) {
             this.watchId = navigator.geolocation.watchPosition(
                 pos => {
+                    this.gpsReceived = true;
                     this.updateStats(pos, this.features);
-
+                    this.checkLoadingComplete();
                 },
                 err => {
                     console.warn("GPS error:", err.message);
@@ -164,7 +174,14 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         }
     }
 
-    // Condition setup\
+    private checkLoadingComplete(): void {
+        if (this.reportLoaded && this.gpsReceived) {
+            this.isLoading = false;
+            toast.dismiss('loading');
+        }
+    }
+
+    // Condition setup
 
     get isElectric(): boolean {
         return this.features.powerType === 'Electric';
@@ -175,35 +192,26 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     }
 
     get isCombustion(): boolean {
-        return this.features.powerType !== 'Electric' && this.features.powerType !== 'Hybrid';
+        return !this.isElectric && !this.isHybrid;
     }
-
 
     // Battery setup
 
     get batteryRange(): number {
         const capacity = parseFloat(this.features.batteryCapacity || '');
         const efficiency = parseFloat(this.features.energyConsumption || '15');
-
         if (!capacity || !efficiency) return 0;
 
         const baseRange = (capacity / efficiency) * 100;
         const numericSpeed = parseFloat(this.userSpeed.replace(/[^\d.]/g, '')) || 80;
         const speedFactor = numericSpeed < 80 ? 1.05 : numericSpeed > 100 ? 0.85 : 1;
         const drivenDistance = this.totalDistance / 1000;
-        const adjustedRange = baseRange * speedFactor;
-
-        return Math.max(0, Math.round(adjustedRange - drivenDistance));
+        return Math.max(0, Math.round(baseRange * speedFactor - drivenDistance));
     }
 
     get displayBatteryRange(): string {
-        if (this.isElectric || this.isHybrid) {
-            const range = this.batteryRange;
-            return range ? `${range} km` : 'N/A';
-        }
-        return '';
+        return this.isElectric || this.isHybrid ? `${this.batteryRange} km` : '';
     }
-
 
     // Emission setup
 
@@ -218,16 +226,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     // Update User State
     private updateStats(position: GeolocationPosition, features: CarFeatures): void {
-
-        if (!this.firstUpdateDone) {
-
-            this.isLoading = false;
-            this.firstUpdateDone = true;
-
-            toast.dismiss('loading');
-            toast.success('Eco report ready!');
-        }
-
         const speedMps = position.coords.speed ?? 0;
         this.userSpeed = `${(speedMps * 3.6).toFixed(1)} km/h`;
 
@@ -248,15 +246,13 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             const consumption = parseFloat(this.features.energyConsumption || '15');
 
             if (!battery || !consumption) {
-                toast.error('Missing battery or consumption values.');
+                toast.error('Missing power values.');
                 return;
             }
-
 
             this.carbonFootprint = (this.totalDistance / 1000) * userEmission;
             this.co2Saved = (this.totalDistance / 1000) * (avgEmission - userEmission);
             this.fuelSaved = this.isElectric ? 0 : (this.totalDistance / 1000) / fuelEfficiency;
-
         }
 
         this.lastPosition = position;
@@ -296,10 +292,8 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     // Calculate score
     private getDrivingScore(): number {
         let score = 100;
-
         const currentSpeed = parseFloat(this.userSpeed) || 0;
         const recommended = parseFloat(this.tips.speed) || 0;
-
         const co2Output = this.carbonFootprint;
         const co2Saved = this.co2Saved;
 
@@ -307,7 +301,6 @@ export class EcoReportComponent implements OnInit, OnDestroy {
         else if (Math.abs(currentSpeed - recommended) > 5) score -= 10;
 
         if (co2Saved > 1000) score += 10;
-
         if (co2Output > 3000) score -= 15;
 
         return Math.max(0, Math.min(score, 100));

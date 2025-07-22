@@ -99,23 +99,11 @@ export class EcoReportService {
         return new Observable(observer => {
             this.getEcoReport(model, year).subscribe({
                 next: report => {
-                    if (navigator.geolocation) {
-                        navigator.geolocation.watchPosition(
-                            position => updateStats(position, {
-                                fuelEfficiency: report.fuelEfficiency ?? '',
-                                emissions: report.emissions ?? '',
-                                powerType: report.powerType ?? '',
-                                batteryCapacity: report.batteryCapacity ?? '',
-                                energyConsumption: report.energyConsumption ?? '',
-                                co2: report.co2 ?? '',
-                                recyclability: report.recyclability ?? ''
-                            }),
-                            err => console.warn("Geolocation error:", err.message),
-                            { enableHighAccuracy: true }
-                        );
-                    }
+
+                    
                     // Next
                     observer.next({
+                        
                         features: {
                             fuelEfficiency: report.fuelEfficiency ?? '',
                             emissions: report.emissions ?? '',

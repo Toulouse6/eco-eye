@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { toast } from 'sonner';
 import { EcoReportService } from '../services/report.service';
+import { BackgroundAudioService } from '../services/audio.service';
 
 @Component({
     selector: 'app-home',
@@ -16,10 +17,10 @@ export class HomeComponent implements OnInit {
 
     showConsent = true;
     isLoading = false;
-    private backgroundAudio = new Audio('assets/audio/nova-notes.mp3');
 
     selectedYear: number | null = null;
     selectedModel: string | null = null;
+
     yearDropdownOpen = false;
     availableYears: number[] = [];
 
@@ -30,31 +31,21 @@ export class HomeComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private reportService: EcoReportService
+        private reportService: EcoReportService,
+        private backgroundAudioService: BackgroundAudioService
     ) { }
 
     ngOnInit() {
         this.checkConsentOncePerDay();
         this.loadModels();
-        this.backgroundAudio.loop = true;
-        this.backgroundAudio.volume = 0.3;
-        this.backgroundAudio.play().catch(() => {
-            window.addEventListener('click', this.playBackgroundAudio.bind(this), { once: true });
-        });
-    }
 
-    ngOnDestroy() {
-        this.backgroundAudio.pause();
-        this.backgroundAudio.currentTime = 0;
+        this.backgroundAudioService.play();
+        window.addEventListener('click', this.playBackgroundAudio.bind(this), { once: true });
     }
 
     // Background Music
     private playBackgroundAudio(): void {
-        if (this.backgroundAudio.paused) {
-            this.backgroundAudio.play().catch(err => {
-                console.warn('Background audio failed.', err);
-            });
-        }
+        this.backgroundAudioService.playOnUserGesture();
     }
 
     // Driver Consent

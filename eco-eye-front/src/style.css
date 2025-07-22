@@ -129,22 +129,22 @@ body {
 
 /* Spinner Container */
 .loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: auto;
-    width: 100%;
-    position: relative;
-    z-index: 999;
+    z-index: 9999;
 }
 
 /* Spinner Image */
 .loading-spinner img {
-    animation: spin 3s linear infinite;
-    opacity: 0.8;
     width: 10rem;
-    position: fixed;
-    top: 6.5rem;
+    animation: spin 3s linear infinite;
+    opacity: 0.9;
 }
 
 /* Typography */
