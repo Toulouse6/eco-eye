@@ -2,13 +2,7 @@ import { onRequest } from "firebase-functions/v2/https";
 import cors from "cors";
 import express, { Request, Response } from "express";
 import rateLimit from "express-rate-limit";
-const { Configuration, OpenAIApi } = require("openai");
-
-// OpenAI
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+import OpenAI from "openai";
 
 // Express
 export const app = express();
@@ -47,7 +41,10 @@ app.get('/status', (_req, res) => {
 
 // Main endpoint
 app.post("/generate", limiter, async (req: Request, res: Response) => {
+
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const { model, year }: { model: string; year: number } = req.body;
+
     console.log('Fetching report for', model, year);
 
     if (typeof model !== "string" || typeof year !== "number") {
@@ -84,7 +81,7 @@ Respond with strict JSON only. Do not include comments, explanations, markdown, 
 Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
 
     try {
-        const response = await openai.createChatCompletion({
+        const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [
                 { role: "system", content: prompt },
@@ -93,7 +90,8 @@ Respond with only valid JSON. Do not include explanations, intro, or markdown.`;
             max_tokens: 1000,
         });
 
-        const content = response.data.choices[0]?.message?.content;
+        const content = response.choices[0]?.message?.content;
+
         if (!content || typeof content !== "string") {
             return res.status(500).json({
                 error: "GPT response is missing or malformed",

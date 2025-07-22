@@ -40,7 +40,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
     lastPosition: GeolocationPosition | null = null;
 
     private firstUpdateDone = false;
-
+    private loadStartTime = 0;
     isLoading = true;
 
     // Car profile
@@ -84,6 +84,8 @@ export class EcoReportComponent implements OnInit, OnDestroy {
 
     // On Init
     ngOnInit(): void {
+        this.loadStartTime = Date.now(); // Record when loading starts
+
         const state = this.router.getCurrentNavigation()?.extras?.state ?? {};
 
         if (state?.['model'] && state?.['year']) {
@@ -116,24 +118,28 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                     toast.warning('Using fallback.', { id: 'loading' });
                 }
 
-                // Pending Response
-                requestAnimationFrame(() => {
-                    setTimeout(() => {
-                        if (!this.firstUpdateDone) {
-                            this.firstUpdateDone = true;
-                            this.isLoading = false;
-                            this.ecoService.setReportReady(true);
-                            toast.dismiss('loading');
-                            toast.warning('GPS update not received. Showing static report.');
-                        }
-                    }, 5000);
-                });
+                // Ensure spinner is visible for at least 3 seconds
+                const elapsed = Date.now() - this.loadStartTime;
+                const minDuration = 3000;
+                const remaining = Math.max(0, minDuration - elapsed);
+
+                setTimeout(() => {
+                    if (!this.firstUpdateDone) {
+                        this.firstUpdateDone = true;
+                        this.isLoading = false;
+                        this.ecoService.setReportReady(true);
+                        toast.dismiss('loading');
+                        toast.warning('GPS update not received. Showing static report.');
+                    }
+                }, remaining);
             },
             error: () => {
                 this.isLoading = false;
                 toast.error('Report failed to load.');
             }
         });
+
+        console.log('Selected vehicle:', this.model, this.year);
 
         if (!this.watchId) {
             this.watchId = navigator.geolocation.watchPosition(
@@ -238,7 +244,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
             const userEmission = parseFloat(features.co2) || 120;
             const fuelEfficiency = parseFloat(features.fuelEfficiency.split(' ')[0]) || 15;
             const avgEmission = 180;
-            
+
             const battery = parseFloat(this.features.batteryCapacity || '0');
             const consumption = parseFloat(this.features.energyConsumption || '15');
 
