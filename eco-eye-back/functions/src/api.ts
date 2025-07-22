@@ -24,13 +24,13 @@ app.set('trust proxy', 1);
 const limiter = rateLimit({
     windowMs: 60 * 60 * 1000,
     max: 30,
-    message: { error: "You've reached the limit. Please try again in an hour." },
+    message: { error: "You've reached the limit." },
     standardHeaders: true,
     legacyHeaders: false,
 });
 
 app.get("/", (_req, res) => {
-    res.status(200).send("Eco Eye API is alive!");
+    res.status(200).send("ECOfriendly API is alive!");
 });
 
 

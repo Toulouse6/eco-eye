@@ -34,7 +34,7 @@ export class EcoReportService {
         return this.http.get<{ models: string[] }>('assets/fallback.json').pipe(
             map(data => data.models),
             catchError(err => {
-                console.error('Failed to load models from fallback:', err);
+                console.error('Failed to load models:', err);
                 return of([]);
             })
         );
@@ -44,7 +44,7 @@ export class EcoReportService {
         return this.http.get<{ modelYearMap: { [key: string]: number[] } }>('assets/fallback.json').pipe(
             map(data => data.modelYearMap[model] || []),
             catchError(err => {
-                console.error('Failed to load years from fallback:', err);
+                console.error('Failed to load years:', err);
                 return of([]);
             })
         );
@@ -75,7 +75,7 @@ export class EcoReportService {
     private loadFallback(): Observable<EcoReportResponse> {
         return this.http.get<EcoReportResponse>('assets/fallback.json').pipe(
             map(data => {
-                console.warn("Using fallback report.");
+                console.warn("Using fallback.");
                 return { ...data, fallback: true };
             }),
             catchError(err => {
@@ -134,7 +134,8 @@ export class EcoReportService {
     getEcoReport(model: string, year: number): Observable<EcoReportResponse> {
         const payload: EcoReportRequest = { model, year };
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        console.log('Sending payload to GPT:', payload);
+
+        console.log('Sending data to GPT:', payload);
 
         return new Observable(observer => {
             this.checkApiStatus().subscribe({
@@ -155,7 +156,7 @@ export class EcoReportService {
                     ).pipe(
                         catchError(err => {
                             console.warn("API call failed. Using fallback.", err);
-                            toast.warning("Live data unavailable. Using cached fallback.");
+                            toast.warning("Data unavailable. Using fallback.");
 
                             this.loadFallback().subscribe({
                                 next: fallback => {
@@ -163,7 +164,7 @@ export class EcoReportService {
                                     observer.complete();
                                 },
                                 error: fallbackErr => {
-                                    toast.error("Fallback failed. Please try again.");
+                                    toast.error("Fallback failed. Try again.");
                                     observer.error(fallbackErr);
                                 }
                             });
@@ -172,7 +173,7 @@ export class EcoReportService {
                         })
                     ).subscribe({
                         next: ({ report, cost }) => {
-                            toast.success("Eco report loaded!");
+                            toast.success("ECOfriendly report loaded!");
 
                             let parsed = report;
                             if (typeof report === 'string') {

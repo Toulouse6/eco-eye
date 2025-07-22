@@ -144,7 +144,7 @@ export class EcoReportComponent implements OnInit, OnDestroy {
                     console.warn("GPS error:", err.message);
                     this.isLoading = false;
                     toast.dismiss('loading');
-                    toast.error("Unable to get location. Showing static report.");
+                    toast.error("Unable to get location. Using Fallback.");
                 },
                 { enableHighAccuracy: true }
             );

@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.checkConsentOncePerDay();
+ 
         this.loadModels();
 
         this.backgroundAudioService.play();
