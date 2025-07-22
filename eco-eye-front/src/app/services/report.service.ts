@@ -100,10 +100,8 @@ export class EcoReportService {
             this.getEcoReport(model, year).subscribe({
                 next: report => {
 
-                    
                     // Next
                     observer.next({
-                        
                         features: {
                             fuelEfficiency: report.fuelEfficiency ?? '',
                             emissions: report.emissions ?? '',
