@@ -1,0 +1,229 @@
+{
+    "models": [
+        "Honda Civic",
+        "Tesla Model Y",
+        "Toyota Prius",
+        "Hyundai Ioniq",
+        "Chevy Bolt",
+        "Nissan Leaf",
+        "BMW i4",
+        "Kia EV6",
+        "Volkswagen ID.4",
+        "Lucid Air",
+        "Rivian R1T",
+        "Mercedes EQS",
+        "Audi Q4 e-tron",
+        "Volvo XC40 Recharge",
+        "Subaru Solterra",
+        "Polestar 2",
+        "Mazda MX-30",
+        "Porsche Taycan",
+        "Jeep Wrangler 4xe",
+        "Toyota Corolla",
+        "Ford F-150",
+        "Hyundai Elantra",
+        "Chevrolet Malibu",
+        "Mazda 3",
+        "Dodge Charger",
+        "Volkswagen Jetta",
+        "Kia Forte",
+        "Honda Accord",
+        "Nissan Altima"
+    ],
+    "modelYearMap": {
+        "Tesla Model Y": [
+            2023,
+            2024,
+            2025
+        ],
+        "Toyota Prius": [
+            2022,
+            2023,
+            2024,
+            2025
+        ],
+        "Honda Civic": [
+            2021,
+            2022,
+            2023,
+            2024,
+            2025
+        ],
+        "Hyundai Ioniq": [
+            2022,
+            2023,
+            2024
+        ],
+        "Chevy Bolt": [
+            2021,
+            2022,
+            2023
+        ],
+        "Nissan Leaf": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "BMW i4": [
+            2022,
+            2023,
+            2024,
+            2025
+        ],
+        "Kia EV6": [
+            2022,
+            2023,
+            2024
+        ],
+        "Volkswagen ID.4": [
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Lucid Air": [
+            2022,
+            2023,
+            2024
+        ],
+        "Rivian R1T": [
+            2022,
+            2023,
+            2024
+        ],
+        "Mercedes EQS": [
+            2022,
+            2023,
+            2024
+        ],
+        "Audi Q4 e-tron": [
+            2022,
+            2023,
+            2024
+        ],
+        "Volvo XC40 Recharge": [
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Subaru Solterra": [
+            2023,
+            2024
+        ],
+        "Polestar 2": [
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Mazda MX-30": [
+            2022,
+            2023
+        ],
+        "Porsche Taycan": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Jeep Wrangler 4xe": [
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Toyota Corolla": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Ford F-150": [
+            2019,
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Hyundai Elantra": [
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Chevrolet Malibu": [
+            2020,
+            2021,
+            2022,
+            2023
+        ],
+        "Mazda 3": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Dodge Charger": [
+            2020,
+            2021,
+            2022,
+            2023
+        ],
+        "Volkswagen Jetta": [
+            2020,
+            2021,
+            2022,
+            2023
+        ],
+        "Kia Forte": [
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Honda Accord": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "Nissan Altima": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ]
+    },
+    "vehicleOverview": {
+        "model": "Mustang Mach-E",
+        "year": 2023
+    },
+    "overallGrade": "A",
+    "fuelEfficiency": "5.2 L/100km",
+    "energyConsumption": "18.7 kWh/100km",
+    "emissions": "Euro 6 Standard",
+    "powerType": "Hybrid",
+    "batteryCapacity": "98.8 kWh",
+    "co2": "92 g/km",
+    "recyclability": "82%",
+    "estimatedRange": "528 km",
+    "chargingTime": "9 hours",
+    "energySaved": "4200 g",
+    "tips": {
+        "speed": "85 km/h",
+        "tirePressure": "33 PSI",
+        "idling": "2 minutes",
+        "passengers": "2–3 passengers",
+        "funFact": "🌱 Smooth acceleration saves up to 20% more fuel than aggressive driving."
+    },
+    "fallback": true
+}

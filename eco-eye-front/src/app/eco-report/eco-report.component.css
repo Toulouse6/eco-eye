@@ -1,0 +1,397 @@
+.eco-report-container {
+    max-width: 700px;
+    margin: 1rem auto 1rem auto;
+    padding: 1rem 1.5rem 2rem 1.5rem;
+    font-family: 'Lato', sans-serif;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(2px);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Header */
+header {
+    width: 100%;
+    position: relative;
+    height: 12rem;
+    overflow: hidden;
+    padding: 0;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    margin: 0.5rem 0 1.2rem 0;
+}
+
+/* Video */
+.eco-bg-video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+/* Header container */
+.eco-title-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Report logo */
+.eco-title-logo {
+    width: 85px;
+    height: auto;
+    padding-top: 1.5rem;
+    margin-bottom: -1rem;
+}
+
+/* H1 report title */
+.eco-title {
+    font-size: 2.3rem;
+    color: #007c39;
+    margin: 0;
+    text-align: center;
+}
+
+/* Grade bar */
+.grade-bar-container {
+    margin: -0.8rem auto 1.2rem;
+    padding: 0 1rem;
+    text-align: center;
+    max-width: 400px;
+}
+
+.grade-bar {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 30px;
+}
+
+/* Grade segments */
+.grade-segment {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    padding: 0.6rem 0;
+    color: white;
+    font-weight: 500;
+    text-align: center;
+    transition: transform 0.3s ease;
+    font-size: 1rem;
+}
+
+.grade-segment.active {
+    opacity: 1;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Section headers */
+.eco-section h2 {
+    color: #2d4b32;
+    font-size: 1.1rem;
+    margin-left: 3px;
+}
+
+/* H3 titles */
+.eco-section h3 {
+    color: #2d4b32;
+    padding-top: 0.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+/* tables */
+.eco-table {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 1rem;
+    background: #fbfffc;
+    padding: 1.2rem 1rem;
+    border-radius: 12px;
+    border: 2px solid #eefaed;
+    margin-bottom: 1.5rem;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.eco-table .row {
+    display: contents;
+}
+
+.eco-table .title {
+    white-space: nowrap;
+    font-weight: 600;
+    color: #005a41;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* Values */
+.eco-table .value {
+    color: #313131;
+    font-weight: 500;
+    text-align: right;
+    font-size: 1rem;
+}
+
+/* Live Stats*/
+.eco-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 0.5rem;
+    padding: 0;
+}
+
+/* Cells */
+.eco-cell {
+    background: #fbfffc;
+    border: 2px solid #eefaed;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.eco-cell .title {
+    color: #2d4b32;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+}
+
+/* Grid values */
+.eco-cell .value {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 1.2rem;
+}
+
+/* Icons */
+.info-icon {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #919d97;
+    margin-left: 0.2rem;
+}
+
+.info-icon:hover {
+    color: #e4eef2;
+}
+
+.info-icon:hover .tooltip-text,
+.info-icon:focus-within .tooltip-text {
+    visibility: visible;
+    opacity: 0.95;
+}
+
+/* Tooltip */
+.tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: fixed;
+
+    bottom: 82%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: white;
+    color: #2d4b32;
+    padding: 1em 1em;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    width: 75%;
+    min-height: 50px;
+    z-index: 100;
+
+    border: 1px solid #367b41;
+    box-shadow: 0 0 8px rgba(54, 123, 65, 0.35);
+    text-align: center;
+    white-space: normal;
+}
+
+/* User Results */
+.user-display {
+    font-weight: 600;
+}
+
+.user-value {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.carbon {
+    font-weight: 600;
+    color: #313131;
+    font-size: 1.2rem;
+}
+
+/* Fun Fact Box */
+.eco-section p {
+    background-color: #fbfffc;
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    color: #005a41;
+    border: 2px solid #eefaed;
+    font-weight: 500;
+    text-align: center;
+    margin: 0;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+
+/* Responsive */
+
+@media (max-width: 780px) {
+
+    .eco-report-container {
+        max-width: 610px;
+    }
+
+    .eco-title {
+        font-size: 2rem;
+    }
+
+    .eco-table .value {
+        font-size: 0.8rem;
+    }
+
+    .eco-title-row {
+        margin-bottom: -0.5rem;
+    }
+
+}
+
+
+@media (max-width: 610px) {
+
+    .eco-report-container {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+
+    .eco-title-logo {
+        width: 75px;
+        margin-bottom: -0.8rem;
+    }
+
+    .eco-title {
+        font-size: 1.8rem;
+    }
+
+    .grade-bar-container {
+        max-width: 90%;
+        margin: -0.5rem auto 1rem auto;
+    }
+
+    .grade-segment {
+        font-size: 0.8rem;
+        padding: 0.5rem 0;
+    }
+
+    .eco-cell .value {
+        font-size: 1rem;
+    }
+
+}
+
+
+/* Mobile */
+@media (max-width: 430px) {
+
+    .eco-report-container {
+        margin: 0 auto;
+        padding: 0.5rem 0.5rem 1.5rem 0.5rem;
+    }
+
+    header {
+        height: 9rem;
+        margin: 0.2rem 0 1rem 0;
+    }
+
+    .eco-title {
+        font-size: 1.5rem;
+    }
+
+    .eco-title-row {
+        margin-bottom: 0;
+    }
+
+    .grade-bar-container {
+        margin: -0.7rem auto 1rem auto;
+    }
+
+    .eco-cell {
+        padding: 1rem 0.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .eco-section h2 {
+        margin-top: -0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .eco-section h3 {
+        font-size: 0.8rem;
+        padding-top: 0.6rem;
+    }
+
+    .eco-table .title,
+    .eco-table .user-value {
+        font-size: 0.8rem;
+    }
+
+    .eco-cell .title {
+        font-size: 0.9rem;
+    }
+
+    .tooltip-text {
+        font-size: 1rem;
+        width: 85%;
+    }
+
+    .info-icon {
+        margin-left: -2px;
+    }
+
+    .eco-title-logo {
+        width: 70px;
+    }
+
+    .eco-section p {
+        font-size: 0.8rem;
+    }
+
+}
+
+
+@media (max-width: 320px) {
+
+    .eco-cell {
+        max-width: 92px;
+        font-size: 9px;
+    }
+
+}

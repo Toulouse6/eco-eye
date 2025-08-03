@@ -1,0 +1,88 @@
+<div class="wrapper">
+    <div class="flex-wrapper">
+
+        <div class="container home-title">
+
+            <!-- Title Row -->
+            <div class="title-block">
+                <div class="title-inner fade-in delay-1">
+                    <div class="title-logo-group">
+                        <img src="assets/images/eco-logo-title.png" alt="Logo" class="eco-logo-title" />
+                    </div>
+                    <p class="intro fade-in-up delay-1">Smarter rides, every day.</p>
+                </div>
+
+            </div>
+
+            <!-- Driver Consent -->
+            <div class="consent-overlay" *ngIf="showConsent">
+                <div class="consent-box">
+                    <p>For your safety, please confirm you're not drving while using EcoFriendly.</p>
+                    <button (click)="acknowledgeConsent()">I'm not the driver</button>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div *ngIf="isLoading" class="loading-spinner">
+                <img src="/assets/images/eco-logo-loading.png" alt="Loading..." />
+            </div>
+
+            <!-- Dropdowns -->
+            <div *ngIf="!isLoading">
+                <div class="actions fade-in-up delay-1">
+
+                    <div class="select-row">
+
+                        <!-- Model Dropdown -->
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select" (click)="toggleDropdown()">
+                                <span *ngIf="selectedModel; else modelPlaceholder">{{ selectedModel }}</span>
+                                <ng-template #modelPlaceholder>Select a model</ng-template>
+                                <span class="arrow-down">&#9662;</span>
+                            </div>
+
+                            <div class="custom-dropdown" *ngIf="dropdownOpen">
+                                <input type="text" [(ngModel)]="modelSearch" (input)="onModelSearchChange()"
+                                    placeholder="Search models..." class="dropdown-search-input" autocomplete="off" />
+                                <ul class="dropdown-list">
+                                    <li *ngFor="let model of filteredModels" (click)="selectModel(model)"
+                                        class="dropdown-item">
+                                        {{ model }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Year Dropdown -->
+                        <div class="custom-select-wrapper" *ngIf="selectedModel">
+                            <div class="custom-select" (click)="toggleYearDropdown()">
+                                <span *ngIf="selectedYear; else yearPlaceholder">{{ selectedYear }}</span>
+                                <ng-template #yearPlaceholder>Select a year</ng-template>
+                                <span class="arrow-down">&#9662;</span>
+                            </div>
+
+                            <div class="custom-dropdown" *ngIf="yearDropdownOpen">
+                                <ul class="dropdown-list">
+                                    <li *ngFor="let year of availableYears" (click)="selectYear(year)"
+                                        class="dropdown-item">
+                                        {{ year }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div *ngIf="selectedModel && selectedYear" class="fade-in-up delay-1">
+                        <button class="custom-upload-btn" (click)="generateReport()" [disabled]="isLoading">
+                            {{ isLoading ? 'Loading...' : 'Go Green' }}
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
